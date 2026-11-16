@@ -69,6 +69,20 @@ def load_config(config_path: str) -> dict:
         return yaml.safe_load(f) or {}
 
 
+def latest_snapshot_name(snapshots: list[str]) -> Optional[str]:
+    """Trả về tên snapshot có ngày lớn nhất theo định dạng YYYY-MM-DD."""
+    parsed = []
+    for snapshot in snapshots:
+        try:
+            dt = pd.to_datetime(str(snapshot), format="%Y-%m-%d", errors="raise")
+            parsed.append((dt, str(snapshot)))
+        except Exception:
+            continue
+    if not parsed:
+        return None
+    return max(parsed, key=lambda item: item[0])[1]
+
+
 def _resolve_project_path(path: Optional[str], default: str) -> Path:
     """Chuyển đường dẫn relative sang project root để đồng bộ với qa.py."""
     candidate = Path(path) if path is not None else Path(default)
@@ -297,6 +311,13 @@ def run_kpi(config_path: str = "configs/sydney.yaml",
     if not snapshots:
         snapshots = ["2025-09-12", "2025-12-12", "2026-03-21", "2026-06-16"]
 
+    latest_snap = latest_snapshot_name(snapshots)
+    if latest_snap is None:
+        raise FileNotFoundError("Không tìm thấy snapshot hợp lệ theo định dạng YYYY-MM-DD trong cấu hình.")
+
+    snapshots = [latest_snap]
+    print(f"   [SNAPSHOT] Chỉ xử lý snapshot mới nhất: {latest_snap}")
+
     processed_dir_path = _resolve_project_path(processed_dir, cfg.get("processed_dir", "data/processed"))
     output_dir_path = _resolve_project_path(output_dir, str(processed_dir_path))
     output_dir_path.mkdir(parents=True, exist_ok=True)
@@ -453,7 +474,7 @@ def run_kpi(config_path: str = "configs/sydney.yaml",
     for _, row in df_summary.iterrows():
         print(f"* {row['kpi_name']:<30}: {row['value']} {row['unit']}")
 
-    print("\n--- Tóm tắt KPI (mức toàn thị trường theo từng snapshot) ---")
+    print("\n--- Tóm tắt KPI (mức toàn thị trường cho snapshot mới nhất) ---")
     for snap in sorted(data["snapshot"].unique()):
         r = outputs["kpi_review_rate"]
         s = outputs["kpi_review_score"]

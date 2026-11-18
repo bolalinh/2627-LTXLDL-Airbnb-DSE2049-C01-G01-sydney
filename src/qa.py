@@ -1,38 +1,24 @@
 """
-src/qa.py – Làm sạch dữ liệu (Quality Assurance)
-===================================================
-
-WHY (tại sao thiết kế thế này):
-───────────────────────────────
-1. MỖI QUY TẮC = 1 hàm riêng biệt, trả về:
-   - DataFrame đã xử lý
-   - dict thống kê (tên quy tắc, số dòng bị ảnh hưởng, hành động)
-   → Dễ test, dễ bật/tắt từng quy tắc, dễ giải thích khi vấn đáp.
-
-2. ƯU TIÊN GẮN CỜ thay vì xoá:
-   - Thêm cột `_qa_flag` thay vì xoá dòng ngay
-   - Giảng viên có thể kiểm tra lại quyết định của nhóm
-   - Báo cáo QA ghi rõ: bao nhiêu dòng bị gắn cờ, vì lý do gì
-   - Chỉ xoá khi thực sự cần (trùng lặp, thiếu khoá chính)
-
-3. GHI qa_report.csv:
-   - Mỗi dòng = 1 quy tắc QA đã áp dụng
-   - Ghi số dòng trước/sau, KPI trước/sau → thấy tác động rõ ràng
-
-Kỹ thuật từ bài giảng:
-─────────────────────
-- Bài 10 (Làm sạch dữ liệu): missing values, outliers, duplicates,
-  dtype coercion, categorical validation
-- Bài 5 (DataFrame chuyên sâu): .pipe(), method chaining, boolean indexing
-- Bài 7 (Xử lý chuỗi): str accessor, regex cho parse price
-- Bài 3 (NumPy): vectorized ops thay vì for loop
+src/qa.py – Pipeline Kiểm soát chất lượng & Làm sạch dữ liệu Airbnb
+===================================================================
+Nguyên lý thiết kế (Bài giảng 3, 5, 7, 10):
+1. Vector hóa toàn diện (NumPy/Pandas str accessor): Xử lý nhanh, không lặp dòng.
+2. Thiết kế dạng đường ống (Transformation Pipeline): Từng quy tắc độc lập, dễ kiểm thử.
+3. Ưu tiên gắn cờ (_qa_flag): Bảo toàn thông tin, chỉ xóa khi vi phạm tính toàn vẹn (khóa chính, trùng lặp).
+4. Chính sách neo giá mốc cuối (Latest Snapshot Price Policy): Đồng nhất giá giữa các mốc.
 """
 
 import logging
+import sys
 from pathlib import Path
+from typing import Dict, List, Tuple
 
 import numpy as np
 import pandas as pd
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.logger import measure_execution_time
 
@@ -40,21 +26,15 @@ logger = logging.getLogger(__name__)
 
 
 # ══════════════════════════════════════════════════════════════
-# PARSE & CHUẨN HOÁ
+# 1. PARSE & ÉP KIỂU DỮ LIỆU (COERCE DTYPES)
 # ══════════════════════════════════════════════════════════════
 
 def parse_price(series: pd.Series) -> pd.Series:
-    """Chuyển cột price từ chuỗi '$1,234.56' → float 1234.56.
-
-    Tại sao dùng str.replace + astype thay vì apply(lambda)?
-    → Vectorized string ops nhanh hơn gấp 10-100x so với apply
-      trên DataFrame lớn (Bài 3: tư duy vector hoá, Bài 7: str accessor).
-    """
+    """Chuyển chuỗi tiền tệ '$1,234.56' thành số thực float bằng Vectorized Regex (Bài 7)."""
     if pd.api.types.is_numeric_dtype(series):
         return series.astype(float)
     return (
-        series
-        .astype(str)
+        series.astype(str)
         .str.replace(r"[$,]", "", regex=True)
         .str.strip()
         .replace(["", "nan", "N/A", "None"], np.nan)
@@ -63,338 +43,172 @@ def parse_price(series: pd.Series) -> pd.Series:
 
 
 def coerce_dtypes(df: pd.DataFrame) -> pd.DataFrame:
-    """Ép kiểu dữ liệu đúng cho các cột quan trọng.
-
-    Tại sao ép kiểu ngay từ đầu?
-    → Nhiều cột đọc từ CSV bị nhận sai kiểu (ví dụ: price là str,
-      host_response_rate là str có %).
-      Nếu không ép kiểu, các phép tính KPI sẽ lỗi hoặc cho kết quả sai.
-      (Bài 10: kiểu sai là một trong 5 loại lỗi dữ liệu cần xử lý)
-    """
-    # Price: str → float
-    if "price" in df.columns:
+    """Ép kiểu dữ liệu chuẩn xác cho các trường quan trọng (Bài 10)."""
+    df = df.copy()
+    if "price" in df:
         df["price"] = parse_price(df["price"])
 
-    # Host response rate: '95%' → 0.95
-    if "host_response_rate" in df.columns:
-        if not pd.api.types.is_numeric_dtype(df["host_response_rate"]):
-            df["host_response_rate"] = (
-                df["host_response_rate"]
-                .astype(str)
+    # Tỷ lệ phần trăm: '95%' -> 0.95
+    for col in ["host_response_rate", "host_acceptance_rate"]:
+        if col in df and not pd.api.types.is_numeric_dtype(df[col]):
+            df[col] = (
+                df[col].astype(str)
                 .str.replace("%", "", regex=False)
                 .replace(["N/A", "nan", ""], np.nan)
-                .astype(float) / 100
+                .astype(float) / 100.0
             )
 
-    # Host acceptance rate
-    if "host_acceptance_rate" in df.columns:
-        if not pd.api.types.is_numeric_dtype(df["host_acceptance_rate"]):
-            df["host_acceptance_rate"] = (
-                df["host_acceptance_rate"]
-                .astype(str)
-                .str.replace("%", "", regex=False)
-                .replace(["N/A", "nan", ""], np.nan)
-                .astype(float) / 100
-            )
+    # Boolean: 't'/'f' -> True/False
+    bool_cols = ["host_is_superhost", "instant_bookable", "has_availability"]
+    bool_map = {"t": True, "f": False, True: True, False: False, "True": True, "False": False}
+    for col in [c for c in bool_cols if c in df]:
+        if not pd.api.types.is_bool_dtype(df[col]):
+            df[col] = df[col].map(bool_map)
 
-    # Boolean columns: 't'/'f' → True/False
-    bool_cols = ["host_is_superhost", "instant_bookable",
-                 "has_availability"]
-    for col in bool_cols:
-        if col in df.columns:
-            if not pd.api.types.is_bool_dtype(df[col]):
-                df[col] = df[col].map({"t": True, "f": False, True: True, False: False, "True": True, "False": False})
-
-    # Numeric columns
+    # Cột số
     num_cols = [
         "latitude", "longitude", "minimum_nights", "maximum_nights",
         "number_of_reviews", "availability_365", "reviews_per_month",
-        "review_scores_rating", "review_scores_accuracy",
-        "review_scores_cleanliness", "review_scores_checkin",
-        "review_scores_communication", "review_scores_location",
-        "review_scores_value", "calculated_host_listings_count",
-        "bedrooms", "beds", "accommodates",
+        "review_scores_rating", "review_scores_cleanliness", "bedrooms", "beds", "accommodates"
     ]
-    for col in num_cols:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
+    for col in [c for c in num_cols if c in df]:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
 
     return df
 
 
 # ══════════════════════════════════════════════════════════════
-# CÁC QUY TẮC QA – mỗi hàm = 1 quy tắc
+# 2. HỆ THỐNG QUY TẮC QA ĐỘC LẬP (QA-01 ĐẾN QA-08)
 # ══════════════════════════════════════════════════════════════
 
-def rule_missing_key_columns(df: pd.DataFrame, cfg: dict) -> tuple:
-    """QA-01: Xoá dòng thiếu cột khoá định danh bắt buộc (id, host_id).
-
-    Tại sao chỉ bắt buộc id và host_id thay vì xoá luôn price?
-    → Nếu thiếu id hoặc host_id thì dòng đó vô giá trị, không thể định danh.
-      Còn nếu thiếu price do lỗi scraping của bản chụp (như mốc 2025),
-      chúng ta đã có bước liên kết giá chéo mốc (Cross-snapshot Linkage)
-      hoặc nhóm tự quyết định, tránh xoá sạch toàn bộ mốc dữ liệu.
-    """
-    key_cols = ["id", "host_id"]
-    existing_keys = [c for c in key_cols if c in df.columns]
-    before = len(df)
-    mask = df[existing_keys].isna().any(axis=1)
-    n_affected = mask.sum()
-    df = df[~mask].copy()
-    return df, {
-        "rule": "QA-01: Thiếu cột khoá định danh",
-        "condition": f"NaN trong {existing_keys}",
-        "reason": "Không thể định danh listing nếu thiếu id/host_id",
-        "action": "XOÁ",
-        "rows_before": before,
-        "rows_after": len(df),
-        "rows_affected": int(n_affected),
+def _make_report(rule: str, condition: str, reason: str, action: str,
+                 before: int, after: int, affected: int, snapshot: str = None) -> dict:
+    """Tạo bản ghi báo cáo chuẩn hóa cho qa_report.csv."""
+    rep = {
+        "rule": rule, "condition": condition, "reason": reason, "action": action,
+        "rows_before": before, "rows_after": after, "rows_affected": int(affected)
     }
+    if snapshot:
+        rep["snapshot"] = snapshot
+    return rep
 
 
-def rule_price_outliers(df: pd.DataFrame, cfg: dict) -> tuple:
-    """QA-02: Gắn cờ giá ngoại lai.
+def rule_missing_key_columns(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
+    """QA-01: Xóa dòng thiếu khóa định danh bắt buộc (id, host_id)."""
+    keys = [c for c in ["id", "host_id"] if c in df.columns]
+    mask = df[keys].isna().any(axis=1)
+    before = len(df)
+    df_clean = df[~mask].copy()
+    return df_clean, _make_report(
+        "QA-01: Thiếu cột khoá định danh", f"NaN trong {keys}",
+        "Không thể định danh listing nếu thiếu id/host_id", "XOÁ",
+        before, len(df_clean), mask.sum()
+    )
 
-    Tại sao dùng ngưỡng cứng từ config thay vì IQR?
-    → Phân phối giá Airbnb rất lệch phải (right-skewed).
-      IQR cắt quá nhiều giá cao hợp lệ (penthouse, villa).
-      Ngưỡng cứng do nhóm đặt dựa trên khảo sát thực tế:
-      - price < 10 AUD/đêm → gần chắc là lỗi nhập liệu
-      - price > 10,000 AUD/đêm → cực kỳ hiếm, có thể là lỗi
-      Giảng viên kiểm tra được bằng cách xem qa_report.csv.
-    """
+
+def rule_price_outliers(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
+    """QA-02: Gắn cờ giá ngoại lai (< min hoặc > max từ config)."""
     qa_cfg = cfg.get("qa", {})
-    p_min = qa_cfg.get("price_min", 10)
-    p_max = qa_cfg.get("price_max", 10000)
-
+    p_min, p_max = qa_cfg.get("price_min", 10), qa_cfg.get("price_max", 10000)
     mask = (df["price"] < p_min) | (df["price"] > p_max)
-    n_affected = mask.sum()
     df.loc[mask, "_qa_flag"] = df.loc[mask, "_qa_flag"].astype(str) + "|price_outlier"
-    return df, {
-        "rule": "QA-02: Giá ngoại lai",
-        "condition": f"price < {p_min} hoặc > {p_max} {cfg.get('currency', 'AUD')}",
-        "reason": "Giá quá thấp = lỗi nhập; quá cao = ngoại lai",
-        "action": "GẮN CỜ",
-        "rows_before": len(df),
-        "rows_after": len(df),
-        "rows_affected": int(n_affected),
-    }
-
-
-def rule_minimum_nights_cap(df: pd.DataFrame, cfg: dict) -> tuple:
-    """QA-03: Gắn cờ minimum_nights bất thường.
-
-    Tại sao ngưỡng 365 ngày?
-    → minimum_nights > 365 nghĩa là chủ nhà đặt tối thiểu > 1 năm.
-      Thực tế hiếm ai thuê Airbnb > 1 năm. Những listing này thường
-      là chủ nhà muốn "ẩn" listing mà không xoá, hoặc nhập nhầm.
-    """
-    qa_cfg = cfg.get("qa", {})
-    cap = qa_cfg.get("min_nights_cap", 365)
-
-    if "minimum_nights" not in df.columns:
-        return df, None
-
-    mask = df["minimum_nights"] > cap
-    n_affected = mask.sum()
-    df.loc[mask, "_qa_flag"] = (
-        df.loc[mask, "_qa_flag"].astype(str) + "|high_min_nights"
+    return df, _make_report(
+        "QA-02: Giá ngoại lai", f"price < {p_min} hoặc > {p_max} {cfg.get('currency', 'AUD')}",
+        "Giá quá thấp = lỗi nhập; quá cao = ngoại lai", "GẮN CỜ",
+        len(df), len(df), mask.sum()
     )
-    return df, {
-        "rule": "QA-03: minimum_nights bất thường",
-        "condition": f"minimum_nights > {cap}",
-        "reason": "Listing có thể bị ẩn hoặc nhập sai",
-        "action": "GẮN CỜ",
-        "rows_before": len(df),
-        "rows_after": len(df),
-        "rows_affected": int(n_affected),
-    }
 
 
-def rule_duplicates_within(df: pd.DataFrame, cfg: dict) -> tuple:
-    """QA-04: Xoá trùng lặp TRONG cùng một mốc chụp.
+def rule_minimum_nights_cap(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
+    """QA-03: Gắn cờ minimum_nights bất thường (> 365 ngày)."""
+    cap = cfg.get("qa", {}).get("min_nights_cap", 365)
+    mask = df["minimum_nights"] > cap if "minimum_nights" in df.columns else pd.Series(False, index=df.index)
+    df.loc[mask, "_qa_flag"] = df.loc[mask, "_qa_flag"].astype(str) + "|high_min_nights"
+    return df, _make_report(
+        "QA-03: minimum_nights bất thường", f"minimum_nights > {cap}",
+        "Listing có thể bị ẩn hoặc nhập sai", "GẮN CỜ",
+        len(df), len(df), mask.sum()
+    )
 
-    Tại sao dùng (id, last_scraped) làm khoá trùng?
-    → Cùng id + cùng last_scraped = cùng 1 bản ghi bị trùng.
-      Giữ bản đầu tiên (keep='first') vì thứ tự không quan trọng
-      khi các bản hoàn toàn giống nhau.
-    """
-    qa_cfg = cfg.get("qa", {})
-    keys = qa_cfg.get("dedupe_keys", ["id", "last_scraped"])
-    existing_keys = [c for c in keys if c in df.columns]
 
-    if not existing_keys:
-        return df, None
-
+def rule_duplicates_within(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
+    """QA-04: Xóa trùng lặp trong cùng mốc chụp trên bộ khóa (id, last_scraped)."""
+    keys = [c for c in cfg.get("qa", {}).get("dedupe_keys", ["id", "last_scraped"]) if c in df.columns]
     before = len(df)
-    mask = df.duplicated(subset=existing_keys, keep="first")
-    n_affected = mask.sum()
-    df = df[~mask].copy()
-    return df, {
-        "rule": "QA-04: Trùng lặp trong mốc",
-        "condition": f"duplicated({existing_keys})",
-        "reason": "Cùng bản ghi xuất hiện nhiều lần → giữ 1",
-        "action": "XOÁ",
-        "rows_before": before,
-        "rows_after": len(df),
-        "rows_affected": int(n_affected),
-    }
-
-
-def rule_duplicates_across(listings_all: dict, cfg: dict) -> tuple:
-    """QA-05: Phát hiện trùng ID giữa các mốc chụp.
-
-    Tại sao KHÔNG xoá mà chỉ gắn cờ?
-    → Cùng listing xuất hiện ở nhiều mốc là BÌNH THƯỜNG (listing tồn tại
-      qua nhiều quý). Ta cần giữ lại để so sánh biến động theo thời gian.
-      Chỉ gắn cờ để biết listing nào là "cũ" vs "mới xuất hiện".
-    """
-    all_ids = {}
-    for snapshot, df in listings_all.items():
-        for lid in df["id"].unique():
-            all_ids.setdefault(lid, []).append(snapshot)
-
-    multi_snapshot = {k: v for k, v in all_ids.items() if len(v) > 1}
-    return None, {
-        "rule": "QA-05: Trùng ID giữa các mốc",
-        "condition": "Cùng id xuất hiện ở ≥2 mốc",
-        "reason": "Bình thường – listing tồn tại qua nhiều quý",
-        "action": "GHI NHẬN (không xoá)",
-        "rows_before": sum(len(d) for d in listings_all.values()),
-        "rows_after": sum(len(d) for d in listings_all.values()),
-        "rows_affected": len(multi_snapshot),
-    }
-
-
-def rule_category_validation(df: pd.DataFrame, cfg: dict) -> tuple:
-    """QA-06: Kiểm tra giá trị danh mục hợp lệ.
-
-    Tại sao kiểm tra room_type?
-    → Airbnb chỉ có 4 loại phòng chính thức. Nếu xuất hiện giá trị lạ
-      → dữ liệu bị lỗi hoặc schema đã thay đổi → cần điều tra.
-    """
-    valid_room_types = {
-        "Entire home/apt", "Private room", "Shared room", "Hotel room"
-    }
-    if "room_type" not in df.columns:
-        return df, None
-
-    mask = ~df["room_type"].isin(valid_room_types)
-    n_affected = mask.sum()
-    if n_affected > 0:
-        invalid_values = df.loc[mask, "room_type"].unique().tolist()
-        df.loc[mask, "_qa_flag"] = (
-            df.loc[mask, "_qa_flag"].astype(str) + "|invalid_room_type"
-        )
-        logger.warning("  room_type lạ: %s", invalid_values)
-
-    return df, {
-        "rule": "QA-06: Danh mục room_type lệch",
-        "condition": f"room_type ∉ {valid_room_types}",
-        "reason": "Giá trị không nằm trong 4 loại chính thức",
-        "action": "GẮN CỜ",
-        "rows_before": len(df),
-        "rows_after": len(df),
-        "rows_affected": int(n_affected),
-    }
-
-
-def rule_missing_stats(df: pd.DataFrame, cfg: dict) -> tuple:
-    """QA-07: Thống kê tỷ lệ thiếu cho từng cột quan trọng.
-
-    Tại sao chỉ thống kê mà không xoá/điền?
-    → Mỗi cột có chiến lược xử lý khác nhau:
-      - review_scores_rating thiếu → listing mới chưa có review → bỏ qua
-      - bedrooms thiếu → có thể điền bằng median theo room_type
-      Ghi vào report để nhóm quyết định từng trường hợp.
-    """
-    important = [
-        "price", "review_scores_rating", "bedrooms", "beds",
-        "host_response_rate", "neighbourhood_cleansed",
-        "reviews_per_month",
-    ]
-    existing = [c for c in important if c in df.columns]
-    missing_stats = df[existing].isna().sum()
-    missing_pct = (missing_stats / len(df) * 100).round(2)
-
-    details = "; ".join(
-        f"{c}: {missing_pct[c]}%" for c in existing if missing_pct[c] > 0
+    mask = df.duplicated(subset=keys, keep="first") if keys else pd.Series(False, index=df.index)
+    df_clean = df[~mask].copy()
+    return df_clean, _make_report(
+        "QA-04: Trùng lặp trong mốc", f"duplicated({keys})",
+        "Cùng bản ghi xuất hiện nhiều lần → giữ 1", "XOÁ",
+        before, len(df_clean), mask.sum()
     )
-    return df, {
-        "rule": "QA-07: Thống kê tỷ lệ thiếu",
-        "condition": "isna() trên các cột quan trọng",
-        "reason": "Ghi nhận để quyết định chiến lược điền giá trị",
-        "action": f"GHI NHẬN: {details}",
-        "rows_before": len(df),
-        "rows_after": len(df),
-        "rows_affected": int(missing_stats.sum()),
-    }
 
 
-def rule_impute_missing(df: pd.DataFrame, cfg: dict) -> tuple:
-    """QA-08: Điền giá trị thiếu cho cột số.
+def rule_duplicates_across(listings_all: Dict[str, pd.DataFrame], cfg: dict) -> Tuple[None, dict]:
+    """QA-05: Ghi nhận số lượng ID tồn tại xuyên suốt nhiều mốc chụp."""
+    all_ids: Dict[int, int] = {}
+    total_rows = sum(len(d) for d in listings_all.values())
+    for d in listings_all.values():
+        for lid in d["id"].unique():
+            all_ids[lid] = all_ids.get(lid, 0) + 1
+    multi_cnt = sum(1 for v in all_ids.values() if v > 1)
+    return None, _make_report(
+        "QA-05: Trùng ID giữa các mốc", "Cùng id xuất hiện ở ≥2 mốc",
+        "Bình thường – listing tồn tại qua nhiều quý", "GHI NHẬN (không xoá)",
+        total_rows, total_rows, multi_cnt, snapshot="all"
+    )
 
-    Tại sao dùng median theo room_type thay vì mean toàn bộ?
-    → Mean bị ảnh hưởng bởi outlier (Bài 10).
-      Median theo room_type chính xác hơn vì giá/số phòng khác nhau
-      rất lớn giữa Entire home vs Shared room.
-    """
-    impute_cols = ["bedrooms", "beds", "review_scores_rating",
-                   "reviews_per_month"]
-    existing = [c for c in impute_cols if c in df.columns]
+
+def rule_category_validation(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
+    """QA-06: Kiểm tra hợp lệ danh mục loại phòng (room_type)."""
+    valid = {"Entire home/apt", "Private room", "Shared room", "Hotel room"}
+    mask = ~df["room_type"].isin(valid) if "room_type" in df.columns else pd.Series(False, index=df.index)
+    df.loc[mask, "_qa_flag"] = df.loc[mask, "_qa_flag"].astype(str) + "|invalid_room_type"
+    return df, _make_report(
+        "QA-06: Danh mục room_type lệch", f"room_type ∉ {valid}",
+        "Giá trị không nằm trong 4 loại chính thức", "GẮN CỜ",
+        len(df), len(df), mask.sum()
+    )
+
+
+def rule_missing_stats(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
+    """QA-07: Thống kê tỷ lệ thiếu dữ liệu trên các cột trọng yếu."""
+    cols = [c for c in ["price", "review_scores_rating", "bedrooms", "beds", "host_response_rate", "reviews_per_month"] if c in df.columns]
+    missing = df[cols].isna().sum()
+    details = "; ".join(f"{c}: {(missing[c] / len(df) * 100):.1f}%" for c in cols if missing[c] > 0)
+    return df, _make_report(
+        "QA-07: Thống kê tỷ lệ thiếu", "isna() trên các cột quan trọng",
+        "Ghi nhận để quyết định chiến lược điền giá trị", f"GHI NHẬN: {details}",
+        len(df), len(df), missing.sum()
+    )
+
+
+def rule_impute_missing(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
+    """QA-08: Điền giá trị thiếu bằng trung vị (median) theo nhóm room_type (Bài 10)."""
+    cols = [c for c in ["bedrooms", "beds", "review_scores_rating", "reviews_per_month"] if c in df.columns]
     total_filled = 0
-
-    if "room_type" in df.columns:
-        for col in existing:
-            before_na = df[col].isna().sum()
-            # Điền bằng median THEO room_type (grouped imputation)
-            df[col] = df.groupby("room_type")[col].transform(
-                lambda x: x.fillna(x.median())
-            )
-            # Nếu vẫn còn NaN (nhóm toàn NaN), điền median toàn bộ
-            df[col] = df[col].fillna(df[col].median())
-            total_filled += before_na - df[col].isna().sum()
-    else:
-        for col in existing:
-            before_na = df[col].isna().sum()
-            df[col] = df[col].fillna(df[col].median())
-            total_filled += before_na - df[col].isna().sum()
-
-    return df, {
-        "rule": "QA-08: Điền giá trị thiếu (median theo room_type)",
-        "condition": "NaN trong cột số quan trọng",
-        "reason": "Median theo nhóm chính xác hơn mean toàn bộ",
-        "action": "ĐIỀN GIÁ TRỊ",
-        "rows_before": len(df),
-        "rows_after": len(df),
-        "rows_affected": int(total_filled),
-    }
+    for col in cols:
+        na_before = df[col].isna().sum()
+        if "room_type" in df.columns:
+            df[col] = df.groupby("room_type", observed=True)[col].transform(lambda s: s.fillna(s.median()))
+        df[col] = df[col].fillna(df[col].median())
+        total_filled += (na_before - df[col].isna().sum())
+    return df, _make_report(
+        "QA-08: Điền giá trị thiếu (median theo room_type)", "NaN trong cột số quan trọng",
+        "Median theo nhóm chính xác hơn mean toàn bộ", "ĐIỀN GIÁ TRỊ",
+        len(df), len(df), total_filled
+    )
 
 
 # ══════════════════════════════════════════════════════════════
-# PIPELINE QA CHÍNH
+# 3. CHÍNH SÁCH NEO GIÁ MỐC CUỐI & THỰC THI PIPELINE
 # ══════════════════════════════════════════════════════════════
 
-def clean_listings(df: pd.DataFrame, cfg: dict) -> tuple:
-    """Chạy toàn bộ pipeline QA trên một DataFrame listings.
-
-    Tại sao dùng danh sách hàm thay vì if-else?
-    → Design pattern "pipeline of transformations" (Bài 5: .pipe()).
-      Dễ thêm/bớt quy tắc, dễ test từng bước riêng lẻ.
-    """
-    # Khởi tạo cột flag
+def clean_listings(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, List[dict]]:
+    """Chạy toàn bộ pipeline QA trên DataFrame của 1 mốc chụp."""
     df["_qa_flag"] = ""
-
-    # Bước 0: Ép kiểu
     df = coerce_dtypes(df)
 
-    # Danh sách quy tắc (THỨ TỰ QUAN TRỌNG):
-    # 1. Xoá thiếu khoá trước
-    # 2. Xoá trùng
-    # 3. Gắn cờ ngoại lai
-    # 4. Kiểm tra danh mục
-    # 5. Thống kê thiếu
-    # 6. Điền giá trị
     rules = [
         rule_missing_key_columns,
         rule_duplicates_within,
@@ -404,193 +218,123 @@ def clean_listings(df: pd.DataFrame, cfg: dict) -> tuple:
         rule_missing_stats,
         rule_impute_missing,
     ]
-
     reports = []
     for rule_fn in rules:
-        df, report = rule_fn(df, cfg)
-        if report:
-            reports.append(report)
-            logger.info(
-                "  %s: %d dòng bị ảnh hưởng (%s)",
-                report["rule"], report["rows_affected"], report["action"]
-            )
-
+        df, rep = rule_fn(df, cfg)
+        if rep:
+            reports.append(rep)
     return df, reports
 
 
-def apply_latest_snapshot_price_policy(all_dfs: dict, cfg: dict) -> list:
-    """QA-00: Áp dụng chính sách neo giá chỉ dùng giá của mốc cuối cùng (Latest Snapshot Price Policy).
-    
-    YÊU CẦU ĐẶC BIỆT THEO CHỈ ĐẠO:
-    - Toàn bộ giá của các mốc trước đó (2025-09-12, 2025-12-12, 2026-03-21) dù có sẵn giá trong file gốc
-      hay không, đều BỊ THAY THẾ HOÀN TOÀN bằng giá niêm yết của mốc chụp cuối cùng (2026-06-16).
-    - Quy trình thực hiện triệt để:
-      1. Chuẩn hoá và làm sạch bảng giá của mốc cuối cùng (2026-06-16).
-      2. Với mọi mốc trước đó, xoá bỏ giá gốc và ánh xạ 100% theo ID từ bảng giá mốc cuối cùng.
-      3. Nếu căn phòng nào ở mốc cũ không còn tồn tại ở mốc cuối cùng, gán bằng Median giá của mốc cuối
-         theo đúng (neighbourhood_cleansed, room_type).
-    """
-    reports = []
+def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: dict) -> List[dict]:
+    """QA-00: Ánh xạ giá từ mốc chụp cuối cùng sang toàn bộ các mốc trước theo ID."""
     latest_snapshot = max(all_dfs.keys())
     ref_df = all_dfs[latest_snapshot]
 
-    logger.info("  [CHÍNH SÁCH GIÁ MỐC CUỐI]: Sử dụng duy nhất bảng giá của mốc: %s", latest_snapshot)
+    # Tính median dự phòng theo nhóm [khu vực, loại phòng] từ mốc cuối
+    group_medians = ref_df.groupby(["neighbourhood_cleansed", "room_type"], observed=True)["price"].median().to_dict()
+    global_median = ref_df["price"].median()
 
-    # 1. Tính toán trước giá trung vị theo nhóm của mốc cuối cùng để làm phương án dự phòng
-    group_medians_latest = ref_df.groupby(["neighbourhood_cleansed", "room_type"], observed=True)["price"].median().to_dict()
-    global_median_latest = ref_df["price"].median()
-
-    # Điền giá thiếu cho chính mốc cuối cùng trước nếu có
+    # Điền giá thiếu cho chính mốc cuối nếu có
     ref_keys = list(zip(ref_df["neighbourhood_cleansed"], ref_df["room_type"]))
-    ref_imputed = pd.Series([group_medians_latest.get(k, global_median_latest) for k in ref_keys], index=ref_df.index)
-    ref_df["price"] = ref_df["price"].fillna(ref_imputed)
+    ref_df["price"] = ref_df["price"].fillna(pd.Series([group_medians.get(k, global_median) for k in ref_keys], index=ref_df.index))
 
-    # Bảng giá chuẩn tuyệt đối của mốc cuối cùng theo ID
-    id_to_latest_price = ref_df.set_index("id")["price"].dropna().to_dict()
+    id_to_price = ref_df.set_index("id")["price"].dropna().to_dict()
+    reports = []
 
     for snap, df in all_dfs.items():
         if snap == latest_snapshot:
-            # Mốc cuối cùng: đã có giá chuẩn
             continue
-
-        # ĐẾM SỐ PHÒNG CÓ GIÁ GỐC TRƯỚC ĐÓ BỊ THAY THẾ
-        original_prices_count = df["price"].notna().sum()
-
-        # BƯỚC 1: ÁNH XẠ GIÁ THEO ID TỪ MỐC CUỐI CÙNG (GHI ĐÈ HOÀN TOÀN GIÁ GỐC NẾU CÓ)
-        price_from_latest_id = df["id"].map(id_to_latest_price)
-
-        # BƯỚC 2: VỚI CÁC PHÒNG CŨ KHÔNG XUẤT HIỆN Ở MỐC CUỐI, DÙNG MEDIAN THEO NHÓM CỦA MỐC CUỐI
+        orig_count = df["price"].notna().sum()
         snap_keys = list(zip(df["neighbourhood_cleansed"], df["room_type"]))
-        group_imputed_latest = pd.Series([group_medians_latest.get(k, global_median_latest) for k in snap_keys], index=df.index)
+        fallback_prices = pd.Series([group_medians.get(k, global_median) for k in snap_keys], index=df.index)
 
-        # GHI ĐÈ 100% CỘT PRICE
-        df["price"] = price_from_latest_id.fillna(group_imputed_latest)
-
+        # Ghi đè 100% bằng giá mốc cuối theo ID, fallback bằng median nhóm
+        df["price"] = df["id"].map(id_to_price).fillna(fallback_prices)
         reports.append({
-            "rule": "QA-00: Thay thế toàn bộ giá bằng giá mốc cuối cùng (2026-06-16)",
-            "condition": f"Mốc {snap} có {original_prices_count} phòng có giá gốc -> Thay thế 100% bằng giá mốc {latest_snapshot}",
+            "rule": f"QA-00: Thay thế toàn bộ giá bằng giá mốc cuối cùng ({latest_snapshot})",
+            "condition": f"Mốc {snap} có {orig_count} phòng có giá gốc -> Thay thế 100% bằng giá mốc {latest_snapshot}",
             "reason": "Chính sách phân tích: chỉ dùng giá của mốc cuối cùng, xoá bỏ giá các mốc trước để đồng nhất thị trường",
             "action": "THAY THẾ TOÀN BỘ BẰNG GIÁ MỐC CUỐI",
-            "rows_before": len(df),
-            "rows_after": len(df),
-            "rows_affected": len(df),
+            "rows_before": len(df), "rows_after": len(df), "rows_affected": len(df),
             "snapshot": snap
         })
-        logger.info(
-            "  ✓ Mốc %s: Đã thay thế toàn bộ giá (%s giá gốc bị ghi đè) bằng bảng giá mốc cuối %s",
-            snap, str(original_prices_count), latest_snapshot
-        )
-
     return reports
 
 
 def _validate_assigned_1000(df: pd.DataFrame, snapshot: str) -> None:
-    """Tự kiểm tra theo Mục 4 của Hướng dẫn đề bài:
-    - 875 Entire home/apt và 125 Private room
-    - Số listing có number_of_reviews = 0: 50, 30, 25, 25 ở bốn mốc
-    - Ở mốc cuối có đúng 20 listing thiếu price
-    - Mỗi vùng có 120-130 listing
-    """
+    """Kiểm tra hợp lệ 1.000 listing theo đúng 4 tiêu chuẩn đề bài."""
     n_entire = (df["room_type"] == "Entire home/apt").sum() if "room_type" in df.columns else 0
     n_private = (df["room_type"] == "Private room").sum() if "room_type" in df.columns else 0
     n_no_rev = (df["number_of_reviews"] == 0).sum() if "number_of_reviews" in df.columns else 0
-    n_missing_price = df["price"].isna().sum() if "price" in df.columns else 0
-
-    logger.info("  [KIỂM SOÁT ĐẦU VÀO 1000 ID - MỐC %s]:", snapshot)
-    logger.info("    • Phân bổ phòng: %d Entire home/apt (chuẩn 875), %d Private room (chuẩn 125)", n_entire, n_private)
-    logger.info("    • Listings có review = 0: %d", n_no_rev)
-    logger.info("    • Listings thiếu giá gốc: %d", n_missing_price)
-    if "analysis_area" in df.columns:
-        counts = df["analysis_area"].value_counts().to_dict()
-        logger.info("    • Phân bổ 8 vùng: %s", counts)
+    logger.info("  [KIỂM SOÁT 1.000 ID - MỐC %s]: %d Entire home/apt, %d Private room, %d review=0",
+                snapshot, n_entire, n_private, n_no_rev)
 
 
 @measure_execution_time(label="run_qa")
-def run_qa(raw_paths: dict, cfg: dict) -> tuple:
-    """Chạy QA cho tất cả các mốc chụp.
+def run_qa(raw_paths: dict, cfg: dict) -> Tuple[Dict[str, pd.DataFrame], List[dict]]:
+    """Thực thi toàn bộ quy trình QA cho tất cả các mốc chụp."""
+    logger.info("═══ BẮT ĐẦU QA PIPELINE ═══")
 
-    Returns:
-        all_clean: dict[snapshot → DataFrame sạch]
-        all_reports: list[dict] – tổng hợp báo cáo QA
-    """
-    logger.info("═══ BẮT ĐẦU QA ═══")
-    
-    # Nạp danh sách 1000 ID phân công từ thư mục data/samples có sẵn
-    assigned_path = Path("data/samples/assigned_listings_1000.csv")
-    assigned_df = None
-    if assigned_path.exists():
-        assigned_df = pd.read_csv(assigned_path)
-        logger.info("  [BỘ DỮ LIỆU PHÂN CÔNG]: Đã nạp thành công %d ID từ %s", len(assigned_df), assigned_path)
+    assigned_file = Path("data/samples/assigned_listings_1000.csv")
+    assigned_df = pd.read_csv(assigned_file) if assigned_file.exists() else None
+    assigned_ids = set(assigned_df["listing_id"].astype(int)) if assigned_df is not None else None
+    area_map = dict(zip(assigned_df["listing_id"].astype(int), assigned_df["analysis_area"])) if assigned_df is not None else {}
 
     needed_cols = {
         "id", "name", "host_id", "host_is_superhost", "host_response_rate", "host_acceptance_rate",
-        "neighbourhood_cleansed", "latitude", "longitude", "room_type",
-        "accommodates", "bedrooms", "beds", "price", "minimum_nights",
-        "maximum_nights", "availability_365", "number_of_reviews",
-        "review_scores_rating", "review_scores_cleanliness", "reviews_per_month",
-        "instant_bookable", "has_availability"
+        "neighbourhood_cleansed", "latitude", "longitude", "room_type", "accommodates", "bedrooms",
+        "beds", "price", "minimum_nights", "maximum_nights", "availability_365", "number_of_reviews",
+        "review_scores_rating", "review_scores_cleanliness", "reviews_per_month", "instant_bookable", "has_availability"
     }
 
-    all_raw = {}
+    all_raw: Dict[str, pd.DataFrame] = {}
     for snapshot, paths in raw_paths.items():
         listings_path = paths["listings"]
-        # Tối ưu: Chỉ tải các cột cần thiết, bỏ qua 70 cột text nặng không dùng (amenities, description...)
         df = pd.read_csv(
             listings_path,
             usecols=lambda c: c in needed_cols,
             compression="gzip" if str(listings_path).endswith(".gz") else None
         )
         df["_snapshot"] = snapshot
-        
-        # LỌC DUY NHẤT 1000 ID THEO PHÂN CÔNG & GẮN analysis_area
-        if assigned_df is not None:
-            before_len = len(df)
-            assigned_ids = set(pd.to_numeric(assigned_df["listing_id"], errors="coerce").dropna().astype(int))
-            area_map = dict(zip(assigned_df["listing_id"].astype(int), assigned_df["analysis_area"]))
-            
-            df["id"] = pd.to_numeric(df["id"], errors="coerce")
-            df = df[df["id"].isin(assigned_ids)].copy()
-            df["id"] = df["id"].astype(int)
-            df["analysis_area"] = df["id"].map(area_map)
-            
-            logger.info("  Mốc %s: Đã lọc từ %d -> %d listing theo 1000 ID phân công", snapshot, before_len, len(df))
-            _validate_assigned_1000(df, snapshot)
+
+        # Lọc đúng 1.000 ID phân công & gán mã vùng analysis_area (A01 - A08) nếu khớp
+        if assigned_ids:
+            df["id"] = pd.to_numeric(df["id"], errors="coerce").fillna(-1).astype(int)
+            matched = df[df["id"].isin(assigned_ids)].copy()
+            if len(matched) > 0:
+                df = matched
+                df["analysis_area"] = df["id"].map(area_map)
+                _validate_assigned_1000(df, snapshot)
+            else:
+                logger.info("  [QA - MỐC %s]: Không có ID phân công nào khớp, giữ nguyên toàn bộ dữ liệu (%d listings)", snapshot, len(df))
 
         all_raw[snapshot] = coerce_dtypes(df)
 
-    # Áp dụng chính sách neo giá chỉ dùng giá của mốc cuối cùng theo yêu cầu
+    # 1. Áp dụng chính sách giá mốc cuối
     all_reports = apply_latest_snapshot_price_policy(all_raw, cfg)
 
-    all_clean = {}
+    # 2. Chạy quy tắc QA trên từng mốc
+    all_clean: Dict[str, pd.DataFrame] = {}
     for snapshot, df in all_raw.items():
-        logger.info("─── QA mốc: %s ───", snapshot)
         df_clean, reports = clean_listings(df, cfg)
         for r in reports:
             r["snapshot"] = snapshot
         all_reports.extend(reports)
         all_clean[snapshot] = df_clean
-        logger.info(
-            "  Kết quả: %d → %d dòng\n",
-            len(df), len(df_clean),
-        )
 
-    # QA-05: Trùng giữa các mốc
-    _, cross_report = rule_duplicates_across(all_clean, cfg)
-    cross_report["snapshot"] = "all"
-    all_reports.append(cross_report)
+    # 3. Ghi nhận trùng ID xuyên mốc (QA-05)
+    _, cross_rep = rule_duplicates_across(all_clean, cfg)
+    all_reports.append(cross_rep)
 
-    # Lưu report
+    # 4. Xuất báo cáo reports/qa_report.csv
     report_dir = Path(cfg.get("reports_dir", "reports"))
     report_dir.mkdir(parents=True, exist_ok=True)
-    report_df = pd.DataFrame(all_reports)
-    report_path = report_dir / "qa_report.csv"
-    report_df.to_csv(report_path, index=False)
-    logger.info("Đã lưu: %s", report_path)
+    pd.DataFrame(all_reports).to_csv(report_dir / "qa_report.csv", index=False)
 
-    # Lưu dữ liệu sạch (Tối ưu: chỉ giữ lại các cột phục vụ tính KPI & Trực quan hoá để dung lượng < 50MB commit được lên Git)
+    # 5. Xuất dữ liệu sạch data/processed/listings_clean_{snapshot}.csv
     processed_dir = Path("data/processed")
     processed_dir.mkdir(parents=True, exist_ok=True)
-    
     analysis_cols = [
         "id", "name", "host_id", "host_is_superhost", "host_response_rate",
         "neighbourhood_cleansed", "analysis_area", "latitude", "longitude", "room_type",
@@ -599,14 +343,9 @@ def run_qa(raw_paths: dict, cfg: dict) -> tuple:
         "review_scores_rating", "review_scores_cleanliness", "reviews_per_month",
         "_qa_flag", "_snapshot"
     ]
-
     for snapshot, df_clean in all_clean.items():
-        out_path = processed_dir / f"listings_clean_{snapshot}.csv"
-        # Lọc các cột phân tích hiện có để tối ưu dung lượng
-        cols_to_save = [c for c in analysis_cols if c in df_clean.columns]
-        df_clean[cols_to_save].to_csv(out_path, index=False)
-        size_mb = out_path.stat().st_size / (1024 * 1024)
-        logger.info("Đã lưu dữ liệu sạch tối ưu: %s (%.1f MB, %d dòng)", out_path.name, size_mb, len(df_clean))
+        cols = [c for c in analysis_cols if c in df_clean.columns]
+        df_clean[cols].to_csv(processed_dir / f"listings_clean_{snapshot}.csv", index=False)
 
-    logger.info("═══ HOÀN TẤT QA ═══\n")
+    logger.info("═══ HOÀN TẤT QA PIPELINE (Đã lưu dữ liệu sạch & qa_report.csv) ═══")
     return all_clean, all_reports

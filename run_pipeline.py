@@ -2,46 +2,35 @@
 run_pipeline.py – Thực thi toàn bộ quy trình phân tích Inside Airbnb bằng 1 lệnh duy nhất
 ========================================================================================
 
-CÚ PHÁP CHẠY CHUẨN (THEO ĐỀ BÀI):
-─────────────────────────────────
+CÚ PHÁP CHẠY CHUẨN:
+───────────────────
 python run_pipeline.py --config configs/sydney.yaml
 
 CÁC THAM SỐ HỖ TRỢ:
 ───────────────────
 --config         : Đường dẫn tới file YAML cấu hình thành phố (bắt buộc)
 --skip-download  : Bỏ qua bước tải nếu dữ liệu thô đã có sẵn trong data/raw/
---skip-llm       : Bỏ qua gọi API LLM mới, sử dụng cache và mô hình đối chứng (tiện kiểm thử nhanh)
---sample-size    : Số lượng mẫu đánh giá để xử lý LLM (mặc định lấy từ file config, ví dụ: 3000)
-
-TIÊU CHUẨN ĐẦU RA BẮT BUỘC ĐƯỢC SINH RA:
-────────────────────────────────────────
-1. data/processed/listings_clean_*.csv
-2. data/processed/kpi_by_snapshot.csv
-3. data/processed/kpi_by_neighbourhood.csv
-4. data/processed/kpi_by_room_type.csv
-5. data/processed/llm_cache.jsonl
-6. reports/qa_report.csv
-7. reports/llm_vs_baseline_eval.csv
-8. reports/error_analysis.csv
-9. figures/01_market_trends_temporal.png
-10. figures/02_top_revenue_spatial.png
-11. figures/03_superhost_premium_segmentation.png
-12. figures/04_llm_guest_complaints_aspects.png
+--skip-llm       : Bỏ qua gọi API LLM mới, tận dụng cache và baseline đối chứng
+--sample-size    : Số lượng mẫu đánh giá để xử lý LLM (mặc định lấy từ config)
+--log-file       : Tên file nhật ký (mặc định: log.txt)
 """
 
 import argparse
+import os
 import sys
 import time
 from pathlib import Path
 
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib")
+
 import pandas as pd
 import yaml
 
-from src.logger import PipelineLogger, setup_logging
+from src.logger import PipelineLogger
 
 
 def load_config(config_path: str) -> dict:
-    """Đọc và chuẩn hóa file cấu hình YAML theo tư duy phòng thủ (Defensive Programming)."""
+    """Đọc file cấu hình YAML theo tư duy phòng thủ."""
     p = Path(config_path)
     if not p.exists():
         print(f"[LỖI] Không tìm thấy file cấu hình: {config_path}")
@@ -49,48 +38,32 @@ def load_config(config_path: str) -> dict:
     with open(p, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f) or {}
 
-    # 1. Chuẩn hóa 'city' nếu là dict hoặc chuỗi
-    city_val = cfg.get("city_name") or cfg.get("city")
-    if isinstance(city_val, dict):
-        cfg["city_info"] = city_val
-        cfg["city"] = city_val.get("name", "Sydney")
-    elif city_val:
-        cfg["city"] = str(city_val)
-    else:
-        cfg["city"] = "Sydney"
-
-    # 2. Chuẩn hóa 'data_root' nếu là dict lồng
-    if isinstance(cfg.get("data_root"), dict):
-        cfg["data_root_paths"] = cfg["data_root"]
-        cfg["data_root"] = cfg["data_root"].get("url", "australia/nsw/sydney")
-
+    cfg.setdefault("city", "Sydney")
+    cfg.setdefault("data_root", "australia/nsw/sydney")
     return cfg
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Chạy pipeline Inside Airbnb (Chế độ xuất nhật ký ra file log.txt)")
-    parser.add_argument("--config", type=str, required=True, help="Đường dẫn tới file cấu hình YAML (ví dụ: configs/sydney.yaml)")
-    parser.add_argument("--skip-download", action="store_true", help="Bỏ qua bước tải dữ liệu từ internet nếu đã có sẵn trong data/raw/")
-    parser.add_argument("--skip-llm", action="store_true", help="Bỏ qua gọi API LLM mới, tận dụng cache và baseline")
+    parser = argparse.ArgumentParser(description="Chạy pipeline phân tích Inside Airbnb Sydney")
+    parser.add_argument("--config", type=str, required=True, help="Đường dẫn file cấu hình YAML")
+    parser.add_argument("--skip-download", action="store_true", help="Bỏ qua tải dữ liệu internet nếu đã có sẵn")
+    parser.add_argument("--skip-llm", action="store_true", help="Bỏ qua gọi API LLM mới, dùng cache và baseline")
     parser.add_argument("--sample-size", type=int, default=None, help="Ghi đè cỡ mẫu đánh giá LLM")
-    parser.add_argument("--log-file", type=str, default="log.txt", help="Tên file nhật ký (mặc định: log.txt)")
+    parser.add_argument("--log-file", type=str, default="log.txt", help="Tên file nhật ký")
     args = parser.parse_args()
 
-    # Khởi tạo logging qua module độc lập src.logger theo chuẩn UET
     logger = PipelineLogger.setup(args.log_file)
-
     start_total_time = time.time()
     cfg = load_config(args.config)
-    city_name = cfg.get("city", "unknown").upper()
-    
-    # Terminal chỉ in thông báo tóm tắt ngắn gọn, chuyên nghiệp
+    city_name = str(cfg.get("city", "Sydney")).upper()
+
     print("=" * 65)
     print(f"🚀 KHỞI CHẠY PIPELINE AIRBNB CHO: {city_name}")
     print(f"📝 Toàn bộ log chi tiết đang được ghi vào file: {args.log_file}")
     print("=" * 65)
 
     logger.info("=" * 70)
-    logger.info("   BẮT ĐẦU CHẠY TOÀN BỘ PIPELINE AIRBNB CHO: %s", city_name)
+    logger.info("   BẮT ĐẦU CHẠY PIPELINE AIRBNB CHO: %s", city_name)
     logger.info("   Bên đặt hàng phân tích: CHỦ NHÀ AIRBNB (HOST)")
     logger.info("=" * 70)
 
@@ -98,9 +71,9 @@ def main():
     # BƯỚC 1: THU THẬP DỮ LIỆU (DOWNLOAD)
     # ─────────────────────────────────────────────────────────────
     print(" [1/6] Đang kiểm tra và thu thập dữ liệu...")
-    from src.download import download_all
     if not args.skip_download:
         logger.info("\n>>> BƯỚC 1: THU THẬP DỮ LIỆU TỪ INSIDE AIRBNB...")
+        from src.download import download_all
         raw_paths = download_all(cfg)
     else:
         logger.info("\n>>> BƯỚC 1: BỎ QUA TẢI DỮ LIỆU (--skip-download), NẠP DỮ LIỆU CỤC BỘ...")
@@ -110,8 +83,8 @@ def main():
             snap_dir = raw_dir / snap
             raw_paths[snap] = {
                 "listings": snap_dir / "listings.csv.gz" if (snap_dir / "listings.csv.gz").exists() else snap_dir / "listings.csv",
-                "reviews": snap_dir / "reviews.csv.gz" if (snap_dir / "reviews.csv.gz").exists() else snap_dir / "reviews.csv",
                 "calendar": snap_dir / "calendar.csv.gz" if (snap_dir / "calendar.csv.gz").exists() else snap_dir / "calendar.csv",
+                "reviews": snap_dir / "reviews.csv.gz" if (snap_dir / "reviews.csv.gz").exists() else snap_dir / "reviews.csv",
             }
     print("   ✓ Thu thập dữ liệu: Xong.")
 
@@ -142,45 +115,47 @@ def main():
 
     latest_snapshot = max(cleaned_snapshots.keys())
     reviews_file = raw_paths[latest_snapshot].get("reviews")
-    
-    if reviews_file and Path(reviews_file).exists():
-        logger.info("  Đọc dữ liệu đánh giá từ: %s", reviews_file)
-        assigned_rev_path = Path("data/samples/assigned_reviews_5000.csv")
 
+    if reviews_file and Path(reviews_file).exists():
+        assigned_rev_path = Path("data/samples/assigned_reviews_5000.csv")
+        df_reviews_raw = pd.read_csv(
+            reviews_file,
+            compression="gzip" if str(reviews_file).endswith(".gz") else None,
+            usecols=["id", "listing_id", "comments"]
+        )
+
+        reviews_sample = pd.DataFrame()
         if assigned_rev_path.exists():
-            # Tối ưu hoá: Lấy đúng 1000 ID review mẫu LLM theo bảng phân công đề bài
             df_ass_rev = pd.read_csv(assigned_rev_path)
-            llm_ids = set(df_ass_rev[df_ass_rev["Mẫu LLM"] == "x"]["review_id"])
-            df_reviews_raw = pd.read_csv(
-                reviews_file,
-                compression="gzip" if str(reviews_file).endswith(".gz") else None,
-                usecols=["id", "listing_id", "comments"]
-            )
-            reviews_sample = df_reviews_raw[df_reviews_raw["id"].isin(llm_ids)].copy()
-            logger.info("  ✓ Đã khớp chuẩn %d review mẫu LLM theo đúng phân công đề bài", len(reviews_sample))
-        else:
-            if str(reviews_file).endswith(".gz"):
-                df_reviews_raw = pd.read_csv(reviews_file, compression="gzip", nrows=50000)
+            id_col = "review_id" if "review_id" in df_ass_rev.columns else "id"
+            if "Mẫu LLM" in df_ass_rev.columns:
+                llm_ids = set(df_ass_rev[df_ass_rev["Mẫu LLM"] == "x"][id_col])
             else:
-                df_reviews_raw = pd.read_csv(reviews_file, nrows=50000)
-                
+                llm_ids = set(df_ass_rev[id_col])
+            reviews_sample = df_reviews_raw[df_reviews_raw["id"].isin(llm_ids)].copy()
+            if len(reviews_sample) > 0:
+                logger.info("  ✓ Đã khớp chuẩn %d review mẫu LLM theo phân bổ đề bài", len(reviews_sample))
+
+        # Tự động lấy mẫu phân tầng nếu file phân công không khớp ID hoặc không tồn tại
+        if reviews_sample.empty:
             sample_size = args.sample_size or cfg.get("llm", {}).get("sample_size", 1000)
             reviews_sample = sample_reviews_stratified(
-                df_reviews_raw,
-                cleaned_snapshots[latest_snapshot],
-                sample_size=min(sample_size, len(df_reviews_raw)),
-                seed=cfg.get("seed", 42)
+                df_reviews_raw, cleaned_snapshots[latest_snapshot],
+                sample_size=min(sample_size, len(df_reviews_raw)), seed=cfg.get("seed", 42)
             )
-        
+            logger.info("  ✓ Tự động lấy mẫu phân tầng đại diện %d review", len(reviews_sample))
+
         llm_results_df = process_reviews_with_llm(reviews_sample, cfg, skip_llm=args.skip_llm)
 
-        cost_report = estimate_total_sydney_cost(total_reviews_count=len(df_reviews_raw) * 10)
-        logger.info("  [ƯỚC TÍNH CHI PHÍ LLM TOÀN BỘ SYDNEY]:")
-        logger.info("    Tổng số đánh giá ước tính: %d", cost_report["total_reviews"])
+        cost_report = estimate_total_sydney_cost(total_reviews_count=len(df_reviews_raw))
+        logger.info("  [ƯỚC TÍNH CHI PHÍ LLM]:")
+        logger.info("    Tổng số đánh giá thực tế: %d", cost_report["total_reviews"])
         logger.info("    Tổng chi phí ước tính: $%.2f USD", cost_report["est_total_cost_usd"])
     else:
-        gold_df = pd.read_csv("data/samples/manual_labels_100.csv")
+        gold_file = cfg.get("baseline", {}).get("gold_labels_file", "data/samples/manual_labels_100.csv")
+        gold_df = pd.read_csv(gold_file) if Path(gold_file).exists() else pd.DataFrame()
         llm_results_df = gold_df.rename(columns={"comments": "text", "true_sentiment": "sentiment", "true_aspects_negative": "aspects_negative"})
+
     print("   ✓ Phân tích LLM & Caching: Xong. Đã lưu data/processed/llm_cache.jsonl")
 
     # ─────────────────────────────────────────────────────────────
@@ -189,7 +164,8 @@ def main():
     print(" [5/6] Đang đánh giá đối chứng LLM vs Baseline trên 100 nhãn tay...")
     logger.info("\n>>> BƯỚC 5: ĐÁNH GIÁ CHẤT LƯỢNG LLM VS BASELINE TRÊN 100 NHÃN TAY...")
     from src.evaluate import run_evaluation
-    eval_results = run_evaluation(cfg, "data/samples/manual_labels_100.csv")
+    gold_labels_file = cfg.get("baseline", {}).get("gold_labels_file", "data/samples/manual_labels_100.csv")
+    eval_results = run_evaluation(cfg, gold_labels_file)
     print("   ✓ Đánh giá F1 đối chứng: Xong. Đã lưu reports/llm_vs_baseline_eval.csv")
 
     # ─────────────────────────────────────────────────────────────

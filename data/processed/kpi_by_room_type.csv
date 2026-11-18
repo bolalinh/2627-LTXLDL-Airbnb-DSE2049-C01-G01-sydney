@@ -1,3 +1,3 @@
-room_type,listing_count,median_price,median_revenue,superhost_pct,avg_rating,median_occupancy_pct
-Entire home/apt,875,346.0,4862.465753424657,48.0,4.773268571428571,49.04
-Private room,125,130.0,1576.109589041096,29.6,4.609439999999999,40.55
+room_type,listing_count,median_price,median_occupancy_pct,median_revenue,superhost_pct,avg_rating
+Entire home/apt,875,346.0,49.04,4862.47,48.0,4.77
+Private room,125,130.0,40.55,1576.11,29.6,4.61

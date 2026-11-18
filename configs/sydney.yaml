@@ -24,14 +24,18 @@ snapshots:
   - "2026-03-21"
   - "2026-06-16"
 
-# 4. THAM SỐ KIỂM SOÁT CHẤT LƯỢNG (QA)
+# 4. THAM SỐ KIỂM SOÁT CHẤT LƯỢNG (QA) - CHUẨN HÓA BÀI GIẢNG 10 & ĐỀ BÀI
 qa:
-  price_min: 10         # Giá thấp nhất hợp lệ (AUD/đêm)
-  price_max: 10000      # Giá cao nhất hợp lệ (AUD/đêm)
-  min_nights_cap: 365   # Ngưỡng số đêm tối thiểu hợp lý
-  dedupe_keys:          # Bộ khóa xác định trùng lặp nội bộ mốc
+  outlier_method: "iqr_by_room_type"  # Phương pháp IQR theo từng loại phòng (Bài 10, slide 21-22)
+  iqr_factor: 1.5                      # Hệ số khoảng tứ phân vị Tukey chuẩn: Q3 + 1.5 * IQR (Bài 10, slide 21)
+  min_nights_cap: 365                  # Ngưỡng số đêm tối thiểu hợp lý (Bài 10, slide 18 & 34)
+  dedupe_keys:                         # Khóa xác định trùng lặp nội bộ mốc (Bài 10, slide 26)
     - "id"
-    - "last_scraped"
+  impute_cols:                         # Cột điền trung vị theo nhóm room_type (Bài 10, slide 10-12)
+    - "bedrooms"
+    - "beds"
+    - "review_scores_rating"
+    - "reviews_per_month"
 
 # 5. CẤU HÌNH BỘ CHỈ SỐ KPI
 kpi:

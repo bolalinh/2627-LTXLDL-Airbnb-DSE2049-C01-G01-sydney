@@ -149,6 +149,15 @@ Dưới đây là 7 prompt kỹ thuật quan trọng nhất thể hiện rõ vai
 * **Phát hiện của nhóm:** Điều này vi phạm trực tiếp quy định của đề tài: mỗi nhóm có một danh sách **1.000 listing_id** và **5.000 review_id** riêng biệt được gán nhãn trong Google Sheets.
 * **Cách nhóm tự sửa:** Nhóm xây dựng hàm nạp file `data/samples/assigned_listings_1000.csv`, lọc chính xác 1.000 ID ở cả 4 mốc chụp và xây dựng bộ hàm tự kiểm tra 4 ràng buộc của đề bài (`_validate_assigned_1000`).
 
+### Ví dụ 5: AI tự đặt ngưỡng cố định cảm tính cho giá ngoại lai (price_max = 10.000 AUD)
+* **Gợi ý sai của AI:** Trong bản phác thảo ban đầu, AI viết quy tắc lọc giá ngoại lai theo ngưỡng tĩnh cảm tính `price < 10` hoặc `price > 10000 AUD` (ghi trong `configs/sydney.yaml`). Hậu quả là trên 1.000 listing được giao (giá cao nhất là \$9.011 AUD), hệ thống phát hiện **0 dòng ngoại lai**, hoàn toàn không phản ánh đúng phân phối giá thực tế.
+* **Phát hiện của nhóm:** Đặt một con số tĩnh 10.000 là tùy tiện, vô căn cứ và vi phạm nguyên lý làm sạch dữ liệu của Bài 10. Trong thị trường lưu trú, căn hộ nguyên căn (`Entire home/apt`) và phòng riêng (`Private room`) có mặt bằng giá và sức chứa hoàn toàn khác nhau. Một mức giá \$500 AUD là bình thường với căn hộ nhiều phòng ngủ nhưng là bất thường với một phòng riêng.
+* **Cách nhóm tự sửa:** Vận dụng nguyên lý tại Bài 10 (slide 21-22), nhóm refactor lại toàn bộ quy tắc QA-04: tính khoảng tứ phân vị IQR riêng cho từng loại phòng ($Q_3 + 1.5 \times IQR$):
+  - Đối với `Entire home/apt`: Ngưỡng Upper IQR là **\$871,62 AUD** ($Q_1 = \$256,63, Q_3 = \$502,62, IQR = \$246,00$), phát hiện 80 ngoại lai.
+  - Đối với `Private room`: Ngưỡng Upper IQR là **\$295,50 AUD** ($Q_1 = \$103,00, Q_3 = \$180,00, IQR = \$77,00$), phát hiện 8 ngoại lai.
+  - Tổng số listing ngoại lai được gắn cờ: **88 listings** (8,8% tập dữ liệu, hoàn toàn tự nhiên và tương đồng tỷ lệ ~8,5% nêu trong slide 21 Bài 10).
+  - Đồng thời đo lường và ghi nhận tác động trước và sau lên Mean price (giảm từ \$449,32 xuống \$333,51 AUD) và Median price (từ \$319,26 xuống \$301,16 AUD) vào `reports/qa_report.csv` theo đúng yêu cầu đề tài.
+
 ---
 
 ## 5. Quy trình Làm việc & Kiểm chứng theo Chuẩn Môn học (Bài giảng 1)

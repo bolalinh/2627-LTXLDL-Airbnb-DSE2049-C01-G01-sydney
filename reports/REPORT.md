@@ -105,19 +105,21 @@ Khảo sát 4 mốc chụp (`2025-09-12`, `2025-12-12`, `2026-03-21`, `2026-06-1
 - Ánh xạ 100% giá của mốc cuối sang các mốc chụp trước đó theo `listing_id`.
 - Nếu listing nào ở mốc cũ thiếu giá ở mốc cuối, tiến hành điền bổ sung bằng giá trung vị (Median) theo nhóm `[neighbourhood_cleansed, room_type]`.
 
-### 3.3. Bảng tổng hợp 8 quy tắc QA do nhóm đề xuất (reports/qa_report.csv)
+### 3.3. Bảng tổng hợp hệ thống quy tắc QA chuẩn hóa theo Bài giảng 10 (reports/qa_report.csv)
 
-| Mã QA | Tên quy tắc | Điều kiện kích hoạt | Cơ sở lý luận & Ý nghĩa nghiệp vụ | Hành động xử lý | Số dòng ảnh hưởng |
-|:---:|:---|:---|:---|:---:|:---:|
-| **QA-00** | Neo giá mốc cuối | Mốc cũ thiếu giá gốc | Đồng nhất mặt bằng giá, loại bỏ nhiễu lạm phát | THAY THẾ GIÁ | 1.000 phòng/mốc |
-| **QA-01** | Kiểm tra khóa định danh | `NaN` trong `id`, `host_id` | Thiếu khóa không thể định danh bất động sản | XOÁ DÒNG | 0 dòng (Đạt chuẩn) |
-| **QA-02** | Giá ngoại lai | `price < 10` hoặc `> 10000 AUD` | Giá $<10$ là lỗi nhập liệu; $>10.000$ là spam | GẮN CỜ (`_qa_flag`) | 0 dòng |
-| **QA-03** | Số đêm tối thiểu | `minimum_nights > 365` | Chỗ ở có thể bị khóa lịch hoặc ngưng kinh doanh | GẮN CỜ (`_qa_flag`) | 0 dòng |
-| **QA-04** | Trùng lặp nội bộ mốc | `duplicated(['id'])` | Trùng bản ghi trong cùng một kỳ báo cáo | XOÁ BẢN GHI PHỤ | 0 dòng |
-| **QA-05** | Trùng lặp xuyên mốc | Cùng `id` xuất hiện $\ge 2$ mốc | Hiện tượng tự nhiên: phòng tiếp tục kinh doanh | GHI NHẬN (Theo dõi) | 1.000 listing |
-| **QA-06** | Chuẩn hóa loại phòng | `room_type ∉ standard_set` | Sai lệch danh mục so với quy chuẩn Airbnb | GẮN CỜ (`_qa_flag`) | 0 dòng |
-| **QA-07** | Thống kê tỷ lệ thiếu | `isna()` trên các trường phụ | Đánh giá độ tin cậy của trường dữ liệu | GHI NHẬN TỶ LỆ | 100% beds (mốc 1) |
-| **QA-08** | Điền giá trị thiếu | `NaN` trong `bedrooms`, `rating` | Bổ sung giá trị đại diện cho phân tích thống kê | ĐIỀN MEDIAN NHÓM | 51 – 268 trường |
+Toàn bộ hệ thống kiểm soát chất lượng dữ liệu được thiết kế theo các nguyên lý chính quy của Bài 10 (Làm sạch dữ liệu có cấu trúc), loại bỏ triệt để các ngưỡng số tự định cảm tính. Báo cáo tự động ghi nhận tác động trước và sau lên các chỉ số kinh doanh:
+
+| Mã QA | Tên quy tắc | Căn cứ bài giảng & Điều kiện kích hoạt | Hành động xử lý | Số dòng ảnh hưởng | Tác động KPI (Trước vs Sau) |
+|:---:|:---|:---|:---:|:---:|:---|
+| **QA-00** | Đồng nhất mặt bằng giá | Bài 10 (bài tập 1): Mốc cũ thiếu giá từ nguồn thu thập; ánh xạ giá theo `id` từ mốc cuối `2026-06-16` | ĐỒNG NHẤT GIÁ | 1.000 phòng/mốc | **Trước:** NaN/Thiếu $\rightarrow$ **Sau:** 100% có giá (Mean: \$449,32, Median: \$319,26 AUD) |
+| **QA-01** | Kiểm tra khóa định danh | Bài 10 (slide 8 & 33): Khóa chính bắt buộc `['id', 'host_id']` không được `NaN` | XOÁ DÒNG | 0 dòng (100% hợp lệ) | Đảm bảo 100% tính toàn vẹn định danh bất động sản |
+| **QA-02** | Ép kiểu dữ liệu (Coerce Dtypes) | Bài 7 & Bài 10 (slide 33): Vectorized regex loại bỏ ký tự tiền tệ `$`, `,`, `%`, chuỗi `t`/`f` | ÉP KIỂU SỐ/BOOLEAN | 1.000 dòng/mốc | **Trước:** Chuỗi `object` không tính toán $\rightarrow$ **Sau:** 100% numeric/bool |
+| **QA-03** | Chuẩn hóa danh mục phòng | Bài 10 (slide 18): `room_type ∉ {'Entire home/apt', 'Private room', 'Shared room', 'Hotel room'}` | GẮN CỜ (`_qa_flag`) | 0 dòng | Tỷ lệ chuẩn hóa danh mục đạt 100,0% |
+| **QA-04** | Giá ngoại lai theo IQR loại phòng | Bài 10 (slide 21-22): Phân phối lệch phải; tính IQR riêng từng loại: `Entire` ($>871,62$), `Private` ($>295,50\text{ AUD}$) | GẮN CỜ (`_qa_flag`) | **88 listings** (8,8%) | **Trước:** Mean \$449,32 AUD, Median \$319,26 AUD $\rightarrow$ **Sau:** Lọc ngoại lai Mean \$333,51, Median \$301,16 AUD |
+| **QA-05** | Số đêm tối thiểu & Logic cột | Bài 10 (slide 18, 34, 37): `minimum_nights > 365` hoặc `minimum_nights > maximum_nights` | GẮN CỜ (`_qa_flag`) | 0 dòng | Mean min_nights: 3,05 – 5,50 đêm (100% hợp lệ) |
+| **QA-06** | Trùng lặp nội bộ mốc | Bài 10 (slide 26-28): Khóa định danh `['id']` duy nhất trong snapshot; giữ 1 bản ghi | XOÁ BẢN GHI LẶP | 0 dòng | Đảm bảo 1.000 listing duy nhất không bị lặp bản ghi |
+| **QA-07** | Theo dõi ID xuyên mốc | Bài 10 (slide 27): Theo dõi `id` xuất hiện $\ge 2$ mốc phục vụ phân tích chuỗi (Panel) | GHI NHẬN THEO DÕI | 1.000 listing | 1.000/1.000 phòng duy trì kinh doanh xuyên suốt 4 quý |
+| **QA-08** | Điền missing theo median nhóm | Bài 10 (slide 10-12): Điền `bedrooms`, `beds`, `rating` bằng median theo nhóm `room_type` | ĐIỀN MEDIAN NHÓM | 51 – 315 trường | **Trước:** Thiếu beds (100% mốc 1), bedrooms (15%) $\rightarrow$ **Sau:** Tỷ lệ thiếu 0,00% |
 
 ---
 

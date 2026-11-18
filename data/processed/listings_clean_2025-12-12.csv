@@ -10,7 +10,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1161736329679145677,"Newtown Spritz - location, location, location",15499468,True,0.9,Sydney,A02,-33.89308,151.18532,Entire home/apt,2,1.0,1.0,238.19,2,90,145,28,4.79,4.71,1.77,,2025-12-12
 18439038,Spacious stylish Camperdown studio,55588033,True,1.0,Marrickville,A02,-33.89409,151.17239,Entire home/apt,2,1.0,1.0,252.0,1,1125,236,357,4.92,4.96,4.49,,2025-12-12
 31607454,Beautiful Sky view 2 bedroom apartment Liverpool,129361793,False,1.0,Liverpool,A01,-33.92945,150.91772,Entire home/apt,6,2.0,4.0,218.0,2,180,39,96,4.56,4.58,1.15,,2025-12-12
-1474984114568117980,Paradeisos by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60298280875023,151.32883015359047,Entire home/apt,8,4.0,4.0,1550.0,1,1125,221,0,4.84,,1.46,,2025-12-12
+1474984114568117980,Paradeisos by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60298280875023,151.32883015359047,Entire home/apt,8,4.0,4.0,1550.0,1,1125,221,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 669009478767693190,Luxurious Sydney Northern Beaches Studio & Views,25335674,True,,Warringah,A08,-33.7323549,151.2962581,Entire home/apt,2,1.0,1.0,313.83,6,90,108,31,5.0,5.0,0.75,,2025-12-12
 33880461,Heated Luxury Glamping in Clareville,185393153,False,1.0,Pittwater,A08,-33.63511,151.31152,Entire home/apt,2,1.0,2.0,423.0,1,5,346,157,4.9,4.93,1.94,,2025-12-12
 39659631,"Newly Renovated, Private Double Room",303393560,False,1.0,Auburn,A05,-33.83634,151.03896,Private room,2,1.0,1.0,78.5,2,1125,130,80,4.78,4.78,1.13,,2025-12-12
@@ -42,14 +42,14 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1268483877520630427,Cosy Stay@ Neutral Bay 1 Bdrm Aircon,258055539,True,1.0,North Sydney,A07,-33.82801,151.21538,Entire home/apt,2,1.0,1.0,138.8,1,365,73,15,4.53,4.67,1.26,,2025-12-12
 887241443419855244,Spacious & Convenient,506646022,True,1.0,North Sydney,A05,-33.830758137997584,151.20507873547785,Entire home/apt,2,1.0,1.0,183.73,5,91,125,29,4.97,5.0,1.07,,2025-12-12
 1418116200989654422,2 Friends / 15 Minutes to City,688244302,False,0.99,Randwick,A03,-33.90914,151.22322,Private room,2,1.0,2.0,97.0,1,180,120,20,4.35,4.0,3.08,,2025-12-12
-950243078187617198,Luxury Oasis with Incredible Ocean Views Manly,16357713,False,0.97,Manly,A07,-33.80170667411479,151.2979899808879,Entire home/apt,6,3.0,3.0,1051.51,10,365,24,0,4.84,,1.46,,2025-12-12
+950243078187617198,Luxury Oasis with Incredible Ocean Views Manly,16357713,False,0.97,Manly,A07,-33.80170667411479,151.2979899808879,Entire home/apt,6,3.0,3.0,1051.51,10,365,24,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 1040656275361588764,Meander to the Beach,10217099,True,1.0,Randwick,A03,-33.92275,151.25113,Entire home/apt,6,3.0,3.0,354.0,1,365,202,156,4.87,4.81,6.52,,2025-12-12
 20984031,100 mtrs to Beach from Spacious Coogee Apartment,45564662,True,1.0,Randwick,A03,-33.92427,151.25584,Entire home/apt,6,2.0,5.0,319.0,1,365,159,703,4.89,4.93,7.03,,2025-12-12
 14017416,Luxury Apartment With Direct Access To Garden,29597572,True,1.0,Waverley,A03,-33.90325,151.26247,Entire home/apt,8,3.0,4.0,818.91,2,1125,215,163,4.95,4.91,1.57,,2025-12-12
 35356560,Modern Central Mosman 4 bed home w/ pool,16357713,False,0.97,Mosman,A07,-33.81947,151.23787,Entire home/apt,7,4.0,4.0,475.86,7,1125,0,0,4.84,,1.46,,2025-12-12
 1078585020961084206,"Quaint terrace, perfect location",63020643,False,,Marrickville,A01,-33.89177,151.15288,Entire home/apt,4,2.0,2.0,163.71,14,27,206,2,4.5,5.0,0.1,,2025-12-12
 1286721746973815186,Opera House Harbour Penthouse 1B,9951125,True,1.0,North Sydney,A07,-33.84872,151.21658,Entire home/apt,4,1.0,2.0,359.47,1,365,345,70,4.89,4.86,5.33,,2025-12-12
-1432945575101764253,South Coogee,161363821,False,1.0,Randwick,A03,-33.93124,151.25889,Entire home/apt,6,3.0,4.0,1039.5,2,28,115,2,5.0,4.0,0.49,,2025-12-12
+1432945575101764253,South Coogee,161363821,False,1.0,Randwick,A03,-33.93124,151.25889,Entire home/apt,6,3.0,4.0,1039.5,2,28,115,2,5.0,4.0,0.49,|price_outlier_iqr,2025-12-12
 39182360,Waterview paradise! Steps to the sand! Prime spot!,5188261,False,1.0,Randwick,A03,-33.91358,151.2622,Entire home/apt,3,1.0,2.0,565.67,2,1125,201,47,4.91,4.91,0.63,,2025-12-12
 933629504556158227,Charming Two Bedroom Apartment in Mosman!,16357713,False,0.97,Mosman,A07,-33.83713764344587,151.23630849236866,Entire home/apt,4,2.0,2.0,358.37,90,365,255,3,5.0,5.0,0.13,,2025-12-12
 814669422668502103,Kirribilli Village Quiet Stylish Abode,88800829,True,1.0,North Sydney,A07,-33.84536,151.21381,Entire home/apt,4,2.0,2.0,364.0,7,90,145,50,4.96,4.92,1.71,,2025-12-12
@@ -70,7 +70,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1269272131731923879,"Little Alfie, North Sydney",7409213,True,1.0,North Sydney,A07,-33.840375570688344,151.2110136210302,Entire home/apt,2,1.0,1.0,369.0,1,1125,312,12,5.0,4.92,0.94,,2025-12-12
 1155005442394091691,Sunny and best view of the Opera,339797336,True,1.0,North Sydney,A07,-33.849361827944534,151.21552442327882,Entire home/apt,4,1.0,1.0,365.0,2,180,71,139,4.96,4.9,7.26,,2025-12-12
 1350186578067905847,"Solterra, North Bondi ISYD",7409213,True,1.0,Waverley,A04,-33.88746019643136,151.28261120653133,Entire home/apt,6,3.0,4.0,559.29,1,1125,280,3,4.67,5.0,0.68,,2025-12-12
-1054330438661137131,Sydney Harbour Penthouse with World-class views,77789376,True,1.0,North Sydney,A07,-33.8481603,151.2150326,Entire home/apt,6,2.0,3.0,1125.0,2,500,304,34,4.91,4.76,1.56,,2025-12-12
+1054330438661137131,Sydney Harbour Penthouse with World-class views,77789376,True,1.0,North Sydney,A07,-33.8481603,151.2150326,Entire home/apt,6,2.0,3.0,1125.0,2,500,304,34,4.91,4.76,1.56,|price_outlier_iqr,2025-12-12
 1353911948905592107,Sydney Harbour Bridge+Opera House Views｜1 Car Park,678163189,True,1.0,North Sydney,A07,-33.8479109,151.2145722,Entire home/apt,5,2.0,3.0,364.0,1,30,84,82,4.94,4.91,8.42,,2025-12-12
 1429476751756885169,Spacious 3BR with Water Views in Prime Kirribilli,672812732,False,,North Sydney,A07,-33.8507078,151.2194959,Entire home/apt,6,3.0,3.0,652.75,1,365,66,18,4.72,4.94,2.9,,2025-12-12
 46267255,The Arden 6 Coogee New Large Beachside Balc Apt,2450066,True,1.0,Randwick,A03,-33.917789,151.257675,Entire home/apt,2,1.0,1.0,233.84,5,89,286,30,4.83,4.9,0.57,,2025-12-12
@@ -83,16 +83,16 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 45062440,Central & Modern with Free Parking Two Bedroom APT,123183039,True,1.0,Willoughby,A06,-33.79463,151.18562,Entire home/apt,6,2.0,4.0,306.5,5,1125,263,75,4.89,4.89,1.17,,2025-12-12
 1350609912895885614,Cozy & Stylish Cremorne Comfort | Parking,677303569,True,1.0,North Sydney,A07,-33.8231259646585,151.22866227010996,Entire home/apt,4,1.0,2.0,265.0,1,365,166,22,4.64,4.73,2.17,,2025-12-12
 1375912051541912213,"Sun Filled Apartment, 10 mins by Bus to the City",485604004,True,1.0,North Sydney,A07,-33.82913125264408,151.23006611579424,Entire home/apt,4,2.0,3.0,685.0,5,90,204,8,5.0,5.0,0.96,,2025-12-12
-791410859007653032,Brand new duplex close to beach,14859089,False,1.0,Randwick,A03,-33.9711069,151.2401855,Entire home/apt,8,4.0,4.0,1548.86,7,14,284,4,5.0,5.0,0.17,,2025-12-12
+791410859007653032,Brand new duplex close to beach,14859089,False,1.0,Randwick,A03,-33.9711069,151.2401855,Entire home/apt,8,4.0,4.0,1548.86,7,14,284,4,5.0,5.0,0.17,|price_outlier_iqr,2025-12-12
 629979737753266770,Gorgeous & spacious family home with big backyard,1886755,False,1.0,Manly,A07,-33.802151,151.291656,Entire home/apt,5,2.0,3.0,850.2,5,365,251,15,4.87,4.8,0.38,,2025-12-12
 727097990160550546,Cosy 2 bed|2bath house near airport-City,41011048,True,1.0,Botany Bay,A02,-33.92992,151.19002,Entire home/apt,5,2.0,2.0,330.94,2,90,24,24,4.71,4.67,0.66,,2025-12-12
 1219098171483500706,Minimalism modern 1bdr apt waterview P Coles,292060789,False,1.0,Auburn,A05,-33.82423,151.07972,Entire home/apt,2,1.0,1.0,245.0,1,1125,168,38,4.58,4.37,2.35,,2025-12-12
 40923198,Glamarama,7409213,True,1.0,Waverley,A03,-33.89695,151.26921,Entire home/apt,4,2.0,2.0,665.5,1,1125,234,38,4.71,4.55,0.67,,2025-12-12
 1308008028620305325,CBD 3Br ChinaTown/ICC & parking & Firework & pool,596321531,False,1.0,Sydney,A02,-33.88008458969874,151.20203281319218,Entire home/apt,8,3.0,4.0,558.5,2,365,79,24,4.75,4.71,1.95,,2025-12-12
 874327786241772580,KozyGuru | Health & Wealth City Adobe |2Bed Studio,209185597,False,1.0,Sydney,A02,-33.87877,151.20443,Entire home/apt,4,0.0,2.0,286.0,1,365,39,134,4.58,4.55,4.25,,2025-12-12
-31543383,Self contained 2 Bedroom Apartment,34487626,False,1.0,Sydney,A07,-33.87048,151.22463,Private room,6,2.0,3.0,600.0,1,1125,60,10,4.8,4.9,0.36,,2025-12-12
+31543383,Self contained 2 Bedroom Apartment,34487626,False,1.0,Sydney,A07,-33.87048,151.22463,Private room,6,2.0,3.0,600.0,1,1125,60,10,4.8,4.9,0.36,|price_outlier_iqr,2025-12-12
 7581942,Sydney Neutral Bay 2BR Garden Unit,39756412,False,1.0,North Sydney,A07,-33.8346,151.22579,Entire home/apt,4,2.0,2.0,254.97,4,18,0,23,4.87,4.83,0.18,,2025-12-12
-39326771,Manly Harbourside- unbeatable location!,302045121,True,1.0,Manly,A08,-33.79621,151.28605,Entire home/apt,5,3.0,3.0,930.33,3,730,203,94,4.88,4.87,1.26,,2025-12-12
+39326771,Manly Harbourside- unbeatable location!,302045121,True,1.0,Manly,A08,-33.79621,151.28605,Entire home/apt,5,3.0,3.0,930.33,3,730,203,94,4.88,4.87,1.26,|price_outlier_iqr,2025-12-12
 1185342225400988214,Master Room in Pyrmont Air-con Ensuite Bathroom,381393416,False,0.99,Sydney,A05,-33.868372739030185,151.19285778149634,Private room,2,1.0,1.0,149.17,7,365,34,5,4.4,4.4,0.34,,2025-12-12
 1455705780241474742,2-Bedroom House Hoolloomooloo Good for 6 Guests,701932325,False,1.0,Sydney,A07,-33.87013,151.22024,Entire home/apt,6,2.0,3.0,260.0,1,365,349,17,4.82,4.82,3.45,,2025-12-12
 29341231,St Mark's Randwick - Premium Queen Room,219737837,False,0.9,Randwick,A03,-33.91247,151.24608,Private room,2,0.0,2.0,225.0,1,365,354,292,4.78,4.87,3.47,,2025-12-12
@@ -115,12 +115,12 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 694565445351518029,"2-Bedroom Apartment Pyrmont Street, NSW",138649185,False,0.61,Sydney,A02,-33.8748,151.19841,Entire home/apt,4,2.0,2.0,605.0,3,1125,344,0,4.84,,1.46,,2025-12-12
 54406347,Glenorie Properties,256714326,False,,The Hills Shire,A06,-33.62077,150.99519,Entire home/apt,5,2.0,3.0,349.0,2,30,362,0,4.84,,1.46,,2025-12-12
 1419400782938866640,"Beautiful room, friendly house in Prestons NSW 4",146421296,False,1.0,Liverpool,A01,-33.95058749302121,150.85334944973755,Private room,2,1.0,1.0,80.0,1,365,347,34,4.56,4.32,5.23,,2025-12-12
-881966834434659271,Berowra Waters Boutique,60587151,True,1.0,Hornsby,A06,-33.60356,151.11947,Entire home/apt,7,3.0,3.0,884.5,2,21,358,3,5.0,4.67,0.13,,2025-12-12
+881966834434659271,Berowra Waters Boutique,60587151,True,1.0,Hornsby,A06,-33.60356,151.11947,Entire home/apt,7,3.0,3.0,884.5,2,21,358,3,5.0,4.67,0.13,|price_outlier_iqr,2025-12-12
 17158170,10 Min Walk 2 Station Master Suite+ Bathroom+TV,115400110,False,1.0,Campbelltown,A01,-33.97071,150.90163,Private room,2,1.0,1.0,83.71,7,1125,50,66,4.73,4.86,0.67,,2025-12-12
 45207677,Hawkesbury River Escape,9727431,True,1.0,Hornsby,A06,-33.5284,151.13763,Entire home/apt,2,1.0,2.0,320.0,2,365,342,13,4.85,4.77,1.09,,2025-12-12
 1094456021102924863,"Location Location, Darlinghurst Best Studio!",92172750,True,1.0,Sydney,A04,-33.87696,151.21779,Entire home/apt,2,1.0,1.0,222.0,2,365,158,94,4.99,4.99,4.3,,2025-12-12
 1298257850599743782,Newly renovated family house,663565904,False,1.0,Penrith,A06,-33.80143,150.68773,Entire home/apt,8,4.0,4.0,326.66,4,365,135,1,5.0,5.0,0.25,,2025-12-12
-1714235,"Sandstone Cottage, Great Mackerel Beach",9041452,True,0.89,Pittwater,A08,-33.59335,151.30213,Entire home/apt,6,3.0,6.0,1284.0,2,365,323,175,4.96,4.89,1.21,,2025-12-12
+1714235,"Sandstone Cottage, Great Mackerel Beach",9041452,True,0.89,Pittwater,A08,-33.59335,151.30213,Entire home/apt,6,3.0,6.0,1284.0,2,365,323,175,4.96,4.89,1.21,|price_outlier_iqr,2025-12-12
 1241905734497164093,Spacious One Bedroom Apartment in Linfield,24690026,False,0.98,Ku-Ring-Gai,A06,-33.78152,151.16987,Entire home/apt,3,1.0,2.0,188.13,7,365,48,0,4.84,,1.46,,2025-12-12
 858317292997230882,Newly renovated Guest house in Epping,507723125,True,1.0,Hornsby,A06,-33.77548064996255,151.06019997568623,Entire home/apt,6,3.0,3.0,448.71,2,365,159,22,4.82,4.86,0.67,,2025-12-12
 1417177499688755198,The lemon farm,694544720,False,1.0,The Hills Shire,A06,-33.45923,150.99294,Entire home/apt,9,4.0,9.0,228.235,1,365,88,2,4.5,5.0,0.32,,2025-12-12
@@ -135,7 +135,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1443938349282612193,Blissfully Private Home in Prized Lifestyle Area,301753450,False,0.97,City Of Kogarah,A01,-33.96031,151.13638,Entire home/apt,4,2.0,2.0,313.0,2,365,136,4,5.0,5.0,0.74,,2025-12-12
 1021973835140544670,"Stylish split level home near Uni, Zetland & CBD",92779512,False,1.0,Sydney,A02,-33.91505,151.20341,Entire home/apt,4,2.0,3.0,332.84,3,365,90,6,4.33,4.83,0.24,,2025-12-12
 1072137587911230507,Beach stay with king bed,557366913,False,,Sutherland Shire,A02,-34.0387702,151.1594593,Entire home/apt,2,1.0,2.0,319.67,3,21,264,3,4.67,5.0,0.14,,2025-12-12
-1216239895167920248,Waterfront Spanish Villa - 3 bedrooms + pool,16357713,False,0.97,Mosman,A07,-33.80948,151.23807,Entire home/apt,5,3.0,3.0,2847.25,90,365,50,1,5.0,5.0,0.09,,2025-12-12
+1216239895167920248,Waterfront Spanish Villa - 3 bedrooms + pool,16357713,False,0.97,Mosman,A07,-33.80948,151.23807,Entire home/apt,5,3.0,3.0,2847.25,90,365,50,1,5.0,5.0,0.09,|price_outlier_iqr,2025-12-12
 7075458,Peaceful Getaway❈ Beach 2.5km ❈ Lush kids backyard,37098642,True,1.0,Pittwater,A08,-33.69891,151.28872,Entire home/apt,6,3.0,5.0,792.0,5,60,152,7,4.86,4.43,0.06,,2025-12-12
 1449744272980855034,KozyGuru | Wolli Creek | Kozy 1 Bed Apt,102664004,False,1.0,Rockdale,A01,-33.93302,151.15564,Entire home/apt,4,1.0,2.0,229.0,1,365,59,10,4.4,4.1,2.0,,2025-12-12
 1368523454182361231,"Airport, city & trains nearby",585819939,True,1.0,Rockdale,A01,-33.938486,151.1512489,Entire home/apt,6,2.0,3.0,245.35,1,1125,197,60,4.83,4.88,7.86,,2025-12-12
@@ -152,7 +152,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 788034524935777193,"Gorgeous, peaceful flat by the beach!",11665487,False,1.0,Manly,A07,-33.7985289,151.2766692,Entire home/apt,6,3.0,3.0,367.84,3,1125,236,69,4.74,4.71,1.93,,2025-12-12
 924865636131960696,City view new hotel room/D01,91961414,False,1.0,Waverley,A03,-33.89092,151.24787,Private room,3,0.0,2.0,176.0,1,90,62,100,4.75,4.72,3.38,,2025-12-12
 1188636373791529070,Bondi Beachside Bliss - New Listing,444663044,False,0.98,Waverley,A04,-33.88884,151.27908,Entire home/apt,4,2.0,2.0,440.5,90,365,251,9,5.0,5.0,0.67,,2025-12-12
-1231530783320409262,Coastal Chic in Bondi Beach,17059182,False,1.0,Waverley,A04,-33.88824011306875,151.2759059293611,Entire home/apt,6,3.0,3.0,1602.4,5,365,156,9,5.0,4.89,0.9,,2025-12-12
+1231530783320409262,Coastal Chic in Bondi Beach,17059182,False,1.0,Waverley,A04,-33.88824011306875,151.2759059293611,Entire home/apt,6,3.0,3.0,1602.4,5,365,156,9,5.0,4.89,0.9,|price_outlier_iqr,2025-12-12
 54097119,Pied à Terre (Inner West),147710029,True,1.0,Sydney,A02,-33.88428136427746,151.17601425396725,Entire home/apt,2,1.0,2.0,193.84,21,50,141,37,4.97,4.81,1.21,,2025-12-12
 1455957887282137284,Japandi Style Redfern Apartment w/ Private Balcony,682498186,True,1.0,Sydney,A02,-33.893889941713915,151.20370124568473,Entire home/apt,2,1.0,1.0,288.0,1,365,336,16,4.75,4.88,3.18,,2025-12-12
 1311341976235607813,Modern 2-Bed Apartment w/ Parking near Bondi Beach,56899852,True,1.0,Waverley,A03,-33.89009,151.26041,Entire home/apt,4,2.0,3.0,477.0,2,730,333,2,5.0,5.0,0.38,,2025-12-12
@@ -192,7 +192,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 49778940,Superb 3-Brs Apt in Heart of City: Darling Harbour,5215877,True,,Sydney,A02,-33.87595090581414,151.20548150925973,Entire home/apt,8,3.0,4.0,453.05,2,1125,247,267,4.58,4.46,4.79,,2025-12-12
 51054919,The Perfect Bondi Beach Pad,78399322,True,1.0,Waverley,A03,-33.89406,151.26905,Entire home/apt,4,2.0,3.0,226.0,4,90,45,28,4.75,4.86,0.59,,2025-12-12
 725514529384129335,Lovely One Bedroom + Study with Infinity Pool,229982495,True,1.0,Sydney,A07,-33.8692304,151.2062939,Entire home/apt,4,1.0,1.0,393.5,1,31,155,193,4.92,4.87,5.18,,2025-12-12
-6518475,Stylish Light Filled Paddington Street Terrace,19949885,True,0.94,Woollahra,A04,-33.88735,151.23573,Entire home/apt,8,4.0,5.0,1089.71,2,40,80,17,4.82,4.82,0.13,,2025-12-12
+6518475,Stylish Light Filled Paddington Street Terrace,19949885,True,0.94,Woollahra,A04,-33.88735,151.23573,Entire home/apt,8,4.0,5.0,1089.71,2,40,80,17,4.82,4.82,0.13,|price_outlier_iqr,2025-12-12
 949151348094980130,PRIME SPOT: Modern Studio+Balcony Darling Harbour,362349655,False,1.0,Sydney,A02,-33.87656094827813,151.2037953533085,Entire home/apt,2,1.0,1.0,410.0,1,35,318,72,4.79,4.85,2.91,,2025-12-12
 1036423101194057617,Bondi Beach Break Ocean Views,29571337,True,1.0,Waverley,A03,-33.89451,151.27302,Entire home/apt,5,1.0,3.0,443.0,1,90,146,64,4.84,4.67,2.7,,2025-12-12
 3426001,Beachside living at its best! Bondi Beach,16026854,True,0.98,Waverley,A03,-33.89823,151.27226,Entire home/apt,5,3.0,3.0,570.4,21,90,4,14,4.5,4.57,0.1,,2025-12-12
@@ -205,14 +205,14 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1446084285984385896,Peaceful Darling Point Retreat with Harbour Views,24492518,True,1.0,Woollahra,A07,-33.8732995,151.2366907,Entire home/apt,6,3.0,4.0,510.6,5,365,58,11,5.0,5.0,2.0,,2025-12-12
 1268661672652013917,Designer Haven Retreat w Jacuzzi 2 - BDR AC Heater,30450332,True,0.96,Waverley,A03,-33.8900054,151.2709524,Private room,2,1.0,1.0,180.0,2,365,4,18,5.0,5.0,1.3,,2025-12-12
 53633301,New York style Loft,101139031,False,1.0,Sydney,A04,-33.8798534,151.2154176,Entire home/apt,2,1.0,1.0,244.0,2,180,153,95,4.76,4.94,2.08,,2025-12-12
-685071396000891092,Amlple Space 4 Bedroom Apt 2 Bathroom + Balcony,60135494,False,1.0,Sydney,A02,-33.88576,151.18051,Private room,8,4.0,1.0,569.0,1,90,336,69,4.59,4.61,1.72,,2025-12-12
+685071396000891092,Amlple Space 4 Bedroom Apt 2 Bathroom + Balcony,60135494,False,1.0,Sydney,A02,-33.88576,151.18051,Private room,8,4.0,1.0,569.0,1,90,336,69,4.59,4.61,1.72,|price_outlier_iqr,2025-12-12
 17848401,Caringbah,122115007,True,1.0,Sutherland Shire,A01,-34.03661,151.11701,Entire home/apt,4,2.0,2.0,228.0,1,1125,311,315,4.84,4.86,3.0,,2025-12-12
-46269940,Minimalist beach cottage - family friendly,208118503,False,,Warringah,A08,-33.77497,151.28326,Entire home/apt,7,4.0,4.0,1312.67,3,25,341,10,5.0,4.8,0.16,,2025-12-12
-665409088022222130,HILLTOP HOUSE by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.63728,151.31423,Entire home/apt,8,4.0,5.0,1642.0,1,1125,247,2,5.0,5.0,0.09,,2025-12-12
+46269940,Minimalist beach cottage - family friendly,208118503,False,,Warringah,A08,-33.77497,151.28326,Entire home/apt,7,4.0,4.0,1312.67,3,25,341,10,5.0,4.8,0.16,|price_outlier_iqr,2025-12-12
+665409088022222130,HILLTOP HOUSE by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.63728,151.31423,Entire home/apt,8,4.0,5.0,1642.0,1,1125,247,2,5.0,5.0,0.09,|price_outlier_iqr,2025-12-12
 1308210106456734721,Beachfront family 3 bedroom home,40261386,True,1.0,Rockdale,A02,-33.95702,151.15765,Entire home/apt,10,3.0,3.0,618.0,90,365,128,17,4.53,3.82,1.4,,2025-12-12
 23882472,*2B2B1C+Studio* On-station Apt Panoramic City View,164367824,False,0.9,Ryde,A06,-33.79371,151.13831,Entire home/apt,5,2.0,3.0,233.94,6,700,117,134,4.69,4.58,1.43,,2025-12-12
 1033145332920717486,Spacious 1 bedroom guesthouse,160631236,True,1.0,Botany Bay,A02,-33.9355154,151.1971537,Entire home/apt,3,1.0,1.0,147.21,1,100,197,235,4.95,4.96,9.66,,2025-12-12
-18462216,"Luxe living, Resort feels  14 km to CBD, Sleeps 10",63823264,False,,Canterbury,A01,-33.90777,151.0901,Entire home/apt,10,5.0,7.0,1198.25,4,60,319,9,4.78,4.56,0.09,,2025-12-12
+18462216,"Luxe living, Resort feels  14 km to CBD, Sleeps 10",63823264,False,,Canterbury,A01,-33.90777,151.0901,Entire home/apt,10,5.0,7.0,1198.25,4,60,319,9,4.78,4.56,0.09,|price_outlier_iqr,2025-12-12
 1380796273774123114,Studio Apartment  Quest Mascot,659291746,False,1.0,Botany Bay,A02,-33.93028,151.18667,Entire home/apt,2,0.0,0.0,200.0,1,365,357,26,4.73,4.69,3.0,,2025-12-12
 53943850,Mascot 1BR| Free Parking + Pool| 5 min to Airport,382384057,False,1.0,Botany Bay,A02,-33.92048,151.18688,Entire home/apt,4,1.0,2.0,366.35,3,365,250,164,4.82,4.86,3.39,,2025-12-12
 50137244,Quiet secure oasis in Gymea,111859963,False,1.0,Sutherland Shire,A01,-34.03406,151.07941,Entire home/apt,3,2.0,2.0,304.0,4,24,4,18,4.94,4.72,0.35,,2025-12-12
@@ -222,7 +222,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 17606304,Cosy old charm 1Bdrm Home. Close to Transport,44039744,True,1.0,Marrickville,A01,-33.90523,151.13559,Entire home/apt,4,1.0,2.0,291.0,1,1125,155,234,4.88,4.91,2.23,,2025-12-12
 780625593380439125,Surry Hills secret | Convenient relaxed living,599028889,False,,Sydney,A04,-33.88024,151.21352,Entire home/apt,2,1.0,2.0,349.0,14,1125,187,5,3.4,3.75,0.19,,2025-12-12
 1121578342014359051,Lovely 2 bedroom APT in Mortlake,103080057,False,1.0,Canada Bay,A05,-33.8413594,151.1057221,Entire home/apt,5,2.0,3.0,383.0,2,365,79,17,4.65,4.59,0.91,,2025-12-12
-631459404163785373,Spacious home minutes from beaches and harbour,197362426,False,,Manly,A08,-33.7893,151.24145,Entire home/apt,6,3.0,4.0,1313.17,5,30,131,5,5.0,4.6,0.14,,2025-12-12
+631459404163785373,Spacious home minutes from beaches and harbour,197362426,False,,Manly,A08,-33.7893,151.24145,Entire home/apt,6,3.0,4.0,1313.17,5,30,131,5,5.0,4.6,0.14,|price_outlier_iqr,2025-12-12
 11084973,"Contained studio with own access, 15 mins from CBD",24647420,True,1.0,Leichhardt,A05,-33.86909,151.17032,Entire home/apt,2,1.0,1.0,184.0,2,1125,190,394,4.78,4.76,3.3,,2025-12-12
 821367959745157980,Carriage House,492589900,False,1.0,Leichhardt,A02,-33.87804,151.16934,Entire home/apt,4,1.0,3.0,280.0,2,1125,298,74,4.86,4.91,2.19,,2025-12-12
 896863096906040894,Bondi Beach Apartment with Ocean Views,4089104,True,1.0,Waverley,A04,-33.88488815040762,151.28213971341083,Entire home/apt,4,2.0,3.0,362.0,1,1125,219,55,4.84,4.85,1.79,,2025-12-12
@@ -231,7 +231,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 708118906208585478,KozyGuru | Wentworth Point | 2 Beds stylish APT,238416407,False,1.0,Auburn,A06,-33.82358,151.07848,Entire home/apt,3,1.0,1.0,203.33,3,365,59,48,4.79,4.77,1.25,,2025-12-12
 54114866,Standard Double Studio Room,42440269,False,1.0,Leichhardt,A02,-33.88653,151.15991,Entire home/apt,2,1.0,1.0,119.0,1,365,196,36,4.33,4.28,0.76,,2025-12-12
 1318779469377663745,"Harbour View Retreat | City Access, Local Charm",109696396,True,1.0,North Sydney,A07,-33.834493,151.2182284,Entire home/apt,4,2.0,2.0,262.0,2,365,163,53,4.74,4.87,4.58,,2025-12-12
-1204508925194585587,The Spot-Oceanfront  New York style loft apartment,427016798,True,1.0,Manly,A07,-33.80047649999999,151.2927825,Entire home/apt,5,2.0,3.0,879.0,2,365,86,35,4.97,4.97,2.44,,2025-12-12
+1204508925194585587,The Spot-Oceanfront  New York style loft apartment,427016798,True,1.0,Manly,A07,-33.80047649999999,151.2927825,Entire home/apt,5,2.0,3.0,879.0,2,365,86,35,4.97,4.97,2.44,|price_outlier_iqr,2025-12-12
 1295870344261366821,Private Coogee Coastal Studio,1416988,True,1.0,Randwick,A03,-33.91930640298405,151.2520409674715,Private room,2,1.0,1.0,205.67,3,21,28,28,4.89,5.0,2.22,,2025-12-12
 571271131032199114,Convenient Cremorne Unit.,36580450,False,1.0,North Sydney,A07,-33.83015,151.22747,Private room,2,1.0,1.0,149.0,1,7,301,142,4.94,4.97,3.08,,2025-12-12
 787073078716007803,A-Top Penthouse | Outdoor Balcony | Skyline View,209631028,True,1.0,Willoughby,A06,-33.794039164686815,151.18486372683316,Entire home/apt,6,2.0,3.0,548.0,58,730,313,89,4.83,4.79,2.69,,2025-12-12
@@ -240,16 +240,16 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 901624777811095209,Sydney Airport Service Apartment,468475474,True,1.0,Rockdale,A01,-33.93756762720646,151.14818714494947,Entire home/apt,4,1.0,1.0,235.92,1,100,84,41,4.73,4.85,1.33,,2025-12-12
 20819797,Ultra Convenient St Leonards Apartment HER009008,148607219,False,0.95,Willoughby,A06,-33.82044,151.19313,Entire home/apt,2,1.0,1.0,218.89,3,365,330,5,4.4,4.2,0.06,,2025-12-12
 30507868,Beautiful Bronte home - pet friendly,3097848,False,1.0,Waverley,A03,-33.90547,151.25785,Entire home/apt,6,2.0,3.0,399.5,3,1125,19,10,4.7,4.3,0.12,,2025-12-12
-774287448663974120,Clovelly beach house with pool,9268864,False,1.0,Randwick,A03,-33.91216,151.26407,Entire home/apt,7,4.0,6.0,929.0,5,365,71,10,5.0,5.0,0.28,,2025-12-12
+774287448663974120,Clovelly beach house with pool,9268864,False,1.0,Randwick,A03,-33.91216,151.26407,Entire home/apt,7,4.0,6.0,929.0,5,365,71,10,5.0,5.0,0.28,|price_outlier_iqr,2025-12-12
 886427250878141452,Sunny Inner City  Luxury with Park Views,2450066,True,1.0,Sydney,A02,-33.9010933,151.2042793,Entire home/apt,4,2.0,2.0,421.16,5,89,324,25,4.8,4.6,0.84,,2025-12-12
 1308476877381800208,North Bondi Beach Retreat,258332095,True,1.0,Waverley,A04,-33.8890031,151.2829597,Entire home/apt,4,2.0,2.0,427.94,3,365,199,49,4.98,5.0,4.9,,2025-12-12
 290146,Bellevue Hill Designer | Central location + views,113874,False,0.97,Woollahra,A04,-33.88596,151.25758,Entire home/apt,6,2.0,4.0,513.0,5,365,92,90,4.5,4.31,0.63,,2025-12-12
 900185532429770583,Spectacular Harbour Bridge Views from Lavender Bay,139218958,False,1.0,North Sydney,A07,-33.8430457,151.2058142,Entire home/apt,3,1.0,2.0,280.0,5,1125,151,84,4.7,4.61,2.84,,2025-12-12
-1468494069799144673,Breathtaking Panoramic Views  Exec 2-Bed 2.5 Bath,58493643,True,1.0,Manly,A08,-33.7962148133647,151.27421560317993,Entire home/apt,4,2.0,2.0,1169.33,3,30,6,2,5.0,5.0,0.8,,2025-12-12
+1468494069799144673,Breathtaking Panoramic Views  Exec 2-Bed 2.5 Bath,58493643,True,1.0,Manly,A08,-33.7962148133647,151.27421560317993,Entire home/apt,4,2.0,2.0,1169.33,3,30,6,2,5.0,5.0,0.8,|price_outlier_iqr,2025-12-12
 653405333136459241,Private house with parking for five+ cars.,465163598,True,1.0,Woollahra,A04,-33.88186,151.24064,Entire home/apt,10,3.0,3.0,673.5,2,30,223,109,4.88,4.77,2.62,,2025-12-12
 990777883523658648,Ocean views from every room!,539450901,True,1.0,Waverley,A04,-33.8885703,151.278178,Entire home/apt,5,2.0,3.0,253.25,1,1125,334,102,4.91,4.81,3.91,,2025-12-12
 1015516977047659771,Beachfront Studio Escape,4089104,True,1.0,Waverley,A03,-33.8905685,151.2828645,Entire home/apt,2,1.0,1.0,260.5,1,1125,200,57,4.84,4.7,2.33,,2025-12-12
-53015559,"Great Bondi Penthouse, Amazing view & Private Pool",2450066,True,1.0,Waverley,A04,-33.889259338378906,151.27574157714844,Entire home/apt,6,4.0,4.0,2843.8,5,89,8,7,5.0,4.71,0.21,,2025-12-12
+53015559,"Great Bondi Penthouse, Amazing view & Private Pool",2450066,True,1.0,Waverley,A04,-33.889259338378906,151.27574157714844,Entire home/apt,6,4.0,4.0,2843.8,5,89,8,7,5.0,4.71,0.21,|price_outlier_iqr,2025-12-12
 1459067280340566489,2BR Granny Flat Manly Vale -  Beach & City Access,27027867,False,1.0,Warringah,A08,-33.78455,151.26535,Entire home/apt,5,2.0,2.0,297.0,5,90,122,5,5.0,5.0,2.42,,2025-12-12
 1306820851894905883,Heritage townhouse w Aircon,381393416,False,0.99,Sydney,A05,-33.86149,151.20497,Entire home/apt,6,3.0,3.0,510.5,2,365,35,6,4.5,4.67,0.55,,2025-12-12
 47310048,Bondi Postcard #5 - Bondi Beach front row,27126149,True,1.0,Waverley,A04,-33.88897,151.28204,Entire home/apt,2,1.0,1.0,519.5,2,1125,253,49,4.96,4.9,1.89,,2025-12-12
@@ -257,7 +257,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1210518927378425355,Charming Central Unit in Authentic Building,24690026,False,0.98,Sydney,A02,-33.88574815049362,151.19669849327502,Private room,2,1.0,2.0,177.57,2,365,223,12,4.58,4.5,0.74,,2025-12-12
 1315067719238699269,Modern Studio+Balcony+Car Park - Darling Harbour,667737019,True,1.0,Sydney,A02,-33.87632098930037,151.20413898836057,Entire home/apt,2,1.0,1.0,291.0,2,1125,175,50,4.84,4.76,4.34,,2025-12-12
 1170771367308579526,Central | top floor | 1BDR | 1BTH | w/ parking,316054103,True,1.0,Sydney,A02,-33.8884021,151.2002583,Entire home/apt,2,1.0,1.0,242.5,3,90,199,59,4.9,4.81,3.28,,2025-12-12
-1313354197420673313,Private Oasis with Heated Magnesium Pool,1840447,True,1.0,Woollahra,A04,-33.87558,151.23295,Entire home/apt,9,4.0,5.0,1481.0,2,90,186,32,5.0,4.97,2.77,,2025-12-12
+1313354197420673313,Private Oasis with Heated Magnesium Pool,1840447,True,1.0,Woollahra,A04,-33.87558,151.23295,Entire home/apt,9,4.0,5.0,1481.0,2,90,186,32,5.0,4.97,2.77,|price_outlier_iqr,2025-12-12
 1478023611025687800,Inviting Double Room - A Peaceful Budget Stay,288743418,False,1.0,Bankstown,A01,-33.95737,151.02707,Private room,2,1.0,1.0,78.98,1,89,355,4,4.5,4.75,1.15,,2025-12-12
 1280806404556648963,Delicated ICC & Darling Harbour 3BR Apt (Parking),515011815,False,1.0,Sydney,A02,-33.87861867366582,151.19744032361504,Entire home/apt,9,3.0,7.0,551.0,1,60,231,23,4.83,4.7,1.86,,2025-12-12
 1144219725801287501,New York vibes in Potts Point,574529914,True,1.0,Sydney,A07,-33.8710328,151.2256405,Entire home/apt,2,1.0,1.0,340.5,2,14,7,24,4.83,4.75,2.09,,2025-12-12
@@ -267,23 +267,23 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 45917438,"MARVELOUS LOCATION cool city studio, AC & balcony",215158027,True,1.0,Sydney,A04,-33.87693,151.21326,Entire home/apt,2,0.0,1.0,135.86,2,730,325,105,4.86,4.85,1.7,,2025-12-12
 36531000,New York SoHo-Style Living in Sydney CBD,91931192,True,1.0,Sydney,A04,-33.87907,151.20961,Entire home/apt,3,1.0,1.0,414.0,1,1125,354,16,4.94,4.94,0.21,,2025-12-12
 1036390031667861616,Giraffe Studio Freshwater Beach,63458328,True,1.0,Warringah,A08,-33.78055635586076,151.28587905396725,Entire home/apt,2,0.0,1.0,286.6,2,28,296,58,5.0,4.98,2.44,,2025-12-12
-1024774348577665355,Waterfront Retreat w/ 2 Jetty – Close to Airport,158809093,True,1.0,City Of Kogarah,A01,-33.991560553783444,151.07810685042733,Entire home/apt,15,4.0,11.0,882.13,2,1125,324,42,4.86,4.62,2.33,,2025-12-12
+1024774348577665355,Waterfront Retreat w/ 2 Jetty – Close to Airport,158809093,True,1.0,City Of Kogarah,A01,-33.991560553783444,151.07810685042733,Entire home/apt,15,4.0,11.0,882.13,2,1125,324,42,4.86,4.62,2.33,|price_outlier_iqr,2025-12-12
 1230885539271467608,Ben & Mal's Private Studio,24526803,True,1.0,Rockdale,A01,-33.9418519,151.1112886,Entire home/apt,4,0.0,1.0,136.0,1,14,137,61,4.89,4.9,3.9,,2025-12-12
 708130204320443446,"Top Floor 1 Bedroom Apt with Views, Close To CBD",277740518,False,1.0,Sydney,A04,-33.87622,151.21949,Entire home/apt,2,1.0,1.0,319.75,5,180,351,72,4.71,4.55,1.84,,2025-12-12
 928448480536098610,A Comfy 2BR Apt Right Next to Darling Harbour,343442154,False,1.0,Sydney,A05,-33.8690146,151.2043704,Entire home/apt,6,2.0,3.0,508.6,2,365,82,16,4.19,3.94,0.64,,2025-12-12
 1411926040587756549,Darlinghurst gem: 3BD townhouse,693242867,False,1.0,Sydney,A04,-33.87746635697169,151.21434562497186,Entire home/apt,5,3.0,3.0,439.0,2,90,140,5,4.4,4.0,0.86,,2025-12-12
 989510169760153580,Chic Parisian style studio,69555651,True,1.0,Sydney,A04,-33.87574,151.2255889,Entire home/apt,2,0.0,1.0,316.11,1,365,121,42,4.9,4.86,1.58,,2025-12-12
 1063326989309552724,Spacious apartment in Darlo,10418173,True,1.0,Sydney,A04,-33.8781,151.21881,Entire home/apt,2,1.0,1.0,302.5,1,365,263,55,4.75,4.75,2.65,,2025-12-12
-948904618245492568,Hillview by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.61703,151.32841,Entire home/apt,8,4.0,6.0,1861.0,1,1125,248,8,5.0,5.0,0.34,,2025-12-12
+948904618245492568,Hillview by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.61703,151.32841,Entire home/apt,8,4.0,6.0,1861.0,1,1125,248,8,5.0,5.0,0.34,|price_outlier_iqr,2025-12-12
 768254618492855049,"Stylish ocean view cottage, couple’s retreat",4118810,True,1.0,Pittwater,A08,-33.6528946,151.3150748,Entire home/apt,2,1.0,1.0,537.0,1,60,329,128,4.98,4.98,3.48,,2025-12-12
 6855178,"Room in modern Apartment, private bathroom.",203537,True,1.0,Sydney,A03,-33.90642,151.212,Private room,1,1.0,1.0,146.07,7,100,0,66,4.91,4.86,0.52,,2025-12-12
-42779001,Florida Breeze - Palm Beach (5 min walk to beach),155073772,True,1.0,Pittwater,A08,-33.60203,151.32384,Entire home/apt,10,5.0,7.0,1340.89,2,1125,262,92,5.0,5.0,1.4,,2025-12-12
+42779001,Florida Breeze - Palm Beach (5 min walk to beach),155073772,True,1.0,Pittwater,A08,-33.60203,151.32384,Entire home/apt,10,5.0,7.0,1340.89,2,1125,262,92,5.0,5.0,1.4,|price_outlier_iqr,2025-12-12
 32618479,Spacious 2 Bdm & 2 Bath w/patio immaculate Apt.,67822267,True,1.0,Ku-Ring-Gai,A06,-33.75479,151.14989,Entire home/apt,4,2.0,3.0,364.33,3,125,228,62,4.87,4.85,0.78,,2025-12-12
-1105575456481154340,Aqua Whale Beach by TCC,100552972,False,0.91,Pittwater,A08,-33.60739,151.33365,Entire home/apt,8,4.0,5.0,1151.0,1,1125,348,2,4.5,5.0,0.13,,2025-12-12
-645951145600471570,Harry's on Pittwater,269689583,True,1.0,Pittwater,A08,-33.61977,151.31711,Entire home/apt,8,4.0,5.0,935.8,5,28,260,9,4.89,4.78,0.23,,2025-12-12
+1105575456481154340,Aqua Whale Beach by TCC,100552972,False,0.91,Pittwater,A08,-33.60739,151.33365,Entire home/apt,8,4.0,5.0,1151.0,1,1125,348,2,4.5,5.0,0.13,|price_outlier_iqr,2025-12-12
+645951145600471570,Harry's on Pittwater,269689583,True,1.0,Pittwater,A08,-33.61977,151.31711,Entire home/apt,8,4.0,5.0,935.8,5,28,260,9,4.89,4.78,0.23,|price_outlier_iqr,2025-12-12
 1382252470879760436,Unique Studio| Cozy Balcony| 12 mins walk to Train,652143569,True,1.0,Bankstown,A01,-33.9138679,151.0286886,Entire home/apt,2,1.0,1.0,251.0,4,365,163,22,4.91,4.68,2.62,,2025-12-12
 13085062,Manly moments | Waterfront laidback living,599001123,False,,Manly,A07,-33.80066,151.28632,Entire home/apt,4,2.0,2.0,370.2,1,1125,0,44,4.61,4.36,0.39,,2025-12-12
-985056318726546935,Rahiti by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.62246,151.32053,Entire home/apt,10,5.0,5.0,3074.0,1,1125,229,0,4.84,,1.46,,2025-12-12
+985056318726546935,Rahiti by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.62246,151.32053,Entire home/apt,10,5.0,5.0,3074.0,1,1125,229,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 1004008385507037076,Modern Apartment in Queenscliff,49469130,False,1.0,Warringah,A08,-33.78146278361125,151.28517531163942,Entire home/apt,2,1.0,1.0,456.5,2,365,202,38,5.0,4.97,1.51,,2025-12-12
 41386356,Modern Penthouse like Apartment with Ocean views,172417365,False,1.0,City Of Kogarah,A01,-33.96954,151.12968,Private room,2,1.0,1.0,140.0,1,29,146,46,4.87,4.74,1.29,,2025-12-12
 43439739,Spacious 3-Bed Family House with Courtyard,279001183,False,,Leichhardt,A05,-33.85741,151.18755,Entire home/apt,6,3.0,4.0,272.64,90,365,333,106,4.74,4.62,1.58,,2025-12-12
@@ -293,7 +293,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 25034271,Oasis Retreat in the leafy area,9910719,True,1.0,Ku-Ring-Gai,A06,-33.7162496,151.1706721,Private room,2,1.0,1.0,128.0,2,90,126,21,4.9,4.86,1.45,,2025-12-12
 1407009635509583504,2BR Near Hospital+Parking+Wi-Fi,483382639,False,0.88,Penrith,A06,-33.7567817,150.7102749,Entire home/apt,4,2.0,2.0,229.0,2,365,255,16,4.94,5.0,3.0,,2025-12-12
 704450973239138363,Neat 4 Bedroom in Catherine Fields,415152209,True,1.0,Camden,A01,-34.00565,150.75481,Entire home/apt,8,4.0,5.0,468.0,1,365,229,103,4.97,4.93,2.67,,2025-12-12
-1293931831323986424,NEW! Manly Beachfront Apartment,16357713,False,0.97,Manly,A08,-33.79568,151.28763,Entire home/apt,4,2.0,2.0,1769.75,5,365,96,2,5.0,5.0,0.85,,2025-12-12
+1293931831323986424,NEW! Manly Beachfront Apartment,16357713,False,0.97,Manly,A08,-33.79568,151.28763,Entire home/apt,4,2.0,2.0,1769.75,5,365,96,2,5.0,5.0,0.85,|price_outlier_iqr,2025-12-12
 1466493502944178265,Colebee /5 BR/Parkside/Close to the business park,549537782,True,1.0,Blacktown,A06,-33.71935,150.85002,Entire home/apt,10,5.0,5.0,593.41,2,60,175,11,4.82,4.64,4.52,,2025-12-12
 40626609,"Stylish, Modern 4 bedroom Apartment in Bondi Beach",14739318,True,1.0,Waverley,A03,-33.88954,151.26468,Entire home/apt,8,4.0,6.0,715.14,3,1125,104,107,4.81,4.8,1.47,,2025-12-12
 1212083669270174781,KozyGuru | Sydney CBD | Charming City Studio,209185597,False,1.0,Sydney,A02,-33.877956603206705,151.20640403000542,Entire home/apt,2,0.0,1.0,268.0,1,365,69,38,4.68,4.68,2.35,,2025-12-12
@@ -302,13 +302,13 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 757549707156750762,Rustic home by the sea -Bronte beach view,14766166,True,1.0,Waverley,A03,-33.90103,151.26649,Entire home/apt,2,1.0,1.0,269.32,2,28,62,210,4.95,4.94,5.9,,2025-12-12
 50608699,🤩PERFECT STAY 🏝2MIN WALK TO THE BEACH,231049250,True,1.0,Waverley,A04,-33.88934,151.27335,Entire home/apt,2,1.0,1.0,266.0,3,1125,131,212,4.95,4.95,3.92,,2025-12-12
 1003985749720042092,Freshwater Studio Apartment,31038965,True,1.0,Warringah,A08,-33.77037642181248,151.28347417646367,Entire home/apt,2,0.0,1.0,251.5,2,365,211,30,4.93,4.97,1.15,,2025-12-12
-781982727806956432,The Haven Beach House Avalon- 4 bedroom,3452873,False,1.0,Pittwater,A08,-33.62499,151.33733,Entire home/apt,7,4.0,6.0,1860.0,3,30,343,1,5.0,4.0,0.05,,2025-12-12
+781982727806956432,The Haven Beach House Avalon- 4 bedroom,3452873,False,1.0,Pittwater,A08,-33.62499,151.33733,Entire home/apt,7,4.0,6.0,1860.0,3,30,343,1,5.0,4.0,0.05,|price_outlier_iqr,2025-12-12
 40262026,Surry Hills Central Self-Cont Studio Fast WIFI,33325403,False,1.0,Sydney,A04,-33.88409,151.21034,Entire home/apt,2,0.0,1.0,238.67,3,30,79,12,4.83,4.5,0.16,,2025-12-12
 1454186101847211926,Stylish Comfort 1BR Apt w free P,31198613,False,1.0,Burwood,A05,-33.8697454,151.1055047,Entire home/apt,4,1.0,2.0,195.0,2,90,64,7,4.29,4.43,1.69,,2025-12-12
 1356240493254553714,A Better Stay for A Getaway•Family Friendly,232794735,True,0.99,Auburn,A05,-33.8490737,151.0741775,Entire home/apt,6,3.0,4.0,405.12,2,30,38,71,4.94,4.96,7.27,,2025-12-12
 21431589,Large Room at Convenient Location,58552173,False,1.0,Ryde,A06,-33.82239,151.10173,Private room,2,2.0,1.0,234.0,4,180,8,29,4.76,4.97,0.29,,2025-12-12
 31154180,Garden Guest House,232870418,True,1.0,Canada Bay,A05,-33.85035,151.15607,Entire home/apt,2,1.0,2.0,149.0,1,5,218,395,4.8,4.86,4.69,,2025-12-12
-1048436792461956984,"Relax in a stuido 30mins to CBD, 10mins to beaches",551352826,True,1.0,Sutherland Shire,A01,-34.0391076,151.1015241,Private room,2,1.0,1.0,295.95,1,365,339,48,4.77,4.79,1.99,,2025-12-12
+1048436792461956984,"Relax in a stuido 30mins to CBD, 10mins to beaches",551352826,True,1.0,Sutherland Shire,A01,-34.0391076,151.1015241,Private room,2,1.0,1.0,295.95,1,365,339,48,4.77,4.79,1.99,|price_outlier_iqr,2025-12-12
 9634683,1 Bedroom Sydney Waterfront Apartment,9363850,False,1.0,Canada Bay,A05,-33.84405,151.14499,Entire home/apt,2,1.0,1.0,316.2,7,1125,300,74,4.8,4.81,0.62,,2025-12-12
 972615146607501478,Suburban Two-bed Apartment with Parking and Patio,279001183,False,,Burwood,A05,-33.8697791,151.0949952,Entire home/apt,4,2.0,2.0,261.5,3,365,348,12,4.5,4.25,0.47,,2025-12-12
 822183831929383071,North Facing Two Storey One Bed Apartment,500117819,True,1.0,Ku-Ring-Gai,A06,-33.78614604881849,151.17848519649928,Entire home/apt,2,1.0,1.0,222.53,2,365,269,37,4.89,4.95,1.08,,2025-12-12
@@ -336,7 +336,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 808260085511793660,Ultra modern 1 bedroom plus study in North Sydney,108083073,False,0.91,North Sydney,A05,-33.8361614,151.2049396,Entire home/apt,2,1.0,1.0,336.5,4,365,310,3,5.0,4.33,0.14,,2025-12-12
 27716426,3 Executives Den - Suite 3 - Buxton House,50174640,False,0.89,Sydney,A02,-33.89316,151.2048,Entire home/apt,2,1.0,1.0,164.5,2,90,217,290,4.58,4.49,3.26,,2025-12-12
 22709315,Prime LOCATION!! 3BEDRM HOUSE near TRNSPRT&CITY,167498543,False,1.0,Sydney,A03,-33.89116,151.20719,Entire home/apt,8,3.0,6.0,263.0,3,1125,194,554,4.63,4.66,5.79,,2025-12-12
-1014688527147181548,Superb 2-Bed Apartment Facing Rose Bay Marina,279001183,False,,Woollahra,A07,-33.87116,151.25418,Entire home/apt,4,2.0,2.0,887.33,3,365,307,28,4.68,4.61,1.1,,2025-12-12
+1014688527147181548,Superb 2-Bed Apartment Facing Rose Bay Marina,279001183,False,,Woollahra,A07,-33.87116,151.25418,Entire home/apt,4,2.0,2.0,887.33,3,365,307,28,4.68,4.61,1.1,|price_outlier_iqr,2025-12-12
 1390994277669955543,"Ocean views, Light-filled Bondi Beach Apartment",101139031,False,1.0,Waverley,A03,-33.8958742,151.2724058,Entire home/apt,2,1.0,1.0,413.72,2,45,167,5,5.0,4.8,0.6,,2025-12-12
 14886923,"Large Studio with Harbour glimpses, City Fringe",33325403,False,1.0,Sydney,A04,-33.87543,151.21286,Entire home/apt,4,0.0,2.0,344.5,2,30,93,12,3.67,3.67,0.12,,2025-12-12
 764001169288131103,Self Contained Chic & Cozy Hotel Studio Apartment,70420210,False,,Sydney,A07,-33.8698606,151.2258031,Entire home/apt,2,1.0,1.0,262.0,2,365,143,225,4.93,4.94,6.13,,2025-12-12
@@ -374,7 +374,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1272927771409783751,Idyllic Unit in Little Manly - Steps From The Sand,477814690,False,1.0,Manly,A07,-33.80548661652532,151.28736638946373,Entire home/apt,4,1.0,1.0,209.5,2,180,99,22,4.64,4.67,1.82,,2025-12-12
 1130953988810290340,Amazing 2BR Apartment Near Barangaroo,548181087,True,1.0,Sydney,A05,-33.85980723344889,151.20203664387623,Entire home/apt,5,2.0,3.0,444.0,2,365,346,54,4.83,4.76,2.67,,2025-12-12
 50312026,Treetops Erskineville Apartment w Parking & Aircon,3723223,False,1.0,Sydney,A02,-33.905731201171875,151.18443298339844,Entire home/apt,4,1.0,2.0,286.67,3,90,117,94,4.77,4.46,1.71,,2025-12-12
-958375017390943446,Villa Lola,25014687,True,0.97,Waverley,A04,-33.87911,151.28137,Entire home/apt,8,4.0,4.0,9011.0,1,90,346,0,4.84,,1.46,,2025-12-12
+958375017390943446,Villa Lola,25014687,True,0.97,Waverley,A04,-33.87911,151.28137,Entire home/apt,8,4.0,4.0,9011.0,1,90,346,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 1096969381657558417,KozyGuru | Surry Hills | Prime Location & Parking,178352513,False,1.0,Sydney,A02,-33.88908,151.2066,Entire home/apt,2,1.0,1.0,309.5,2,365,72,62,4.76,4.79,2.85,,2025-12-12
 832062415278901074,"Surry Hills with views, pool gym plus parking",246066801,False,1.0,Sydney,A03,-33.8899,151.21084,Entire home/apt,2,1.0,1.0,364.0,2,45,314,30,4.63,4.77,0.89,,2025-12-12
 1302951975966093915,KozyGuru | Haymarket | Cozy 2-Bedroom Apartment,209185597,False,1.0,Sydney,A02,-33.87872647528805,151.20428167985287,Entire home/apt,5,2.0,3.0,372.0,1,365,63,47,4.72,4.4,3.98,,2025-12-12
@@ -391,7 +391,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1253214714109266177,2 Bed Top floor - 500m to Beach Belles@Bondi,653888447,True,1.0,Waverley,A04,-33.8868235,151.2715673,Entire home/apt,4,2.0,2.0,342.93,2,365,118,29,4.79,4.97,2.27,,2025-12-12
 28316991,Divine Workers Cottage in The Rocks,13751592,True,0.93,Sydney,A07,-33.85978,151.2074,Entire home/apt,6,3.0,3.0,530.0,3,365,218,198,4.87,4.76,2.31,,2025-12-12
 1165473457497645671,Ocean view luxury 3 bedroom home with balcony,428072521,True,0.99,Waverley,A03,-33.8905685,151.2828645,Entire home/apt,6,3.0,3.0,728.5,1,365,0,21,5.0,4.71,1.33,,2025-12-12
-917578675471771952,Clifton Modern Luxe,174307905,True,1.0,Mosman,A07,-33.83988,151.25031,Entire home/apt,8,4.0,4.0,5152.33,3,89,56,0,4.84,,1.46,,2025-12-12
+917578675471771952,Clifton Modern Luxe,174307905,True,1.0,Mosman,A07,-33.83988,151.25031,Entire home/apt,8,4.0,4.0,5152.33,3,89,56,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 16135006,Spacious and airy Bondi Beachside Garden Apartment,52988565,False,0.33,Waverley,A04,-33.88536,151.27651,Entire home/apt,7,3.0,4.0,555.0,7,730,262,10,4.7,4.8,0.09,,2025-12-12
 35654081,The Coogee View 2 bedroom Beachfront Serviced Apt,133826734,False,1.0,Randwick,A03,-33.9238,151.25554,Entire home/apt,4,2.0,3.0,532.0,2,28,282,1,4.0,5.0,0.02,,2025-12-12
 1236598127703704405,Family & pet friendly 2Br Apt,586752777,True,1.0,Waverley,A04,-33.8836399,151.2766115,Entire home/apt,4,2.0,2.0,492.0,1,365,299,5,4.4,4.6,0.39,,2025-12-12
@@ -405,25 +405,25 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1049625414897708048,Stunning one bed in the heart of Parramatta,108083073,False,0.91,Parramatta,A06,-33.81929,151.00835,Entire home/apt,2,1.0,1.0,266.5,3,365,364,99,4.9,4.89,5.17,,2025-12-12
 1322971456661775200,Penthouse Perfection with Private Rooftop Pool,16026854,True,0.98,Sydney,A02,-33.9022269,151.205964,Entire home/apt,4,2.0,2.0,493.29,21,365,0,5,5.0,4.8,0.5,,2025-12-12
 1356761462793616177,Central Sydney 2Bed with Outdoor Courtyard Home,307586449,False,1.0,Sydney,A07,-33.87415,151.22178,Entire home/apt,4,2.0,2.0,349.0,2,365,259,4,4.25,4.5,0.4,,2025-12-12
-48531716,Surry Hills Crown 15 min walk to CBD 30 to Harbour,41880620,True,1.0,Sydney,A04,-33.88378,151.21408,Entire home/apt,11,4.0,10.0,1261.0,2,180,221,79,4.9,4.82,1.39,,2025-12-12
+48531716,Surry Hills Crown 15 min walk to CBD 30 to Harbour,41880620,True,1.0,Sydney,A04,-33.88378,151.21408,Entire home/apt,11,4.0,10.0,1261.0,2,180,221,79,4.9,4.82,1.39,|price_outlier_iqr,2025-12-12
 1107879121561038811,KozyGuru | Haymarket | Stylish City Studio,209185597,False,1.0,Sydney,A02,-33.87819446186342,151.20450943601168,Entire home/apt,2,0.0,1.0,290.5,1,365,68,51,4.57,4.65,2.5,,2025-12-12
 1435875003327819557,Central Stn :Market City Mall& Chinatown Doorstep,516245163,False,0.86,Sydney,A02,-33.87764,151.20624,Entire home/apt,2,1.0,1.0,73.86,7,365,54,0,4.84,,1.46,,2025-12-12
 3890068,Large penthouse garden apartment,5020007,False,1.0,Sydney,A04,-33.88635,151.2098,Entire home/apt,2,1.0,2.0,376.6,5,30,3,4,4.75,5.0,0.03,,2025-12-12
-1230013296019386187,Beach and Boat,492553451,False,1.0,Mosman,A07,-33.81766590820089,151.23478547469873,Entire home/apt,8,4.0,8.0,1199.0,1,365,62,34,4.32,4.18,2.18,,2025-12-12
+1230013296019386187,Beach and Boat,492553451,False,1.0,Mosman,A07,-33.81766590820089,151.23478547469873,Entire home/apt,8,4.0,8.0,1199.0,1,365,62,34,4.32,4.18,2.18,|price_outlier_iqr,2025-12-12
 39545841,COOGEE BEACH HOUSE-100m to the beach-courtyard-AC,215158027,True,1.0,Randwick,A03,-33.92047,151.25365,Entire home/apt,4,2.0,3.0,500.0,2,720,278,244,4.89,4.82,3.34,,2025-12-12
 806632731383073402,Entire Granny Flat in Westleigh,496629607,False,1.0,Hornsby,A06,-33.71734,151.06455,Entire home/apt,4,2.0,2.0,205.0,1,730,235,183,4.8,4.9,5.22,,2025-12-12
-45737200,Farm House & Cabin on 30 acres for 16 guests,366684001,True,1.0,Hornsby,A06,-33.48405977564794,151.08484904480372,Entire home/apt,16,5.0,15.0,1040.5,2,60,316,181,4.92,4.85,2.95,,2025-12-12
+45737200,Farm House & Cabin on 30 acres for 16 guests,366684001,True,1.0,Hornsby,A06,-33.48405977564794,151.08484904480372,Entire home/apt,16,5.0,15.0,1040.5,2,60,316,181,4.92,4.85,2.95,|price_outlier_iqr,2025-12-12
 1055367215057508602,Beachside Townhouse footsteps from Mona Vale Beach,552823637,False,1.0,Pittwater,A08,-33.68049,151.31264,Entire home/apt,6,3.0,4.0,289.85,5,90,221,28,4.54,4.43,1.19,,2025-12-12
 886126805676631331,Private room with bunk bed - 5 min walk to Metro,49693964,True,0.87,The Hills Shire,A06,-33.73800312896585,150.9629057411193,Private room,3,1.0,2.0,84.0,3,92,226,30,4.83,4.8,0.95,,2025-12-12
 31570091,"Casablanca, Peaceful Couples Retreat, Avalon Beach",236645091,True,1.0,Pittwater,A08,-33.62438,151.3183,Entire home/apt,2,0.0,1.0,285.5,2,28,318,161,4.94,4.93,2.22,,2025-12-12
-936475857624663933,Florida Beach View,15492488,False,1.0,Pittwater,A08,-33.60157631141183,151.3293112175874,Entire home/apt,12,4.0,7.0,970.0,5,90,313,14,4.71,4.93,0.57,,2025-12-12
+936475857624663933,Florida Beach View,15492488,False,1.0,Pittwater,A08,-33.60157631141183,151.3293112175874,Entire home/apt,12,4.0,7.0,970.0,5,90,313,14,4.71,4.93,0.57,|price_outlier_iqr,2025-12-12
 3534385,"Sydney Sth West 2 bedrooms, min 2 Max 7dy NearM5M7",14298987,False,1.0,Liverpool,A01,-33.95667,150.8944,Entire home/apt,4,2.0,3.0,127.67,2,7,20,276,4.66,4.75,2.02,,2025-12-12
 1375909121491560548,Family Home In Blacktown -  Pet Friendly + Parking,151515739,True,1.0,Blacktown,A06,-33.76799542659753,150.91332792128514,Entire home/apt,10,4.0,6.0,384.58,2,365,348,17,4.82,4.76,2.15,,2025-12-12
 18416869,New Modern Clean House - Long Term Stays Welcome,127468532,True,1.0,Fairfield,A05,-33.86756,150.92017,Entire home/apt,6,2.0,5.0,211.0,2,730,321,285,4.82,4.88,2.72,,2025-12-12
 1204717128717656542,1Bed Apt100m from Epping Station,672812732,False,,Hornsby,A06,-33.7689667,151.0822202,Entire home/apt,3,1.0,2.0,274.0,7,365,76,23,4.74,4.48,1.39,,2025-12-12
 35178093,Elegant Design 2 Bed 2 Bath Apartment In Liverpool,129361793,False,1.0,Liverpool,A01,-33.92957,150.91762,Entire home/apt,6,2.0,3.0,280.0,2,180,21,71,4.58,4.61,0.89,,2025-12-12
 52992716,Macquarie Park Paradise (Garden View),135990101,True,1.0,Ryde,A06,-33.78075,151.11392,Entire home/apt,4,2.0,3.0,318.39,3,90,298,64,4.88,4.73,1.33,,2025-12-12
-50250835,Northview by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60552,151.33003,Entire home/apt,11,5.0,9.0,1767.0,2,1125,244,11,4.91,4.91,0.35,,2025-12-12
+50250835,Northview by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60552,151.33003,Entire home/apt,11,5.0,9.0,1767.0,2,1125,244,11,4.91,4.91,0.35,|price_outlier_iqr,2025-12-12
 1282281777014785192,Quaint Double Room - Private Spot,255319514,False,1.0,Bankstown,A01,-33.9412469,150.9781479,Private room,1,1.0,1.0,113.99000000000001,1,89,222,8,4.75,4.25,0.68,,2025-12-12
 1227111923159595200,AirSalect,308018824,False,1.0,Fairfield,A01,-33.8979417,150.9362645,Entire home/apt,5,1.0,4.0,182.59,2,28,82,8,5.0,4.88,0.55,,2025-12-12
 52974783,Cosy and Spacious 3-Bedroom Villa in St Marys,428889700,True,1.0,Penrith,A06,-33.76991,150.78763,Entire home/apt,5,3.0,4.0,233.94,21,90,176,55,4.65,4.71,1.2,,2025-12-12
@@ -445,17 +445,17 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1374127337198933321,Tranquil Waterfront Single Room - Stunning Views,548634954,False,1.0,Sutherland Shire,A01,-34.0613275,151.1071983,Private room,1,1.0,1.0,101.0,1,89,350,10,4.4,4.7,1.19,,2025-12-12
 1461306194501099767,Chic Double Room Central and Elegant,704767538,False,1.0,Rockdale,A01,-33.9596685,151.120816,Private room,2,1.0,1.0,102.0,1,89,325,5,4.0,4.0,1.46,,2025-12-12
 1028033138288211412,Spacious + stylish garden apartment,43169784,True,1.0,Warringah,A08,-33.75599058059737,151.28221404722032,Entire home/apt,3,1.0,1.0,287.33,7,365,232,22,4.91,4.81,0.93,,2025-12-12
-664653784151823906,Bungan Beach House,100552972,False,0.91,Pittwater,A08,-33.66077,151.32232,Entire home/apt,8,4.0,4.0,2931.86,1,1125,125,1,5.0,4.0,0.03,,2025-12-12
+664653784151823906,Bungan Beach House,100552972,False,0.91,Pittwater,A08,-33.66077,151.32232,Entire home/apt,8,4.0,4.0,2931.86,1,1125,125,1,5.0,4.0,0.03,|price_outlier_iqr,2025-12-12
 53497178,Freshwater Hideaway - Oasis by beach,433197266,False,1.0,Warringah,A08,-33.773766,151.286224,Entire home/apt,6,2.0,4.0,647.0,2,59,234,42,5.0,5.0,0.86,,2025-12-12
-760386934586325612,The Archer House,3046924,True,0.95,Pittwater,A08,-33.607195471311606,151.33056343271323,Entire home/apt,12,4.0,7.0,2644.0,1,1125,341,3,5.0,5.0,0.11,,2025-12-12
-1009034913301635469,Hot Tub & Heated Pool - The Perfect Family Escape,48362238,False,1.0,Pittwater,A08,-33.63791965496094,151.32649441304943,Entire home/apt,10,5.0,6.0,1341.0,3,365,305,9,5.0,4.89,0.42,,2025-12-12
+760386934586325612,The Archer House,3046924,True,0.95,Pittwater,A08,-33.607195471311606,151.33056343271323,Entire home/apt,12,4.0,7.0,2644.0,1,1125,341,3,5.0,5.0,0.11,|price_outlier_iqr,2025-12-12
+1009034913301635469,Hot Tub & Heated Pool - The Perfect Family Escape,48362238,False,1.0,Pittwater,A08,-33.63791965496094,151.32649441304943,Entire home/apt,10,5.0,6.0,1341.0,3,365,305,9,5.0,4.89,0.42,|price_outlier_iqr,2025-12-12
 33949414,"Unique Private Detached Apt, Air conditioned",256161584,True,0.98,Marrickville,A02,-33.91988,151.1634,Entire home/apt,2,1.0,1.0,186.58,2,730,195,146,4.86,4.79,1.8,,2025-12-12
 1479305462128925037,Oceanfront Escape Gordon's Bay,170985218,False,1.0,Randwick,A03,-33.9154992316452,151.2650183846558,Entire home/apt,4,2.0,2.0,605.0,2,365,43,7,4.86,4.71,3.0,,2025-12-12
 661922765387046263,Luxe Stay@ Wentworth Point /2 Bd / Parking / Views,258055539,True,1.0,Auburn,A05,-33.8458306,151.0565579,Entire home/apt,5,2.0,3.0,340.0,2,365,97,50,4.88,4.8,1.28,,2025-12-12
 1246937094481481010,A Cozy Single Bed Room,97470733,False,1.0,Marrickville,A02,-33.92594,151.16086,Private room,1,1.0,1.0,101.0,1,365,87,60,4.72,4.73,4.09,,2025-12-12
 1449143211190237928,'Amber' · 1 bedroom apt in Burwood + free parking,566841812,True,1.0,Burwood,A01,-33.87771,151.10172,Entire home/apt,4,1.0,2.0,267.0,2,365,77,17,5.0,5.0,3.27,,2025-12-12
 715674358687257738,2BR| Free Parking| 5 min to Airport|8 min to City,382384057,False,1.0,Botany Bay,A02,-33.92427,151.18606,Entire home/apt,5,2.0,3.0,254.5,1,365,249,267,4.8,4.77,6.79,,2025-12-12
-23789943,Surfbreak by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.63209,151.33509,Entire home/apt,10,5.0,6.0,4729.0,1,1125,214,3,5.0,5.0,0.04,,2025-12-12
+23789943,Surfbreak by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.63209,151.33509,Entire home/apt,10,5.0,6.0,4729.0,1,1125,214,3,5.0,5.0,0.04,|price_outlier_iqr,2025-12-12
 1163486772639123838,Tranquil Double Room - Next to Bus Station & Park,288743418,False,1.0,Burwood,A05,-33.8715904,151.1110798,Private room,2,1.0,1.0,109.87,1,89,70,20,4.2,3.95,1.09,,2025-12-12
 1376452554833574338,Modern 2BR near train- Food court. Free Parking,41011048,True,1.0,Botany Bay,A02,-33.9222378,151.1853831,Entire home/apt,6,2.0,2.0,319.53,3,1125,275,40,4.98,4.88,5.11,,2025-12-12
 750355191322540123,Heritage luxury - steps to Sydney!,163389090,True,1.0,North Sydney,A07,-33.83577,151.21175,Entire home/apt,6,3.0,3.0,714.0,1,30,216,45,4.89,4.91,1.37,,2025-12-12
@@ -468,9 +468,9 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1211519269823294008,Chic Studio B｜Oasis in the Heart of Darlinghurst,178352513,False,1.0,Sydney,A04,-33.880716867870454,151.21459836309705,Entire home/apt,2,0.0,1.0,190.0,1,365,23,36,4.67,4.78,2.24,,2025-12-12
 669027915848999282,Sydney Harbour View! Stylish 2BR Retreat + Parking,17237792,True,1.0,Woollahra,A07,-33.8738231,151.2356313,Entire home/apt,4,2.0,2.0,454.0,3,365,286,96,4.76,4.6,2.61,,2025-12-12
 1316967625105599135,Sunrise apartment in Bronte,51833676,False,1.0,Waverley,A03,-33.89947247140473,151.26652836591435,Entire home/apt,2,1.0,1.0,302.5,2,1125,308,27,4.7,4.74,2.35,,2025-12-12
-1349611926618323915,Surry Hills Crew Quarters – 8 Beds + Ensuite Bliss,676675455,False,0.9,Sydney,A02,-33.8895389,151.2037351,Private room,8,1.0,8.0,364.0,1,365,337,2,4.5,4.0,0.33,,2025-12-12
+1349611926618323915,Surry Hills Crew Quarters – 8 Beds + Ensuite Bliss,676675455,False,0.9,Sydney,A02,-33.8895389,151.2037351,Private room,8,1.0,8.0,364.0,1,365,337,2,4.5,4.0,0.33,|price_outlier_iqr,2025-12-12
 606967281208905542,QVB/Darling Harbour : 2-Br Apt in the Heart of CBD,5215877,True,,Sydney,A05,-33.86984,151.20323,Entire home/apt,6,2.0,4.0,510.11,2,365,222,235,4.71,4.54,5.29,,2025-12-12
-1089047001097279347,Bella Vita Bondi,7409213,True,1.0,Waverley,A03,-33.89022182599402,151.2700070807223,Entire home/apt,8,4.0,8.0,1146.5,1,1125,144,14,4.57,4.29,0.69,,2025-12-12
+1089047001097279347,Bella Vita Bondi,7409213,True,1.0,Waverley,A03,-33.89022182599402,151.2700070807223,Entire home/apt,8,4.0,8.0,1146.5,1,1125,144,14,4.57,4.29,0.69,|price_outlier_iqr,2025-12-12
 1437204556147414749,"The ""Maino""",371839373,True,1.0,Sydney,A02,-33.89391,151.20014,Private room,2,1.0,1.0,85.0,1,1125,337,25,4.8,4.72,4.12,,2025-12-12
 1154103878612967355,Embrace city conveniences,495657344,True,1.0,Sydney,A04,-33.8793467,151.208123,Entire home/apt,2,1.0,1.0,211.0,2,365,180,18,4.78,4.67,0.96,,2025-12-12
 958545826150303444,"Luxe 3BR CBD Skyhome: Free Parking, 2 King Beds",203909694,True,1.0,Sydney,A04,-33.87805948547614,151.2066429330927,Entire home/apt,8,3.0,5.0,625.94,2,365,128,77,4.94,4.86,2.79,,2025-12-12
@@ -484,7 +484,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1055366241793741975,Tamarama View Studio,4706929,False,1.0,Waverley,A03,-33.89734840614916,151.2678295276474,Entire home/apt,2,0.0,1.0,224.36,1,365,205,14,4.86,4.86,0.59,,2025-12-12
 16364076,"Central Apartment, City & Park Views",565274006,False,,Sydney,A04,-33.87658,151.21252,Entire home/apt,4,1.0,2.0,210.55,2,1125,98,499,4.61,4.58,4.58,,2025-12-12
 603081024652313055,Sunny 1 Bedroom City Apartment with Rooftop Pool,450830162,True,1.0,Sydney,A07,-33.86723,151.22475,Entire home/apt,2,1.0,1.0,397.43,3,28,67,69,5.0,4.93,1.59,,2025-12-12
-38163061,Luxe Three Bed Penthouse- Hotel In Heart Of City,91931192,True,1.0,Sydney,A04,-33.87907,151.20961,Entire home/apt,8,3.0,3.0,1084.0,1,1125,353,33,4.7,4.76,0.45,,2025-12-12
+38163061,Luxe Three Bed Penthouse- Hotel In Heart Of City,91931192,True,1.0,Sydney,A04,-33.87907,151.20961,Entire home/apt,8,3.0,3.0,1084.0,1,1125,353,33,4.7,4.76,0.45,|price_outlier_iqr,2025-12-12
 36568492,Luxe Three Bedroom Apartment In the Heart of CBD,91931192,True,1.0,Sydney,A04,-33.87907,151.20961,Entire home/apt,7,3.0,3.0,804.0,1,1125,352,6,4.5,4.5,0.08,,2025-12-12
 1441715022349065717,Pacific Chic Luxury Pad 2 - Beachfront Aircon Lift,30450332,True,0.96,Waverley,A03,-33.8900256,151.2750893,Entire home/apt,2,1.0,1.0,360.5,2,365,315,10,5.0,4.9,2.42,,2025-12-12
 36131641,Sydney City CBD 2 bed Close to darling harbour ICC,139218958,False,1.0,Sydney,A02,-33.87920379638672,151.2036590576172,Entire home/apt,6,2.0,3.0,448.0,5,1125,77,164,4.79,4.75,2.1,,2025-12-12
@@ -504,16 +504,16 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 4766604,"Bright Central Kings X apt. Cafes, CBD, clubs, fun",8998159,False,1.0,Sydney,A04,-33.87455,151.22334,Entire home/apt,3,1.0,2.0,255.63,2,200,151,270,4.57,4.48,2.02,,2025-12-12
 1278181834604418116,Walk Everywhere! 2BR Apt Next to Central Station,25678018,False,1.0,Sydney,A04,-33.8850108,151.2073928,Entire home/apt,4,2.0,2.0,322.96,2,7,39,40,4.48,4.25,2.96,,2025-12-12
 1441711647168905933,Elegant CBD Studio: King Bed or 2 Singles,203909694,True,1.0,Sydney,A04,-33.8777,151.20675,Entire home/apt,2,1.0,2.0,231.66,2,365,54,4,4.75,5.0,1.17,,2025-12-12
-44877741,Architecturally Designed Home,362711442,False,0.96,Sydney,A02,-33.89889,151.19427,Entire home/apt,6,3.0,3.0,1427.0,1,7,105,128,4.89,4.94,1.99,,2025-12-12
+44877741,Architecturally Designed Home,362711442,False,0.96,Sydney,A02,-33.89889,151.19427,Entire home/apt,6,3.0,3.0,1427.0,1,7,105,128,4.89,4.94,1.99,|price_outlier_iqr,2025-12-12
 46800871,Blue Twin Suite / A stone's throw to Bondi Beach,375054030,False,1.0,Waverley,A04,-33.88865,151.27029,Private room,2,1.0,2.0,216.0,1,365,358,19,4.58,4.89,0.42,,2025-12-12
 1447613078104705443,Garden apartment in Coogee,551442475,False,1.0,Randwick,A03,-33.92141,151.25287,Entire home/apt,2,1.0,2.0,233.0,3,365,3,3,5.0,5.0,0.59,,2025-12-12
 51027369,BONDI BEACH HOUSE an iconic boutique hotel - SUITE,172743601,True,1.0,Waverley,A03,-33.89239,151.27272,Private room,3,1.0,0.0,259.5,1,1125,294,15,4.93,4.93,0.37,,2025-12-12
-1259229781796379423,Waterfront CBD luxury 3Br best view & 2 Parkings,564406023,True,1.0,Sydney,A05,-33.862934,151.202125,Entire home/apt,6,3.0,3.0,1083.5,2,365,121,69,4.84,4.88,4.86,,2025-12-12
+1259229781796379423,Waterfront CBD luxury 3Br best view & 2 Parkings,564406023,True,1.0,Sydney,A05,-33.862934,151.202125,Entire home/apt,6,3.0,3.0,1083.5,2,365,121,69,4.84,4.88,4.86,|price_outlier_iqr,2025-12-12
 1421197566551885591,"Modern, bright Apartment",187352527,True,1.0,Sydney,A04,-33.8750666,151.2196272,Entire home/apt,3,2.0,2.0,363.0,1,365,234,46,4.91,4.96,8.96,,2025-12-12
 1007652018023071541,"Studio: Location, Location, Location!",167890579,False,0.7,Sydney,A02,-33.8880796,151.1968624,Entire home/apt,2,0.0,1.0,293.5,2,14,224,6,4.67,4.5,0.25,,2025-12-12
 1309239979968772939,Cozy Zetland 2bedroom condo with Pool Gym Parking,326403594,True,1.0,Sydney,A03,-33.9075685,151.2121348,Entire home/apt,4,2.0,2.0,329.9,4,365,329,12,4.83,4.83,1.22,,2025-12-12
 1253212127365353489,Studio minutes to Bondi Junction,377280078,True,0.77,Woollahra,A04,-33.88942,151.25384,Entire home/apt,2,1.0,1.0,169.27,4,180,21,19,4.79,4.74,1.35,,2025-12-12
-755425880655683142,Four Bed Tropical Oasis with Spa in Manly.,16357713,False,0.97,Manly,A08,-33.78851,151.28374,Entire home/apt,8,4.0,4.0,1217.73,7,365,190,2,5.0,5.0,0.08,,2025-12-12
+755425880655683142,Four Bed Tropical Oasis with Spa in Manly.,16357713,False,0.97,Manly,A08,-33.78851,151.28374,Entire home/apt,8,4.0,4.0,1217.73,7,365,190,2,5.0,5.0,0.08,|price_outlier_iqr,2025-12-12
 1080799294005788940,Central 1BR| Free Parking|  Near to DarlingHarbour,557710252,True,1.0,Sydney,A04,-33.87992,151.20699,Entire home/apt,4,1.0,2.0,308.12,1,365,134,83,4.84,4.71,3.73,,2025-12-12
 44234987,Elegant Paddington Sandstone Cottage with Parking,283498077,False,,Woollahra,A04,-33.884556,151.228928,Entire home/apt,6,3.0,4.0,346.62,3,90,281,109,4.81,4.62,1.67,,2025-12-12
 1039106180569679897,Stunning Terraced Home near the Sydney Opera House,548181087,True,1.0,Sydney,A05,-33.8608572,151.2031712,Entire home/apt,5,2.0,3.0,342.0,1,365,343,43,4.79,4.77,1.8,,2025-12-12
@@ -575,13 +575,13 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 9832917,"Luxury Private Garden Apt, Spacious, Bright& Style",14608495,True,1.0,Waverley,A03,-33.89334,151.26854,Entire home/apt,2,1.0,1.0,313.71,12,90,27,33,4.79,4.55,0.78,,2025-12-12
 42907264,Mollie’s Place,8355809,False,1.0,Sutherland Shire,A01,-34.08406448364258,151.15603637695312,Entire home/apt,6,3.0,4.0,354.0,2,140,62,148,4.97,4.97,2.12,,2025-12-12
 42668579,Cliff Top Hide-away,339918619,False,1.0,Warringah,A08,-33.76244,151.3002,Entire home/apt,3,1.0,1.0,436.5,2,28,26,2,5.0,5.0,0.03,,2025-12-12
-972682323407120835,On Oaks,401647373,False,1.0,Sutherland Shire,A01,-34.0686139,151.1540586,Entire home/apt,8,4.0,4.0,1001.0,7,28,155,3,5.0,5.0,0.13,,2025-12-12
+972682323407120835,On Oaks,401647373,False,1.0,Sutherland Shire,A01,-34.0686139,151.1540586,Entire home/apt,8,4.0,4.0,1001.0,7,28,155,3,5.0,5.0,0.13,|price_outlier_iqr,2025-12-12
 620466249826392405,Cottage Retreat,363400466,False,1.0,Pittwater,A08,-33.69553,151.29081,Entire home/apt,4,2.0,0.0,263.61,3,1125,299,18,4.89,5.0,0.42,,2025-12-12
-7714890,The Beach Front,26486483,False,1.0,Hornsby,A08,-33.53949,151.24241,Entire home/apt,8,4.0,8.0,1056.0,2,30,335,65,5.0,4.88,0.55,,2025-12-12
+7714890,The Beach Front,26486483,False,1.0,Hornsby,A08,-33.53949,151.24241,Entire home/apt,8,4.0,8.0,1056.0,2,30,335,65,5.0,4.88,0.55,|price_outlier_iqr,2025-12-12
 1248062970178347131,2 bedroom guest suite in a Tropical setup,652642783,True,1.0,The Hills Shire,A06,-33.7618257,150.9829941,Entire home/apt,5,2.0,2.0,256.76,1,1125,308,33,4.88,4.91,2.22,,2025-12-12
 1433763664830613204,Peaceful & Central Stay - Private Double Room,255319514,False,1.0,Liverpool,A01,-33.916413,150.9168358,Private room,1,1.0,1.0,120.0,1,89,30,2,3.5,3.5,0.33,,2025-12-12
 25556685,Ideal Location with Private Courtyard-Entire space,177290576,True,1.0,Ku-Ring-Gai,A06,-33.7781,151.19783,Entire home/apt,2,1.0,1.0,181.67,3,365,107,225,4.92,4.99,2.47,,2025-12-12
-1064717401033565498,Pacific Ocean Masterpiece,108524908,True,1.0,Warringah,A08,-33.7282418,151.2955976,Entire home/apt,8,4.0,5.0,1783.0,2,365,304,38,4.95,4.89,1.73,,2025-12-12
+1064717401033565498,Pacific Ocean Masterpiece,108524908,True,1.0,Warringah,A08,-33.7282418,151.2955976,Entire home/apt,8,4.0,5.0,1783.0,2,365,304,38,4.95,4.89,1.73,|price_outlier_iqr,2025-12-12
 1367183427510063162,KozyGuru | Cobbitty | Cozy One-Bedroom Retreat,214739182,False,1.0,Camden,A01,-33.9937,150.72766,Entire home/apt,3,1.0,2.0,225.5,2,365,78,2,5.0,5.0,0.26,,2025-12-12
 1273544255625960760,Paradiso on Dangar,167087098,False,1.0,Hornsby,A08,-33.53684,151.23822,Entire home/apt,7,4.0,4.0,650.5,2,6,47,2,5.0,5.0,0.25,,2025-12-12
 4034847,Stylish modern house with sunny garden: Super Host,12300880,False,1.0,Pittwater,A08,-33.69035,151.30319,Entire home/apt,2,1.0,1.0,235.67,3,31,168,142,4.87,4.94,1.06,,2025-12-12
@@ -603,8 +603,8 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1099580166698991702,Coastal Corner—Contemporary Chic by the Beach,24158100,True,1.0,Warringah,A08,-33.7745026,151.2800857,Entire home/apt,4,2.0,2.0,442.0,2,90,335,23,4.74,4.87,1.07,,2025-12-12
 1110558174738991107,20% off Private studio w courtyard,124535903,False,1.0,Bankstown,A01,-33.95248196692984,151.03386025250708,Entire home/apt,2,1.0,1.0,139.8,2,90,240,29,4.66,4.76,1.37,,2025-12-12
 52482115,Bundeena Bungalow - idyllic beach shack,147697,True,1.0,Sutherland Shire,A01,-34.08702,151.15618,Entire home/apt,6,3.0,3.0,585.5,2,31,249,63,4.89,4.94,1.27,,2025-12-12
-1359229423475939550,Ridgedale House & Cottage,371115048,False,1.0,Pittwater,A08,-33.6537457,151.2852734,Entire home/apt,11,5.0,6.0,2346.17,7,1125,310,0,4.84,,1.46,,2025-12-12
-736556774394150724,Stunning 5 bed beach front property in Bundeena,145762281,False,1.0,Sutherland Shire,A01,-34.0834,151.15357,Entire home/apt,10,5.0,7.0,2125.5,3,21,223,15,5.0,4.87,0.42,,2025-12-12
+1359229423475939550,Ridgedale House & Cottage,371115048,False,1.0,Pittwater,A08,-33.6537457,151.2852734,Entire home/apt,11,5.0,6.0,2346.17,7,1125,310,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
+736556774394150724,Stunning 5 bed beach front property in Bundeena,145762281,False,1.0,Sutherland Shire,A01,-34.0834,151.15357,Entire home/apt,10,5.0,7.0,2125.5,3,21,223,15,5.0,4.87,0.42,|price_outlier_iqr,2025-12-12
 1081406879688901677,2 Bedroom Penthouse Level Beach View 1003,133826734,False,1.0,Randwick,A03,-33.92390904301727,151.25571797527516,Entire home/apt,4,2.0,3.0,819.0,2,28,276,2,5.0,5.0,0.39,,2025-12-12
 9239802,Cozy Art Deco Designer Apartment (Kings Cross),10802696,True,1.0,Sydney,A04,-33.87611,151.227,Entire home/apt,2,1.0,1.0,211.5,2,90,261,200,4.67,4.74,1.67,,2025-12-12
 1338729243834331185,Urban sun in Broadway Sydney,339797336,True,1.0,Sydney,A02,-33.8846894,151.1963029,Entire home/apt,4,1.0,1.0,259.5,2,90,58,43,4.91,4.88,4.1,,2025-12-12
@@ -621,18 +621,18 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 42844425,Premium Room with Kitchen,341180989,False,0.6,Sydney,A05,-33.87266,151.20425,Entire home/apt,2,1.0,1.0,254.0,1,1125,357,49,4.1,4.35,0.72,,2025-12-12
 1476653756835308029,Harbour Hideaway in the CBD,571680119,True,1.0,Sydney,A05,-33.86948,151.20348,Entire home/apt,5,2.0,3.0,388.0,1,365,11,5,4.6,4.8,1.29,,2025-12-12
 788567435017982982,"TOP location in CBD, East to go Bondi & OperaHouse",672812732,False,,Sydney,A04,-33.8781752,151.214856,Entire home/apt,8,3.0,3.0,542.06,1,365,129,109,4.61,4.64,3.02,,2025-12-12
-36570049,Luxe Three Bedroom Penthouse - In the Heart Of CBD,91931192,True,1.0,Sydney,A04,-33.87907,151.20961,Entire home/apt,8,3.0,3.0,1084.0,2,999,352,6,5.0,5.0,0.1,,2025-12-12
+36570049,Luxe Three Bedroom Penthouse - In the Heart Of CBD,91931192,True,1.0,Sydney,A04,-33.87907,151.20961,Entire home/apt,8,3.0,3.0,1084.0,2,999,352,6,5.0,5.0,0.1,|price_outlier_iqr,2025-12-12
 644762600158008342,Sydney CBD 1 Bed Apt - Large City Park Views,463214842,False,1.0,Sydney,A04,-33.8774,151.21297,Entire home/apt,4,1.0,0.0,397.0,1,180,128,12,4.25,4.08,0.28,,2025-12-12
 1076010103009765472,Sydney Chinatown 2BR 053 Walk to Darling Harbour,510052112,False,1.0,Sydney,A02,-33.87776465540469,151.20204446980327,Entire home/apt,5,2.0,0.0,356.95,1,365,79,61,4.85,4.72,2.68,,2025-12-12
 578662976333598023,Leafy Luxury in Paddington with Two Parking Spaces,150352624,False,1.0,Woollahra,A04,-33.881882,151.221085,Entire home/apt,6,3.0,2.0,399.5,90,365,5,13,5.0,4.92,0.29,,2025-12-12
 699068930843341981,"Walk to Village + Beach in 5 minutes, comfy studio",125941105,False,,Pittwater,A08,-33.63314,151.3304,Entire home/apt,3,1.0,2.0,730.47,1,90,0,49,4.92,4.84,1.3,,2025-12-12
 640939432455451589,Bronte beachfront private room,851512,True,1.0,Waverley,A03,-33.90374,151.26758,Private room,2,1.0,1.0,216.0,90,365,45,51,4.98,5.0,1.39,,2025-12-12
-17909413,Jet Flamingo: The Beach House,10137646,True,1.0,Waverley,A04,-33.88875,151.27449,Entire home/apt,16,6.0,16.0,1404.0,90,365,241,128,4.74,4.59,1.24,,2025-12-12
+17909413,Jet Flamingo: The Beach House,10137646,True,1.0,Waverley,A04,-33.88875,151.27449,Entire home/apt,16,6.0,16.0,1404.0,90,365,241,128,4.74,4.59,1.24,|price_outlier_iqr,2025-12-12
 1000174412352286237,The Galaxy Lounge - Beach Apartment,26441789,False,1.0,Waverley,A03,-33.8973707,151.2696542,Entire home/apt,4,2.0,2.0,379.5,5,400,252,28,4.68,4.43,1.16,,2025-12-12
 25684978,Elegant Micro Room - Queen Bed,191986417,False,1.0,Sydney,A04,-33.87923,151.20946,Private room,2,1.0,1.0,179.0,1,1125,353,77,4.18,4.21,0.9,,2025-12-12
 912563324119834567,Charming Family Home - walking distance to Manly,4612396,False,,Manly,A08,-33.795229874773185,151.2641190520258,Entire home/apt,5,3.0,2.0,447.57,10,28,0,9,5.0,5.0,0.34,,2025-12-12
 919241076943194062,Elegant & Convenient New House at Leppington,322665025,False,1.0,Camden,A01,-33.968898580046634,150.804110176491,Entire home/apt,10,5.0,2.0,610.0,2,1125,106,71,4.73,4.56,2.45,,2025-12-12
-949522331934969093,Stylish Freshwater Beach Cottage with Pool,16395665,False,,Warringah,A08,-33.775447436541235,151.28718134140277,Entire home/apt,7,1.0,2.0,1312.43,5,14,59,1,5.0,5.0,0.09,,2025-12-12
+949522331934969093,Stylish Freshwater Beach Cottage with Pool,16395665,False,,Warringah,A08,-33.775447436541235,151.28718134140277,Entire home/apt,7,1.0,2.0,1312.43,5,14,59,1,5.0,5.0,0.09,|price_outlier_iqr,2025-12-12
 793989299094021037,VIEWS VIEWS VIEWS Bondi Beach Front,493594674,True,1.0,Waverley,A03,-33.8916322,151.273153,Entire home/apt,2,1.0,1.0,450.0,2,365,136,144,4.85,4.79,4.06,,2025-12-12
 1277047546682616358,3-bedroom house(Parties not permitted),508456368,False,1.0,Canada Bay,A05,-33.826674078467995,151.09292556521527,Entire home/apt,8,3.0,2.0,312.0,3,365,130,8,4.25,4.25,0.67,,2025-12-12
 14730268,Sound of Waves on Bondi,2450066,True,1.0,Waverley,A03,-33.89466857910156,151.27349853515625,Entire home/apt,2,1.0,1.0,492.2,5,89,344,30,4.57,4.47,0.27,,2025-12-12
@@ -655,14 +655,14 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 977892321018049557,Luxe Central Studio 4 - Close to Randwick,2450066,True,1.0,Randwick,A03,-33.9395919,151.2374303,Entire home/apt,2,0.0,1.0,159.3,5,89,337,8,4.88,4.88,0.3,,2025-12-12
 46439061,Manly Beach Studio with Balcony,364605840,True,1.0,Manly,A07,-33.79711,151.28528,Entire home/apt,2,0.0,2.0,232.33,3,30,33,70,4.91,4.94,1.15,,2025-12-12
 1356262512004501413,Granny Flat - Beachside Escape,45485305,False,0.75,Randwick,A03,-33.97778,151.24254,Entire home/apt,2,0.0,1.0,162.62,2,15,131,10,5.0,5.0,1.12,,2025-12-12
-711117849273189400,King’s Deluxe,185126628,False,0.93,Marrickville,A02,-33.90105,151.1779,Entire home/apt,12,5.0,2.0,2306.0,1,365,87,15,4.67,4.87,0.38,,2025-12-12
-18377145,Swell by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.59539,151.3232,Entire home/apt,10,5.0,5.0,3447.0,1,1125,247,0,4.84,,1.46,,2025-12-12
+711117849273189400,King’s Deluxe,185126628,False,0.93,Marrickville,A02,-33.90105,151.1779,Entire home/apt,12,5.0,2.0,2306.0,1,365,87,15,4.67,4.87,0.38,|price_outlier_iqr,2025-12-12
+18377145,Swell by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.59539,151.3232,Entire home/apt,10,5.0,5.0,3447.0,1,1125,247,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 1244666286763116285,Ultra modern light-filled inner city pad,974617,True,1.0,Leichhardt,A02,-33.877984,151.1623384,Entire home/apt,2,1.0,1.0,250.33,2,365,129,32,4.97,4.94,2.29,,2025-12-12
-43539916,"Luxurious home w flat walk to beach, parks & cafes",122131600,False,1.0,Warringah,A08,-33.78085,151.27725,Entire home/apt,9,5.0,5.0,1345.0,3,90,148,36,4.92,4.5,0.54,,2025-12-12
+43539916,"Luxurious home w flat walk to beach, parks & cafes",122131600,False,1.0,Warringah,A08,-33.78085,151.27725,Entire home/apt,9,5.0,5.0,1345.0,3,90,148,36,4.92,4.5,0.54,|price_outlier_iqr,2025-12-12
 1176892799378759776,Botany  studio near Airport/Bay,522055232,False,1.0,Botany Bay,A02,-33.9437534,151.1953299,Entire home/apt,2,1.0,1.0,183.5,2,365,149,26,4.77,4.77,1.48,,2025-12-12
 1441657117979221997,Manly Townhouse Walk to Beaches and Wharf,21383613,False,1.0,Manly,A07,-33.8032,151.28653,Entire home/apt,2,2.0,2.0,563.33,3,6,256,1,5.0,5.0,0.68,,2025-12-12
 1216420900102647114,Spacious Highrise Condo - 4 Beds 2 baths (Parking),326403594,True,1.0,Auburn,A05,-33.8252913,151.0790625,Entire home/apt,4,2.0,2.0,384.98,4,365,70,4,4.5,5.0,0.26,,2025-12-12
-594637246703292533,Panorama Darling Point,7409213,True,1.0,Woollahra,A07,-33.86759802720514,151.23900813449674,Entire home/apt,5,3.0,3.0,1216.5,1,1125,1,10,5.0,5.0,0.24,,2025-12-12
+594637246703292533,Panorama Darling Point,7409213,True,1.0,Woollahra,A07,-33.86759802720514,151.23900813449674,Entire home/apt,5,3.0,3.0,1216.5,1,1125,1,10,5.0,5.0,0.24,|price_outlier_iqr,2025-12-12
 1438449298167322797,1bedroom cozy epping APT,48015044,False,1.0,Hornsby,A06,-33.77438,151.08445,Entire home/apt,2,1.0,1.0,218.5,2,365,30,9,4.78,4.44,1.73,,2025-12-12
 49582224,balcony facing the streets.,390593071,True,1.0,Parramatta,A05,-33.85574,150.98494,Private room,1,1.0,1.0,80.0,2,365,359,2,4.5,5.0,0.09,,2025-12-12
 15327450,Bondi Beach apartment with Incredible Water Views,28304255,False,0.97,Waverley,A03,-33.89468,151.26959,Entire home/apt,2,1.0,1.0,369.0,1,1125,254,324,4.7,4.69,2.96,,2025-12-12
@@ -689,7 +689,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1256223792174289167,Verandah @ West Pennant Hills - king size bed,520808457,True,1.0,Hornsby,A06,-33.739359157543866,151.05204597115517,Entire home/apt,5,2.0,2.0,285.5,2,1125,274,18,5.0,4.94,1.25,,2025-12-12
 1267140176648617338,Luxe 5-BR Hideaway with Pool near Killara Station,474609492,False,1.0,Ku-Ring-Gai,A06,-33.7635325,151.174327,Entire home/apt,10,5.0,5.0,666.0,2,45,76,10,4.3,4.9,0.8,,2025-12-12
 755443345304573311,Hygge on Emerald,36232491,True,1.0,Warringah,A08,-33.70761,151.30223,Entire home/apt,6,3.0,3.0,313.83,2,90,171,70,4.99,5.0,1.96,,2025-12-12
-4895977,Interior Designers home & mineral swimming pool,18286636,False,1.0,Manly,A08,-33.78281,151.23947,Entire home/apt,7,3.0,7.0,1203.14,7,60,348,39,4.85,4.72,0.29,,2025-12-12
+4895977,Interior Designers home & mineral swimming pool,18286636,False,1.0,Manly,A08,-33.78281,151.23947,Entire home/apt,7,3.0,7.0,1203.14,7,60,348,39,4.85,4.72,0.29,|price_outlier_iqr,2025-12-12
 49327233,Fully renovated guesthouse in Engadine,397934619,True,1.0,Sutherland Shire,A01,-34.05281,151.00845,Entire home/apt,3,1.0,2.0,143.0,2,30,204,80,4.84,4.94,1.42,,2025-12-12
 48887795,Gorgeous Beachside Apartment 2 mins walk to Beach,15240353,False,0.75,Warringah,A08,-33.76841,151.29359,Entire home/apt,4,2.0,2.0,421.0,5,30,57,46,4.72,4.72,0.81,,2025-12-12
 9164562,"Bright 2BR near Freshwater Beach, 2-min walk!",7209717,True,1.0,Warringah,A08,-33.77794,151.28769,Entire home/apt,4,2.0,2.0,274.5,2,1125,279,148,4.75,4.65,1.3,,2025-12-12
@@ -700,7 +700,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1219998050072627617,0 Sydney Olympic park/ homebush / modern 3bedroom,51166872,False,1.0,Canada Bay,A05,-33.86486,151.09005,Entire home/apt,6,3.0,4.0,212.64,3,365,143,58,4.62,4.48,3.6,,2025-12-12
 1271650872748347094,"Cosy home, Lower North Shore (2 stops to the CBD)",51035152,False,0.93,North Sydney,A05,-33.82403166658121,151.19901827293927,Entire home/apt,5,2.0,3.0,377.0,2,365,88,4,4.5,4.0,0.29,,2025-12-12
 10497704,A quiet haven between two villages with bathroom,37006544,True,1.0,Leichhardt,A05,-33.85541,151.17125,Private room,2,1.0,1.0,177.0,2,60,158,187,4.88,4.84,1.55,,2025-12-12
-53081646,City escape - 4 bed home + granny flat and pool,18063831,False,0.67,Randwick,A03,-33.9304,151.23459,Entire home/apt,11,5.0,5.0,2283.0,5,21,281,3,5.0,5.0,0.08,,2025-12-12
+53081646,City escape - 4 bed home + granny flat and pool,18063831,False,0.67,Randwick,A03,-33.9304,151.23459,Entire home/apt,11,5.0,5.0,2283.0,5,21,281,3,5.0,5.0,0.08,|price_outlier_iqr,2025-12-12
 760925713501138365,World Class Location + Harbour Walk+ Bridge View,487334831,True,1.0,Sydney,A05,-33.85615,151.20192,Entire home/apt,5,2.0,5.0,406.35,5,28,255,248,4.94,4.93,6.64,,2025-12-12
 20727256,Private room with king bed and ensuite bathroom,2855698,True,1.0,Sydney,A04,-33.88084,151.21266,Private room,2,2.0,1.0,137.0,2,1125,250,131,4.72,4.53,1.31,,2025-12-12
 852435548154997585,"room, double bed & ensuite",33786992,False,0.99,Leichhardt,A02,-33.88629,151.17113,Private room,2,1.0,1.0,130.0,1,365,208,2,5.0,5.0,1.25,,2025-12-12
@@ -712,7 +712,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 966459209031979670,Manly at the beach 1,492534503,False,1.0,Manly,A08,-33.795724331273014,151.28655732362282,Entire home/apt,2,1.0,1.0,498.5,2,365,155,55,4.75,4.67,2.0,,2025-12-12
 15941085,"Manly Beach 1920s Apartment with Garden, Fully Renovated.",103376234,True,1.0,Manly,A08,-33.793914794921875,151.28070068359375,Entire home/apt,6,3.0,3.0,692.33,3,50,224,178,4.98,4.89,1.64,,2025-12-12
 649754355025562262,Manly beach haven 10 min walk to beach and harbour,243829239,True,1.0,Manly,A08,-33.79357,151.27909,Entire home/apt,6,2.0,4.0,448.26,7,1125,276,77,5.0,5.0,1.82,,2025-12-12
-754450849274421907,Bayview House - Luxury Resort-Style Family Retreat,116990209,False,0.9,Sutherland Shire,A01,-34.05873,151.14171,Entire home/apt,8,4.0,5.0,1350.71,5,1125,364,15,4.87,4.8,0.41,,2025-12-12
+754450849274421907,Bayview House - Luxury Resort-Style Family Retreat,116990209,False,0.9,Sutherland Shire,A01,-34.05873,151.14171,Entire home/apt,8,4.0,5.0,1350.71,5,1125,364,15,4.87,4.8,0.41,|price_outlier_iqr,2025-12-12
 31418663,Character Filled CBD Apartment with Pool & Gym,97424788,True,0.99,Sydney,A05,-33.874073,151.197281,Entire home/apt,2,0.0,1.0,239.5,3,365,354,170,4.72,4.64,2.06,,2025-12-12
 13530122,Chic City Pad with Leafy Outlook,21891204,True,0.92,Sydney,A07,-33.86986,151.22575,Entire home/apt,2,0.0,1.0,353.76,1,1124,281,626,4.88,4.92,5.45,,2025-12-12
 936726851854528801,A lovely & tranquil place to enjoy & relax,525993972,True,1.0,The Hills Shire,A06,-33.68107266015087,150.95670220460528,Entire home/apt,3,1.0,2.0,172.0,2,365,266,85,4.92,4.94,3.4,,2025-12-12
@@ -720,13 +720,13 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 968715044258739094,River view 1Bed Apt with parking close to ferry,25678018,False,1.0,Auburn,A06,-33.8234626,151.0780582,Entire home/apt,3,1.0,1.0,210.67,3,15,52,48,4.73,4.69,1.76,,2025-12-12
 761135858803470586,St.Leonards sophistication | Relaxed living,599001123,False,,North Sydney,A05,-33.8244614,151.1987686,Entire home/apt,4,2.0,2.0,484.67,5,1125,114,12,4.33,4.08,0.33,,2025-12-12
 1024796012904660569,Your home by the ocean.,539450901,True,1.0,Waverley,A04,-33.8885501,151.278175,Entire home/apt,4,1.0,2.0,249.0,1,720,325,126,4.88,4.83,5.25,,2025-12-12
-1388807778482751105,Woollahra Terrace,3046924,True,0.95,Waverley,A03,-33.889919115703876,151.24509117286655,Entire home/apt,8,4.0,4.0,2307.0,1,1125,334,0,4.84,,1.46,,2025-12-12
+1388807778482751105,Woollahra Terrace,3046924,True,0.95,Waverley,A03,-33.889919115703876,151.24509117286655,Entire home/apt,8,4.0,4.0,2307.0,1,1125,334,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 1444662762884811457,Stylish Sydney CBD Studio,701558694,False,1.0,Sydney,A04,-33.87664604504118,151.2122912232788,Entire home/apt,2,1.0,1.0,411.0,1,365,294,19,4.95,4.84,4.32,,2025-12-12
 53707772,Awesome Aussie Beach Bungalow,4420304,True,1.0,Pittwater,A08,-33.67509,151.31049,Entire home/apt,2,0.0,1.0,388.0,3,60,264,48,4.79,4.75,1.12,,2025-12-12
 1385241804022892669,"Urban Hideout, Annandale Isyd",7409213,True,1.0,Leichhardt,A02,-33.8858723134007,151.17152854367254,Entire home/apt,4,2.0,2.0,710.0,1,1125,353,2,5.0,4.5,0.24,,2025-12-12
 764954118646704831,1BR + Parking | Close to Airport | Train & CBD,488573694,True,1.0,Rockdale,A01,-33.9288174,151.1546571,Entire home/apt,2,1.0,1.0,290.0,2,20,51,83,4.89,4.88,2.31,,2025-12-12
-993733001145574736,THE Beach Bungalow by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.604402728575835,151.3293610027472,Entire home/apt,8,4.0,5.0,1557.0,1,1125,258,0,4.84,,1.46,,2025-12-12
-1010424481310048495,Luxurious Beach House - The Perfect Entertainer.,82223875,False,1.0,Sutherland Shire,A01,-34.057695,151.1556016,Entire home/apt,8,4.0,4.0,1826.0,5,180,351,6,5.0,5.0,0.25,,2025-12-12
+993733001145574736,THE Beach Bungalow by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.604402728575835,151.3293610027472,Entire home/apt,8,4.0,5.0,1557.0,1,1125,258,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
+1010424481310048495,Luxurious Beach House - The Perfect Entertainer.,82223875,False,1.0,Sutherland Shire,A01,-34.057695,151.1556016,Entire home/apt,8,4.0,4.0,1826.0,5,180,351,6,5.0,5.0,0.25,|price_outlier_iqr,2025-12-12
 980179437564531934,Close To CBD And Bondi,103950350,False,0.67,Woollahra,A04,-33.8799081,151.2577646,Private room,4,4.0,5.0,103.0,1,365,237,1,4.0,5.0,0.04,,2025-12-12
 53663339,Stylish Deco apartment minutes from Bondi Beach,91006075,True,1.0,Waverley,A04,-33.88681,151.27674,Entire home/apt,6,2.0,3.0,651.8,5,365,268,9,5.0,5.0,0.2,,2025-12-12
 1244702599225114285,P Spacious 2 Bedroom Apartment by Olympic Park,51166872,False,1.0,Strathfield,A05,-33.86225,151.08043,Entire home/apt,5,2.0,2.0,173.33,3,365,223,36,4.64,4.67,2.91,,2025-12-12
@@ -756,10 +756,10 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 930967562130028197,Cozy hotel studio near Bondi Junction station B01,91961414,False,1.0,Waverley,A03,-33.89309,151.24789,Private room,3,0.0,2.0,149.0,1,365,95,63,4.68,4.78,2.22,,2025-12-12
 1120648561928017131,Inner City Retreat 1BD Pyrmont.,407392360,False,1.0,Sydney,A02,-33.87483130862725,151.19807848128764,Entire home/apt,2,1.0,1.0,223.0,2,90,29,28,4.32,4.57,1.4,,2025-12-12
 748165730965660811,"Beachfront Living, Manly Beach, Sydney",165939156,False,1.0,Manly,A08,-33.7963228,151.2864202,Entire home/apt,4,1.0,2.0,359.33,3,90,201,24,4.71,4.58,0.67,,2025-12-12
-5203848,The Freshwater,21114306,False,0.9,Warringah,A08,-33.774,151.28786,Entire home/apt,8,4.0,4.0,1741.14,90,730,358,7,5.0,4.71,0.06,,2025-12-12
+5203848,The Freshwater,21114306,False,0.9,Warringah,A08,-33.774,151.28786,Entire home/apt,8,4.0,4.0,1741.14,90,730,358,7,5.0,4.71,0.06,|price_outlier_iqr,2025-12-12
 1264834326982127752,Private Single Room - Central Location,255319514,False,1.0,Ryde,A06,-33.8107895,151.1024049,Private room,1,1.0,1.0,91.0,1,89,225,9,4.0,3.78,0.65,,2025-12-12
 902638425823076230,"001.HV small comfortable apts, 1 min to stations",501607076,True,1.0,City Of Kogarah,A01,-33.96802,151.09961,Entire home/apt,4,2.0,3.0,289.86,2,365,33,8,4.75,4.5,0.31,,2025-12-12
-1122837433440081482,Arc Bondi Beach,569499308,False,,Waverley,A04,-33.88716,151.26764,Entire home/apt,9,4.0,0.0,4189.75,7,365,228,0,4.84,,1.46,,2025-12-12
+1122837433440081482,Arc Bondi Beach,569499308,False,,Waverley,A04,-33.88716,151.26764,Entire home/apt,9,4.0,0.0,4189.75,7,365,228,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 21117418,"Water, trees, sky and a house on the rocks.",21629061,False,1.0,Pittwater,A08,-33.606201,151.29689,Entire home/apt,6,3.0,4.0,770.5,2,10,255,40,4.83,4.61,0.42,,2025-12-12
 30020548,Spacious  granny flat with comfortable living,171399293,False,1.0,Holroyd,A06,-33.81254,150.96084,Entire home/apt,4,2.0,5.0,140.0,2,5,37,419,4.68,4.69,4.98,,2025-12-12
 1300405122457727864,Clean and stylish Sydney home !,664351209,False,0.5,Blacktown,A06,-33.684844,150.8935083,Private room,3,1.0,3.0,262.47,3,30,363,0,4.73,,0.95,,2025-12-12
@@ -767,12 +767,12 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 32747342,"The beach house, 5 min walk to beach with parking",246264971,False,1.0,Warringah,A08,-33.75891,151.29763,Entire home/apt,6,2.0,2.0,604.0,2,14,144,53,4.98,4.96,0.65,,2025-12-12
 17685229,Iluka Resort Apartments - Poolside,24721535,False,1.0,Pittwater,A08,-33.60023,151.31788,Entire home/apt,6,2.0,4.0,549.5,2,1125,274,19,4.37,4.37,0.19,,2025-12-12
 979936515619300910,Cozy Cottage  Outdoor Spa Under The Stars,106979814,True,1.0,Sutherland Shire,A01,-34.07168093914389,151.012758096493,Entire home/apt,2,1.0,1.0,354.0,2,21,74,44,4.93,4.98,3.73,,2025-12-12
-49739098,ILUKA BEACH HOUSE by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60269,151.3175,Entire home/apt,8,4.0,4.0,1947.67,1,1125,262,0,4.84,,1.46,,2025-12-12
+49739098,ILUKA BEACH HOUSE by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60269,151.3175,Entire home/apt,8,4.0,4.0,1947.67,1,1125,262,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 1168432522288951613,Central location 5 mins from beach/town,42971412,True,1.0,Pittwater,A08,-33.63259773343395,151.32762315230397,Entire home/apt,2,1.0,1.0,248.0,2,365,255,32,4.88,4.78,1.8,,2025-12-12
 1308370706831964048,'Sirius' above Clareville Beach,29485019,False,1.0,Pittwater,A08,-33.63508,151.31402,Entire home/apt,9,4.0,6.0,820.0,5,365,346,0,4.84,,1.46,,2025-12-12
 48150911,Collaroy Courtyard Studio,388246811,True,1.0,Warringah,A08,-33.7354,151.29477,Entire home/apt,2,1.0,1.0,168.5,2,1125,136,186,4.98,4.98,3.21,,2025-12-12
 51510194,Chilling Bayside. Waterfront. Stunning Views.,85995258,False,0.89,Sutherland Shire,A01,-34.05433,151.14828,Entire home/apt,8,3.0,5.0,413.38,5,365,258,37,4.81,4.86,0.76,,2025-12-12
-933574101285113111,Pacific Paradise by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60427,151.32801,Entire home/apt,8,4.0,4.0,1892.0,1,1125,257,0,4.84,,1.46,,2025-12-12
+933574101285113111,Pacific Paradise by Palm Beach Holiday Rentals,23717928,True,0.92,Pittwater,A08,-33.60427,151.32801,Entire home/apt,8,4.0,4.0,1892.0,1,1125,257,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 670402555337452977,Sundance Pad: Fab 3 bedroom apartment style space,50347283,True,1.0,Pittwater,A08,-33.6295762,151.3179505,Entire home/apt,6,3.0,3.0,514.0,1,1125,304,119,4.98,4.92,2.92,,2025-12-12
 40805284,"Stylish, tranquil & private studio in Avalon Beach",4569434,True,1.0,Pittwater,A08,-33.6325485677759,151.31794150842575,Entire home/apt,2,0.0,1.0,366.0,2,31,345,268,4.91,4.88,3.73,,2025-12-12
 978839725646230667,Homelea- Welcome to Paradise,521865218,True,1.0,Warringah,A08,-33.61627,151.20559,Entire home/apt,5,2.0,2.0,460.0,2,365,83,60,4.83,4.63,2.53,,2025-12-12
@@ -780,9 +780,9 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1222359330367657143,Spacious Balcony Room | Self check in,97440842,False,0.71,Blacktown,A06,-33.7127869,150.8782705,Private room,3,1.0,1.0,97.0,1,365,365,4,4.75,4.75,0.27,,2025-12-12
 892937710909058041,Canley Vale 2 Large Bedroom unit,158872444,False,1.0,Fairfield,A01,-33.887647997073906,150.947232448289,Entire home/apt,6,2.0,4.0,176.0,1,150,248,98,4.84,4.73,3.53,,2025-12-12
 1119565862641787000,Urban Oasis Residence -  Views | Parking | Ease,96978281,True,1.0,Sydney,A05,-33.86717,151.20286,Entire home/apt,6,3.0,3.0,544.0,3,365,129,51,4.96,4.88,2.46,,2025-12-12
-1348073957374482020,Urban One Bedroom Apartment with Balcony & Kitchen,125590978,True,0.94,Sydney,A02,-33.88169,151.19488,Private room,3,1.0,1.0,389.0,1,90,88,9,4.22,4.0,0.93,,2025-12-12
+1348073957374482020,Urban One Bedroom Apartment with Balcony & Kitchen,125590978,True,0.94,Sydney,A02,-33.88169,151.19488,Private room,3,1.0,1.0,389.0,1,90,88,9,4.22,4.0,0.93,|price_outlier_iqr,2025-12-12
 1108213419043577983,CBD Gem | Park View︱Pool Access︱4min walk to Train,565965713,True,1.0,Sydney,A04,-33.877417104354144,151.21328384418197,Entire home/apt,4,1.0,2.0,346.0,1,365,153,119,4.77,4.72,5.59,,2025-12-12
-1365683665945531640,SydneyTowerView | Free Parking︱2 min to Light Rail,565965713,True,1.0,Sydney,A07,-33.87007,151.20814,Entire home/apt,6,2.0,3.0,1036.19,1,365,125,57,4.95,4.93,6.09,,2025-12-12
+1365683665945531640,SydneyTowerView | Free Parking︱2 min to Light Rail,565965713,True,1.0,Sydney,A07,-33.87007,151.20814,Entire home/apt,6,2.0,3.0,1036.19,1,365,125,57,4.95,4.93,6.09,|price_outlier_iqr,2025-12-12
 54134539,Great view apartment,51880508,False,1.0,Sydney,A02,-33.913696,151.205231,Entire home/apt,6,3.0,3.0,599.5,2,365,29,1,5.0,4.0,0.09,,2025-12-12
 19047430,2 bedroom 2 storey house  Darlinghurst/Surry Hills,2855698,True,1.0,Sydney,A04,-33.88084,151.21266,Entire home/apt,8,2.0,3.0,87.22,90,730,186,9,4.78,4.11,0.09,,2025-12-12
 1356397607403770669,SYD City 3B2B Darling Harbour 带免费停车位,678780345,True,1.0,Sydney,A02,-33.8747228,151.2037635,Entire home/apt,6,3.0,3.0,475.87,1,365,65,43,4.95,4.95,4.49,,2025-12-12
@@ -800,7 +800,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 970714799373601418,King room with private bathroom in Penrith,25439829,True,1.0,Penrith,A06,-33.7540408,150.7100796,Private room,2,1.0,1.0,122.0,3,90,139,41,4.93,4.93,1.49,,2025-12-12
 571443978898740333,Your lovely home on a high level with view,301753450,False,0.97,Auburn,A05,-33.84735,151.07515,Entire home/apt,2,1.0,1.0,414.5,2,1125,89,24,4.88,4.96,0.53,,2025-12-12
 1314423388220076293,KozyGuru | Camperdown | Cozy 2-Bed Apt + Parking,226764444,False,1.0,Sydney,A02,-33.88802,151.17913,Entire home/apt,5,2.0,3.0,359.5,2,365,133,45,4.87,4.91,3.86,,2025-12-12
-1108529818329606941,A dream come true house and Host,323268409,False,1.0,Blacktown,A06,-33.7014727,150.8171238,Private room,4,2.0,2.0,471.99,1,365,269,1,4.0,3.0,0.43,,2025-12-12
+1108529818329606941,A dream come true house and Host,323268409,False,1.0,Blacktown,A06,-33.7014727,150.8171238,Private room,4,2.0,2.0,471.99,1,365,269,1,4.0,3.0,0.43,|price_outlier_iqr,2025-12-12
 1441844281943393176,Modern Loft Apartment,134604613,False,1.0,Sydney,A04,-33.87848845221179,151.21711246669292,Entire home/apt,2,1.0,1.0,328.75,7,365,197,3,5.0,4.67,0.6,,2025-12-12
 1138749504294693213,Cozy Getaway /w private backyard,190398840,True,1.0,Penrith,A06,-33.72905918856876,150.71095304194858,Entire home/apt,2,1.0,1.0,200.0,2,14,215,41,4.9,4.98,2.1,,2025-12-12
 1307888976268563444,W8|8 Min Walk Wolli Creek Station Pool GYM 1 Car,136560957,False,1.0,Rockdale,A01,-33.93033,151.15307,Entire home/apt,6,2.0,2.0,271.0,90,365,28,30,4.4,4.03,2.69,,2025-12-12
@@ -813,7 +813,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1092091965254164105,Denham Court 4Br with Central AC & WiFi near Coles,488300555,False,1.0,Campbelltown,A01,-33.9777078,150.8235512,Entire home/apt,10,4.0,5.0,378.0,2,365,143,35,4.77,4.89,1.74,,2025-12-12
 1178551524764590896,Ideal Guesthouse in Casula,514166735,False,1.0,Liverpool,A01,-33.9537609,150.8999675,Entire home/apt,4,2.0,3.0,234.0,2,60,43,33,4.82,4.94,1.94,,2025-12-12
 31359565,Iluka Resort Apartment @Palm Beach No 9,89982241,True,1.0,Pittwater,A08,-33.59941,151.31785,Entire home/apt,4,1.0,2.0,495.5,2,365,72,55,4.71,4.82,0.66,,2025-12-12
-760358234447066283,Palm Beach Tranquility,3046924,True,0.95,Pittwater,A08,-33.60559096664603,151.33024026851194,Entire home/apt,11,6.0,6.0,1825.0,1,1125,312,7,4.71,4.57,0.2,,2025-12-12
+760358234447066283,Palm Beach Tranquility,3046924,True,0.95,Pittwater,A08,-33.60559096664603,151.33024026851194,Entire home/apt,11,6.0,6.0,1825.0,1,1125,312,7,4.71,4.57,0.2,|price_outlier_iqr,2025-12-12
 1314130581311129977,"Modern 1BR Studio Near Shops, BBQ & Blue Mountains",158914357,False,1.0,Campbelltown,A01,-33.975959923032384,150.86205583862304,Entire home/apt,2,1.0,1.0,158.67,3,80,25,13,5.0,4.92,2.89,,2025-12-12
 1220849427622830119,castle hill， 舒适小旅馆。,121323436,False,1.0,The Hills Shire,A06,-33.74201,151.01878,Entire home/apt,4,1.0,3.0,336.5,2,365,159,16,4.88,4.88,1.04,,2025-12-12
 20426276,Cosy Cul-de-sac Granny Flat - Recently Renovated,52150663,False,1.0,Ku-Ring-Gai,A06,-33.73710398950962,151.16764889102984,Entire home/apt,4,2.0,2.0,196.0,2,155,330,248,4.85,4.87,2.46,,2025-12-12
@@ -831,7 +831,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1154240589156852656,Warriewood home with Pool,260356090,False,0.91,Pittwater,A08,-33.685637340560476,151.2901736527324,Entire home/apt,6,2.0,0.0,84.2,3,365,204,5,4.8,5.0,0.33,,2025-12-12
 1877472,The Hideaway -  Guesthouse 5 minutes walk to Beach,9778258,True,1.0,Pittwater,A08,-33.68909,151.30452,Entire home/apt,2,1.0,1.0,171.5,2,1125,170,450,4.92,4.92,3.07,,2025-12-12
 1314982335335603554,"Sand, Sea & Lake Escape  *  Lake View",23011578,True,1.0,Warringah,A08,-33.71853916452982,151.2960712002475,Entire home/apt,4,2.0,2.0,426.33,2,21,35,18,4.94,4.83,2.21,,2025-12-12
-1360740094848857069,"Tropical Oasis - Pool, Games Room, 5 Bed. Amazing.",679874020,True,1.0,Warringah,A08,-33.7711,151.21769,Entire home/apt,9,5.0,5.0,922.5,5,365,146,8,5.0,5.0,0.86,,2025-12-12
+1360740094848857069,"Tropical Oasis - Pool, Games Room, 5 Bed. Amazing.",679874020,True,1.0,Warringah,A08,-33.7711,151.21769,Entire home/apt,9,5.0,5.0,922.5,5,365,146,8,5.0,5.0,0.86,|price_outlier_iqr,2025-12-12
 1246630787771780419,The Packing Shed - Galston,3131083,True,1.0,Hornsby,A06,-33.63640162542974,151.03410065762424,Entire home/apt,4,2.0,2.0,314.0,2,60,305,10,5.0,4.9,0.75,,2025-12-12
 880774096084786145,Cozy self-contained one-bed flat (Near Bus Stop),131703609,True,1.0,The Hills Shire,A06,-33.7446,150.99997,Entire home/apt,4,1.0,2.0,174.37,2,60,232,86,4.99,5.0,2.82,,2025-12-12
 798235491314981176,"1BR Apartment in Rozelle, City Views",60718634,False,1.0,Leichhardt,A05,-33.86683,151.17412,Entire home/apt,4,1.0,2.0,277.31,1,20,313,89,4.67,4.79,2.71,,2025-12-12
@@ -844,13 +844,13 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1347618551253125309,The Terrace Escape,47051067,False,1.0,Hornsby,A06,-33.7062246,151.0932987,Entire home/apt,2,1.0,1.0,174.33,5,365,16,2,5.0,5.0,0.22,,2025-12-12
 37170137,2BR Home Near Regatta Centre Nepean Hospital,197268936,True,1.0,Penrith,A06,-33.72398,150.7077,Entire home/apt,4,2.0,3.0,237.0,2,180,57,74,4.89,4.85,0.97,,2025-12-12
 15831837,Fabulous Coogee / Randwick Garden Apartment #10B,97865816,True,1.0,Randwick,A03,-33.9162,151.24743,Entire home/apt,3,1.0,2.0,288.0,5,14,104,231,4.87,4.91,2.12,,2025-12-12
-866257536037421216,Colourful Coogee,7409213,True,1.0,Randwick,A03,-33.91565,151.25459,Entire home/apt,6,3.0,3.0,1015.67,1,1125,301,2,4.5,3.5,0.07,,2025-12-12
+866257536037421216,Colourful Coogee,7409213,True,1.0,Randwick,A03,-33.91565,151.25459,Entire home/apt,6,3.0,3.0,1015.67,1,1125,301,2,4.5,3.5,0.07,|price_outlier_iqr,2025-12-12
 1396657811070679104,Stunning Waterfront Haven with Majestic Views,101139031,False,1.0,Sydney,A07,-33.8727706,151.2299933,Entire home/apt,4,2.0,2.0,449.67,2,45,166,11,4.64,4.82,1.49,,2025-12-12
 1381042920654201161,North Ryde abode | Relaxed living with gym & pool,599508326,False,,Ryde,A06,-33.7780631,151.1144761,Entire home/apt,2,1.0,1.0,332.0,5,1125,157,1,5.0,5.0,0.12,,2025-12-12
 1309758004371844860,"Lovely 2-Bedroom Space, Ideal Location",543949763,False,,North Sydney,A07,-33.8306184,151.2279018,Entire home/apt,4,0.0,3.0,364.0,4,20,86,0,4.84,,1.46,,2025-12-12
 578941753426122608,Lovely two bedroom furnished unit in Randwick,79516677,False,1.0,Randwick,A03,-33.90546,151.25385,Entire home/apt,4,2.0,2.0,551.67,7,365,254,0,4.84,,1.46,,2025-12-12
 1151899078110067985,Perfect Holiday Home with Private Rooftop,548181087,True,1.0,Sydney,A05,-33.86046,151.20258,Entire home/apt,5,2.0,3.0,368.0,2,365,328,31,4.9,4.87,1.63,,2025-12-12
-30302922,Jewel by TCC,100552972,False,0.91,Pittwater,A08,-33.61811,151.32935,Entire home/apt,6,3.0,3.0,2166.5,1,1125,364,3,4.67,4.0,0.04,,2025-12-12
+30302922,Jewel by TCC,100552972,False,0.91,Pittwater,A08,-33.61811,151.32935,Entire home/apt,6,3.0,3.0,2166.5,1,1125,364,3,4.67,4.0,0.04,|price_outlier_iqr,2025-12-12
 52956036,Newly renovated studio apartment in quiet location,60683734,False,1.0,Warringah,A08,-33.74407,151.27906,Entire home/apt,2,1.0,1.0,257.0,2,10,342,6,5.0,5.0,0.12,,2025-12-12
 1040966441005171918,Tranquil Grandview Cottage,987819,False,1.0,Pittwater,A08,-33.65222001541414,151.31802777310529,Entire home/apt,4,2.0,3.0,506.0,2,30,37,7,5.0,4.86,0.55,,2025-12-12
 33137778,Island Paradise - Private Waterfront Retreat,29001506,True,1.0,Pittwater,A08,-33.63754,151.28975,Entire home/apt,6,1.0,3.0,742.0,1,90,39,183,4.8,4.75,2.25,,2025-12-12
@@ -860,7 +860,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1305664390303922460,3BR| Free Parking+PrivateYard| 16 min to Lane Cove,557710252,True,1.0,Ryde,A05,-33.82678,151.1176,Entire home/apt,8,3.0,4.0,516.0,1,365,150,26,4.92,4.88,2.22,,2025-12-12
 754112484224758911,Private Master Room W/private Bath & Q bed,306700375,True,1.0,Botany Bay,A02,-33.92872,151.19737,Private room,2,1.0,1.0,152.33,3,365,195,14,5.0,4.93,0.41,,2025-12-12
 38982195,Esperanza Gardens: A Stylish Victorian Studio,270132187,False,,Ashfield,A01,-33.88632,151.12504,Entire home/apt,2,0.0,1.0,210.2,2,90,335,114,4.49,4.35,1.53,,2025-12-12
-1156729993250251424,The Post Office House,34155307,True,1.0,Pittwater,A08,-33.60224,151.31792,Entire home/apt,11,5.0,6.0,1620.6,7,365,73,1,5.0,5.0,0.09,,2025-12-12
+1156729993250251424,The Post Office House,34155307,True,1.0,Pittwater,A08,-33.60224,151.31792,Entire home/apt,11,5.0,6.0,1620.6,7,365,73,1,5.0,5.0,0.09,|price_outlier_iqr,2025-12-12
 1177475625399033247,中心商务区、安静的住宅区、步行可达火车站/westfield 购物中心，靠近悉尼国际帆船中心/蓝山,158830147,True,1.0,Penrith,A06,-33.7473773,150.6964146,Entire home/apt,8,4.0,4.0,503.5,1,60,209,30,4.97,5.0,2.59,,2025-12-12
 1411248589191689882,Generous Ensuite Double Room - Ideal for Travelers,548634954,False,1.0,Canterbury,A01,-33.92407,151.09567,Private room,2,1.0,1.0,115.0,1,89,353,3,4.0,4.0,0.42,,2025-12-12
 1444856841173748923,Bright & Peaceful 3 Family Rooms,697961007,False,1.0,Parramatta,A06,-33.80367,151.04759,Private room,4,3.0,3.0,295.0,1,365,163,2,4.5,4.5,1.22,,2025-12-12
@@ -868,14 +868,14 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1372186576046374474,Parramatta Ensuite+Independent Entry,38742890,False,1.0,Parramatta,A06,-33.808101877376664,151.01775264688732,Private room,1,1.0,1.0,106.0,1,365,196,22,4.91,4.91,2.78,,2025-12-12
 1288649495523810594,"""Room with Excellent Location""",542612255,False,1.0,Rockdale,A01,-33.9622718,151.150514,Private room,1,1.0,1.0,200.0,1,5,314,1,5.0,5.0,0.1,,2025-12-12
 933637304390319949,Chic 2-br  in a Great Location & Free  Parking,525173588,False,1.0,Hurstville,A01,-33.96268,151.10447,Entire home/apt,6,2.0,4.0,283.5,2,1125,262,54,4.76,4.67,2.02,,2025-12-12
-990310727501841688,Ocean Front Luxury The Lambeth Walk,344263536,False,1.0,Sutherland Shire,A01,-34.080668552451364,151.1566214923517,Entire home/apt,10,4.0,6.0,899.5,1,1125,276,26,4.23,4.23,1.04,,2025-12-12
+990310727501841688,Ocean Front Luxury The Lambeth Walk,344263536,False,1.0,Sutherland Shire,A01,-34.080668552451364,151.1566214923517,Entire home/apt,10,4.0,6.0,899.5,1,1125,276,26,4.23,4.23,1.04,|price_outlier_iqr,2025-12-12
 1189456167477961974,Sleep well 25 mins from Syd CBD,11103088,False,1.0,Burwood,A01,-33.90067065071713,151.09699534974283,Entire home/apt,10,3.0,4.0,241.67,2,365,206,25,4.48,4.24,1.46,,2025-12-12
 1026383248461381862,Luxury and Modern 2 Bedroom Apt/Free Parking lot,91961414,False,1.0,Strathfield,A05,-33.86756,151.08417,Entire home/apt,6,2.0,4.0,306.0,90,365,91,49,4.86,4.84,2.05,,2025-12-12
 1270631752817738980,Beachside Villa,192656663,False,1.0,Rockdale,A01,-33.9697,151.15188,Entire home/apt,4,1.0,3.0,371.0,3,23,77,5,5.0,4.8,0.43,,2025-12-12
 1467336038100434488,Relaxing Guesthouse near Airport,707440335,False,1.0,Botany Bay,A02,-33.92996,151.18737,Entire home/apt,2,1.0,1.0,191.0,1,365,329,13,4.54,4.38,3.0,,2025-12-12
 1431660555148451785,Bright 2-Bed Flat with Balcony in Vaucluse,279001183,False,,Waverley,A07,-33.8602517,151.2795849,Entire home/apt,4,2.0,2.0,308.0,3,365,311,4,4.25,4.5,1.69,,2025-12-12
 37719625,"Spacious Studio, WiFi, Parking, Gym",279514563,True,0.9,Parramatta,A05,-33.82647,151.01613,Entire home/apt,2,0.0,1.0,140.36,7,1125,66,11,4.36,4.0,0.14,,2025-12-12
-750325853310633874,Avalon Beach 4 bedroom beach house,379799180,False,,Pittwater,A08,-33.61917,151.33401,Entire home/apt,7,4.0,4.0,1034.0,2,21,29,9,4.78,4.56,0.25,,2025-12-12
+750325853310633874,Avalon Beach 4 bedroom beach house,379799180,False,,Pittwater,A08,-33.61917,151.33401,Entire home/apt,7,4.0,4.0,1034.0,2,21,29,9,4.78,4.56,0.25,|price_outlier_iqr,2025-12-12
 913490871941560574,"A joyful, warm and comfortable inn, Welcome",519049979,False,1.0,Ryde,A06,-33.79611,151.13854,Entire home/apt,4,2.0,7.0,323.0,1,100,319,97,4.75,4.63,3.19,,2025-12-12
 52604947,Private room Airport-Park- Beach,53494836,False,1.0,Rockdale,A01,-33.93999,151.13409,Private room,2,1.0,1.0,137.0,2,365,80,5,5.0,5.0,0.14,,2025-12-12
 685149477620551651,Spacious 3 bedroom apt lift access near Parramatta,473933729,False,1.0,The Hills Shire,A06,-33.79046,150.99933,Entire home/apt,7,3.0,4.0,364.5,5,365,178,115,4.68,4.63,2.83,,2025-12-12
@@ -898,9 +898,9 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 1375733439258858926,2BR apartment close to Accor Stadium,103080057,False,1.0,Auburn,A05,-33.8488479,151.0609549,Entire home/apt,5,2.0,3.0,406.0,2,365,49,17,4.82,4.88,2.16,,2025-12-12
 891621318955579482,MQ Exceptional 2Br Apt in Great Location & Parking,5215877,True,,Ryde,A06,-33.78091550476735,151.11332060299864,Entire home/apt,6,2.0,4.0,328.5,5,365,274,88,4.92,4.77,2.81,,2025-12-12
 1479190183721921745,The Nest at Killara,221188955,False,1.0,Ku-Ring-Gai,A06,-33.77937050000001,151.1411662,Entire home/apt,6,4.0,4.0,237.0,1,365,116,5,4.8,4.4,1.42,,2025-12-12
-52539757,Large country retreat for big or small groups,115095942,True,1.0,Hornsby,A06,-33.39267,150.98721,Entire home/apt,16,11.0,22.0,1384.0,2,1125,287,72,4.74,4.47,1.46,,2025-12-12
+52539757,Large country retreat for big or small groups,115095942,True,1.0,Hornsby,A06,-33.39267,150.98721,Entire home/apt,16,11.0,22.0,1384.0,2,1125,287,72,4.74,4.47,1.46,|price_outlier_iqr,2025-12-12
 782912909409165204,Aircabin - Epping - Cheerful - 2 Beds Apt Free PK,484473459,False,1.0,Hornsby,A06,-33.7699254,151.0753572,Entire home/apt,4,2.0,2.0,297.6,3,365,63,53,4.72,4.7,1.47,,2025-12-12
-15638612,Tides Reach Boathouse - water access only,9339349,True,1.0,Pittwater,A08,-33.64348,151.27786,Entire home/apt,8,4.0,7.0,884.5,2,40,313,131,4.96,4.87,1.21,,2025-12-12
+15638612,Tides Reach Boathouse - water access only,9339349,True,1.0,Pittwater,A08,-33.64348,151.27786,Entire home/apt,8,4.0,7.0,884.5,2,40,313,131,4.96,4.87,1.21,|price_outlier_iqr,2025-12-12
 581348161248437015,Pool house with pool,5628814,False,1.0,Pittwater,A08,-33.60435,151.33033,Entire home/apt,2,1.0,1.0,702.0,1,365,327,14,4.93,4.93,0.32,,2025-12-12
 27636706,The Queen Suite,200301637,False,1.0,Penrith,A06,-33.74639,150.67462,Private room,2,1.0,1.0,159.0,1,1125,296,62,4.24,4.58,0.71,,2025-12-12
 1262901801010456186,Apartment in Queenscliff,9950005,False,1.0,Warringah,A08,-33.78120654962542,151.28637101984387,Entire home/apt,2,1.0,1.0,263.51,7,365,73,5,5.0,4.8,0.43,,2025-12-12
@@ -934,19 +934,19 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 3407081,Breathtaking Ocean Views,16026854,True,0.98,Waverley,A03,-33.89742,151.2749,Entire home/apt,4,2.0,2.0,397.9,21,90,106,40,4.78,4.73,0.3,,2025-12-12
 11572238,Absolute Beachfront @Bondi Beach Vista,113874,False,0.97,Waverley,A03,-33.89057,151.28287,Entire home/apt,6,2.0,4.0,661.0,2,365,110,184,4.76,4.75,1.61,,2025-12-12
 1371268515356573463,Cozy 2beds retreat in Manly Vale,428072521,True,0.99,Warringah,A08,-33.7863999,151.268312,Entire home/apt,4,2.0,2.0,388.33,2,180,46,7,4.71,4.86,0.88,,2025-12-12
-1257646002676648801,The London Royale - Penthouse + Private Terrace,167982540,True,1.0,Sydney,A05,-33.873755781803744,151.1975208306885,Entire home/apt,8,4.0,4.0,959.0,2,360,309,32,4.81,4.78,2.29,,2025-12-12
+1257646002676648801,The London Royale - Penthouse + Private Terrace,167982540,True,1.0,Sydney,A05,-33.873755781803744,151.1975208306885,Entire home/apt,8,4.0,4.0,959.0,2,360,309,32,4.81,4.78,2.29,|price_outlier_iqr,2025-12-12
 1320437526712766768,Sydney CBD 1Br with Pool/Spa/Gym by ICC/Chinatown,498208051,False,0.98,Sydney,A05,-33.87358,151.19639,Entire home/apt,4,1.0,2.0,241.5,2,365,121,27,4.74,4.67,2.35,,2025-12-12
 775042988478377704,Paddington Dream - Modern light filled Urban Oasis,6746746,False,0.91,Woollahra,A04,-33.88547,151.23262,Entire home/apt,6,3.0,3.0,435.5,7,28,215,46,4.67,4.5,1.28,,2025-12-12
 1200953277812145705,Prime Sydney location: Central and Convenient,41670564,True,1.0,Sydney,A07,-33.87375,151.22624,Entire home/apt,4,1.0,2.0,399.0,2,100,211,68,4.99,4.99,5.0,,2025-12-12
 1086679538465558029,Kurnell Coastal Cottage,23229119,False,,Sutherland Shire,A02,-34.01095,151.20587,Entire home/apt,5,3.0,3.0,707.6,5,365,355,1,5.0,5.0,0.09,,2025-12-12
 1474962527947519375,Compact Place at the Centre,685427955,False,0.92,Parramatta,A06,-33.82026,151.00553,Entire home/apt,2,1.0,1.0,189.0,1,365,355,9,4.33,4.67,2.35,,2025-12-12
 50960751,Stylish Spacious Auburn Bedroom Near Olympic Park,411771291,False,0.93,Auburn,A05,-33.865,151.02605,Private room,2,1.0,1.0,153.0,7,1125,358,1,3.0,3.0,0.04,,2025-12-12
-32464453,Villa Camp Cove,218683294,False,1.0,Woollahra,A07,-33.84079,151.28037,Entire home/apt,6,3.0,3.0,6554.29,7,120,351,0,4.84,,1.46,,2025-12-12
+32464453,Villa Camp Cove,218683294,False,1.0,Woollahra,A07,-33.84079,151.28037,Entire home/apt,6,3.0,3.0,6554.29,7,120,351,0,4.84,,1.46,|price_outlier_iqr,2025-12-12
 43883388,Deluxe Family Room,108189888,False,1.0,Lane Cove,A06,-33.8199,151.18423,Private room,4,1.0,3.0,205.0,1,1125,328,16,4.38,4.38,0.36,,2025-12-12
 728533444182342736,"Palm beach, modern 2 bedroom place with water view",481858208,True,1.0,Pittwater,A08,-33.61833,151.32999,Entire home/apt,4,2.0,3.0,440.0,1,90,110,84,4.86,4.92,2.2,,2025-12-12
 1130181871246916339,2BR+2Bth+PKG @ a Superb location,404111123,True,1.0,Sydney,A02,-33.88604118260035,151.19623262222348,Entire home/apt,7,2.0,5.0,341.21,5,365,188,54,4.83,4.52,2.7,,2025-12-12
 48980556,Daily Service with Concierge on Enmore Road,10719679,False,0.82,Marrickville,A02,-33.898841857910156,151.17636108398438,Entire home/apt,2,1.0,1.0,138.0,7,365,359,33,4.45,4.36,0.97,,2025-12-12
-1009831814631233405,Single room in beautiful Manly,413090515,False,1.0,Manly,A07,-33.8033023,151.2891967,Private room,1,1.0,1.0,457.0,1,5,58,0,4.73,,0.95,,2025-12-12
+1009831814631233405,Single room in beautiful Manly,413090515,False,1.0,Manly,A07,-33.8033023,151.2891967,Private room,1,1.0,1.0,457.0,1,5,58,0,4.73,,0.95,|price_outlier_iqr,2025-12-12
 1206176304522125419,Peaceful Waterfront Retreat,574783374,False,,Leichhardt,A05,-33.85202,151.17857,Entire home/apt,2,1.0,1.0,269.5,2,60,40,33,4.73,5.0,2.18,,2025-12-12
 905341218171745855,Grand family entertainer apartment 6km Manly Beach,517953768,True,1.0,Manly,A07,-33.7971555,151.2414076,Entire home/apt,8,4.0,4.0,736.2,3,1125,267,29,4.97,4.97,0.99,,2025-12-12
 1025282707279990796,The Memory In Erskineville,84899994,False,1.0,Sydney,A02,-33.90381,151.18835,Entire home/apt,6,2.0,3.0,293.97,2,365,83,90,4.74,4.61,3.6,,2025-12-12
@@ -966,7 +966,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 674102568052081414,Entire house & sunny backyard,6910764,False,0.89,Leichhardt,A01,-33.88368439297083,151.1510075478944,Entire home/apt,2,1.0,1.0,245.5,2,365,358,26,4.38,4.42,0.65,,2025-12-12
 9801139,Balmoral Beach escape,50504612,True,1.0,Mosman,A07,-33.82672,151.25125,Entire home/apt,5,2.0,4.0,430.11,2,1125,280,179,4.82,4.94,1.58,,2025-12-12
 667133601442489892,Luxury home wrap around waterview,51035152,False,0.93,Canada Bay,A05,-33.82871,151.08464,Entire home/apt,4,2.0,2.0,519.0,3,1125,90,5,4.8,4.6,0.12,,2025-12-12
-911901920149630894,Family rooms,202112801,False,1.0,Canada Bay,A05,-33.85313942206105,151.08642718945313,Private room,4,2.0,3.0,352.0,1,365,362,3,4.33,3.67,0.1,,2025-12-12
+911901920149630894,Family rooms,202112801,False,1.0,Canada Bay,A05,-33.85313942206105,151.08642718945313,Private room,4,2.0,3.0,352.0,1,365,362,3,4.33,3.67,0.1,|price_outlier_iqr,2025-12-12
 1266590791979154521,Manly beach house,133485715,True,1.0,Manly,A07,-33.80227,151.28784,Entire home/apt,4,2.0,2.0,230.0,1,15,197,69,4.7,4.46,5.38,,2025-12-12
 866850240298286262,V Entire 4bedroom (6 beds) *Sydney family home,51166872,False,1.0,Holroyd,A05,-33.83517619846826,150.99286504089832,Entire home/apt,7,4.0,6.0,293.85,4,365,132,46,4.7,4.52,1.49,,2025-12-12
 35917048,Renovated Triple Kitchenette. With Shared bath.,229925439,False,0.97,North Sydney,A07,-33.82935,151.20842,Private room,3,1.0,2.0,129.67,14,1125,26,21,4.43,4.33,0.27,,2025-12-12
@@ -994,7 +994,7 @@ id,name,host_id,host_is_superhost,host_response_rate,neighbourhood_cleansed,anal
 12211108,Bright garden apartment,65516427,True,1.0,Pittwater,A08,-33.7025,151.28868,Entire home/apt,5,2.0,3.0,285.5,2,180,96,229,4.95,5.0,1.97,,2025-12-12
 21937462,Self-Contained Studio in Berowra,145866225,True,1.0,Hornsby,A06,-33.61808,151.1451,Private room,2,0.0,1.0,166.0,1,1125,198,261,4.99,5.0,2.67,,2025-12-12
 1295121625269664758,Greenhills Beach Guesthouse with Parking Space.,503487466,True,1.0,Sutherland Shire,A02,-34.0354181,151.1662833,Entire home/apt,4,2.0,3.0,205.0,1,40,43,126,4.94,4.98,10.62,,2025-12-12
-11761760,Longview @ Berowra Waters,62599758,False,1.0,Hornsby,A06,-33.58997,151.11601,Entire home/apt,4,3.0,4.0,1153.0,1,1125,224,7,4.43,4.57,0.06,,2025-12-12
+11761760,Longview @ Berowra Waters,62599758,False,1.0,Hornsby,A06,-33.58997,151.11601,Entire home/apt,4,3.0,4.0,1153.0,1,1125,224,7,4.43,4.57,0.06,|price_outlier_iqr,2025-12-12
 53085313,"2 large rooms, great location at Narrabeen Beach.",5141827,True,1.0,Warringah,A08,-33.712032,151.299896,Private room,4,2.0,2.0,286.0,1,28,123,53,4.96,5.0,1.07,,2025-12-12
 1450380094375726767,Double Room - Convenient Access & Local Dining,255319514,False,1.0,Blacktown,A06,-33.744059,150.8999293,Private room,2,1.0,1.0,112.0,1,89,174,7,4.57,4.29,1.31,,2025-12-12
 869073384969730769,Wylde’s Treasure—Pocket-size Potts Point Design,185783910,False,,Sydney,A07,-33.866410633036296,151.22630671659212,Entire home/apt,2,1.0,1.0,361.5,2,90,344,24,4.63,4.54,0.78,,2025-12-12

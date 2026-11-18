@@ -145,18 +145,32 @@ def main():
     
     if reviews_file and Path(reviews_file).exists():
         logger.info("  Đọc dữ liệu đánh giá từ: %s", reviews_file)
-        if str(reviews_file).endswith(".gz"):
-            df_reviews_raw = pd.read_csv(reviews_file, compression="gzip", nrows=50000)
+        assigned_rev_path = Path("data/samples/assigned_reviews_5000.csv")
+
+        if assigned_rev_path.exists():
+            # Tối ưu hoá: Lấy đúng 1000 ID review mẫu LLM theo bảng phân công đề bài
+            df_ass_rev = pd.read_csv(assigned_rev_path)
+            llm_ids = set(df_ass_rev[df_ass_rev["Mẫu LLM"] == "x"]["review_id"])
+            df_reviews_raw = pd.read_csv(
+                reviews_file,
+                compression="gzip" if str(reviews_file).endswith(".gz") else None,
+                usecols=["id", "listing_id", "comments"]
+            )
+            reviews_sample = df_reviews_raw[df_reviews_raw["id"].isin(llm_ids)].copy()
+            logger.info("  ✓ Đã khớp chuẩn %d review mẫu LLM theo đúng phân công đề bài", len(reviews_sample))
         else:
-            df_reviews_raw = pd.read_csv(reviews_file, nrows=50000)
-            
-        sample_size = args.sample_size or cfg.get("llm", {}).get("sample_size", 3000)
-        reviews_sample = sample_reviews_stratified(
-            df_reviews_raw,
-            cleaned_snapshots[latest_snapshot],
-            sample_size=min(sample_size, len(df_reviews_raw)),
-            seed=cfg.get("seed", 42)
-        )
+            if str(reviews_file).endswith(".gz"):
+                df_reviews_raw = pd.read_csv(reviews_file, compression="gzip", nrows=50000)
+            else:
+                df_reviews_raw = pd.read_csv(reviews_file, nrows=50000)
+                
+            sample_size = args.sample_size or cfg.get("llm", {}).get("sample_size", 1000)
+            reviews_sample = sample_reviews_stratified(
+                df_reviews_raw,
+                cleaned_snapshots[latest_snapshot],
+                sample_size=min(sample_size, len(df_reviews_raw)),
+                seed=cfg.get("seed", 42)
+            )
         
         llm_results_df = process_reviews_with_llm(reviews_sample, cfg, skip_llm=args.skip_llm)
 

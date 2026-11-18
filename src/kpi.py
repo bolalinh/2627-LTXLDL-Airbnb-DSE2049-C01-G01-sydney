@@ -180,8 +180,6 @@ def compute_all_kpis(cleaned_snapshots: dict, cfg: dict) -> dict:
     df_snapshot_kpis.to_csv(processed_dir / "kpi_by_snapshot.csv", index=False)
     logger.info("✓ Đã xuất kpi_by_snapshot.csv")
 
-    # Ghép toàn bộ các mốc (hoặc lấy mốc mới nhất) để phân tích không gian
-    all_listings = pd.concat(enriched_dfs.values(), ignore_index=True)
     latest_snapshot = max(cleaned_snapshots.keys())
     df_latest = enriched_dfs[latest_snapshot]
 
@@ -190,6 +188,12 @@ def compute_all_kpis(cleaned_snapshots: dict, cfg: dict) -> dict:
     df_neighbourhood = compute_neighbourhood_kpis(df_latest, area_col=area_col)
     df_neighbourhood.to_csv(processed_dir / "kpi_by_neighbourhood.csv", index=False)
     logger.info("✓ Đã xuất kpi_by_neighbourhood.csv")
+
+    # KPI theo 8 vùng phân tích (analysis_area theo phân công đề bài)
+    if "analysis_area" in df_latest.columns:
+        df_analysis_area = compute_neighbourhood_kpis(df_latest, area_col="analysis_area")
+        df_analysis_area.to_csv(processed_dir / "kpi_by_analysis_area.csv", index=False)
+        logger.info("✓ Đã xuất kpi_by_analysis_area.csv")
 
     # KPI theo room_type
     df_room_type = compute_room_type_kpis(df_latest)

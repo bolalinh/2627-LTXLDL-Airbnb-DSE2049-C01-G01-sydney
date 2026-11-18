@@ -484,6 +484,27 @@ def apply_latest_snapshot_price_policy(all_dfs: dict, cfg: dict) -> list:
     return reports
 
 
+def _validate_assigned_1000(df: pd.DataFrame, snapshot: str) -> None:
+    """Tự kiểm tra theo Mục 4 của Hướng dẫn đề bài:
+    - 875 Entire home/apt và 125 Private room
+    - Số listing có number_of_reviews = 0: 50, 30, 25, 25 ở bốn mốc
+    - Ở mốc cuối có đúng 20 listing thiếu price
+    - Mỗi vùng có 120-130 listing
+    """
+    n_entire = (df["room_type"] == "Entire home/apt").sum() if "room_type" in df.columns else 0
+    n_private = (df["room_type"] == "Private room").sum() if "room_type" in df.columns else 0
+    n_no_rev = (df["number_of_reviews"] == 0).sum() if "number_of_reviews" in df.columns else 0
+    n_missing_price = df["price"].isna().sum() if "price" in df.columns else 0
+
+    logger.info("  [KIỂM SOÁT ĐẦU VÀO 1000 ID - MỐC %s]:", snapshot)
+    logger.info("    • Phân bổ phòng: %d Entire home/apt (chuẩn 875), %d Private room (chuẩn 125)", n_entire, n_private)
+    logger.info("    • Listings có review = 0: %d", n_no_rev)
+    logger.info("    • Listings thiếu giá gốc: %d", n_missing_price)
+    if "analysis_area" in df.columns:
+        counts = df["analysis_area"].value_counts().to_dict()
+        logger.info("    • Phân bổ 8 vùng: %s", counts)
+
+
 @measure_execution_time(label="run_qa")
 def run_qa(raw_paths: dict, cfg: dict) -> tuple:
     """Chạy QA cho tất cả các mốc chụp.
@@ -493,11 +514,48 @@ def run_qa(raw_paths: dict, cfg: dict) -> tuple:
         all_reports: list[dict] – tổng hợp báo cáo QA
     """
     logger.info("═══ BẮT ĐẦU QA ═══")
+    
+    # Nạp danh sách 1000 ID phân công từ thư mục data/samples có sẵn
+    assigned_path = Path("data/samples/assigned_listings_1000.csv")
+    assigned_df = None
+    if assigned_path.exists():
+        assigned_df = pd.read_csv(assigned_path)
+        logger.info("  [BỘ DỮ LIỆU PHÂN CÔNG]: Đã nạp thành công %d ID từ %s", len(assigned_df), assigned_path)
+
+    needed_cols = {
+        "id", "name", "host_id", "host_is_superhost", "host_response_rate", "host_acceptance_rate",
+        "neighbourhood_cleansed", "latitude", "longitude", "room_type",
+        "accommodates", "bedrooms", "beds", "price", "minimum_nights",
+        "maximum_nights", "availability_365", "number_of_reviews",
+        "review_scores_rating", "review_scores_cleanliness", "reviews_per_month",
+        "instant_bookable", "has_availability"
+    }
+
     all_raw = {}
     for snapshot, paths in raw_paths.items():
         listings_path = paths["listings"]
-        df = pd.read_csv(listings_path, compression="gzip" if str(listings_path).endswith(".gz") else None)
+        # Tối ưu: Chỉ tải các cột cần thiết, bỏ qua 70 cột text nặng không dùng (amenities, description...)
+        df = pd.read_csv(
+            listings_path,
+            usecols=lambda c: c in needed_cols,
+            compression="gzip" if str(listings_path).endswith(".gz") else None
+        )
         df["_snapshot"] = snapshot
+        
+        # LỌC DUY NHẤT 1000 ID THEO PHÂN CÔNG & GẮN analysis_area
+        if assigned_df is not None:
+            before_len = len(df)
+            assigned_ids = set(pd.to_numeric(assigned_df["listing_id"], errors="coerce").dropna().astype(int))
+            area_map = dict(zip(assigned_df["listing_id"].astype(int), assigned_df["analysis_area"]))
+            
+            df["id"] = pd.to_numeric(df["id"], errors="coerce")
+            df = df[df["id"].isin(assigned_ids)].copy()
+            df["id"] = df["id"].astype(int)
+            df["analysis_area"] = df["id"].map(area_map)
+            
+            logger.info("  Mốc %s: Đã lọc từ %d -> %d listing theo 1000 ID phân công", snapshot, before_len, len(df))
+            _validate_assigned_1000(df, snapshot)
+
         all_raw[snapshot] = coerce_dtypes(df)
 
     # Áp dụng chính sách neo giá chỉ dùng giá của mốc cuối cùng theo yêu cầu
@@ -535,7 +593,7 @@ def run_qa(raw_paths: dict, cfg: dict) -> tuple:
     
     analysis_cols = [
         "id", "name", "host_id", "host_is_superhost", "host_response_rate",
-        "neighbourhood_cleansed", "latitude", "longitude", "room_type",
+        "neighbourhood_cleansed", "analysis_area", "latitude", "longitude", "room_type",
         "accommodates", "bedrooms", "beds", "price", "minimum_nights",
         "maximum_nights", "availability_365", "number_of_reviews",
         "review_scores_rating", "review_scores_cleanliness", "reviews_per_month",

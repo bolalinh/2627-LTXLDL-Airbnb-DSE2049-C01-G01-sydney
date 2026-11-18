@@ -31,9 +31,10 @@ from src.logger import measure_execution_time
 
 logger = logging.getLogger(__name__)
 
-# Thiết lập phong cách hiển thị chuẩn mực khoa học
+# Thiết lập phong cách hiển thị chuẩn mực khoa học (Hỗ trợ UTF-8 đa nền tảng Windows/Mac)
 plt.rcParams.update({
     "font.family": "sans-serif",
+    "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans", "Segoe UI", "sans-serif"],
     "font.size": 11,
     "axes.titlesize": 13,
     "axes.titleweight": "bold",
@@ -65,7 +66,7 @@ def plot_price_trends_over_time(kpi_snapshots_df: pd.DataFrame, output_dir: Path
     for s, r in zip(snapshots, revenues):
         ax1.annotate(f"${r:,.0f} AUD", (s, r), textcoords="offset points", xytext=(0, 8), ha="center", fontweight="bold")
     ax1.set_ylabel("Doanh thu tháng trung vị (AUD)")
-    ax1.set_title("Biến động thị trường Airbnb Sydney qua 4 quý (Giá chuẩn hoá theo mốc cuối 2026-06-16)", pad=12)
+    ax1.set_title("Doanh thu và tỷ lệ lấp đầy đạt đỉnh vào mùa hè (T12), giảm sâu vào mùa thu (T3)", pad=12)
 
     # Đồ thị 2: Tỷ lệ lấp đầy
     ax2.plot(snapshots, occupancies, marker="s", color="#ff7f0e", linewidth=2.5, markersize=8)
@@ -89,15 +90,16 @@ def plot_top_revenue_neighbourhoods(kpi_neighbourhood_df: pd.DataFrame, output_d
     - Chỉ ra các khu vực tiềm năng nhất để thuê/mua nhà kinh doanh Airbnb (Bondi, Manly, CBD, Waverley...).
     """
     df_top = kpi_neighbourhood_df.head(top_n).sort_values("median_monthly_revenue", ascending=True)
+    area_col = "neighbourhood_cleansed" if "neighbourhood_cleansed" in df_top.columns else df_top.columns[0]
 
     fig, ax = plt.subplots(figsize=(10, 6.5))
-    bars = ax.barh(df_top["neighbourhood_cleansed"], df_top["median_monthly_revenue"], color="#2ca02c", alpha=0.85)
+    bars = ax.barh(df_top[area_col], df_top["median_monthly_revenue"], color="#2ca02c", alpha=0.85)
 
     # Thêm nhãn số liệu trực tiếp trên từng thanh (Bar labels - Bài 12)
     ax.bar_label(bars, fmt="$%d AUD", padding=5, fontsize=10, fontweight="bold")
     ax.set_xlabel("Doanh thu ước tính trung vị mỗi tháng (AUD)")
     ax.set_ylabel("Khu vực (Neighbourhood)")
-    ax.set_title(f"Top {top_n} khu vực có doanh thu Airbnb cao nhất tại Sydney", pad=15)
+    ax.set_title("Khu vực ven biển và trung tâm dẫn đầu doanh thu tại Sydney, vượt mốc $5.000 AUD/tháng", pad=15)
     
     # Ghi chú cỡ mẫu
     total_listings = df_top["listing_count"].sum()
@@ -120,7 +122,12 @@ def plot_superhost_price_comparison(latest_df: pd.DataFrame, output_dir: Path) -
     - Áp dụng kỹ thuật Bài 13: Seaborn Boxplot loại bỏ outlier cực đoan để nhìn rõ hộp phân vị.
     """
     df_plot = latest_df[latest_df["price"].between(10, 1500)].copy()
-    df_plot["host_type"] = df_plot["is_superhost"].map({True: "Superhost", False: "Host thông thường"})
+    if "is_superhost" in df_plot.columns:
+        df_plot["host_type"] = df_plot["is_superhost"].map({True: "Superhost", False: "Host thông thường"})
+    elif "host_is_superhost" in df_plot.columns:
+        df_plot["host_type"] = df_plot["host_is_superhost"].map({True: "Superhost", False: "Host thông thường", "t": "Superhost", "f": "Host thông thường"}).fillna("Host thông thường")
+    else:
+        df_plot["host_type"] = "Host thông thường"
 
     fig, ax = plt.subplots(figsize=(10, 6))
     order_rooms = ["Entire home/apt", "Private room", "Shared room"]
@@ -137,7 +144,7 @@ def plot_superhost_price_comparison(latest_df: pd.DataFrame, output_dir: Path) -
         ax=ax
     )
 
-    ax.set_title("So sánh mức giá giữa Superhost và Host thông thường theo loại phòng", pad=14)
+    ax.set_title("Superhost định giá phòng cao hơn Host thông thường, rõ rệt nhất ở loại Entire home/apt", pad=14)
     ax.set_xlabel("Loại phòng (Room Type)")
     ax.set_ylabel("Giá niêm yết mỗi đêm (AUD)")
     ax.legend(title="Danh hiệu", loc="upper right")
@@ -177,7 +184,7 @@ def plot_llm_complaints_distribution(llm_results_df: pd.DataFrame, output_dir: P
 
     ax.set_xlabel("Số lượt bị phàn nàn trong mẫu khảo sát LLM")
     ax.set_ylabel("Khía cạnh chất lượng (Aspects)")
-    ax.set_title("Những khía cạnh bị khách thuê phàn nàn nhiều nhất tại Sydney (Trích xuất bằng LLM)", pad=14)
+    ax.set_title("'Sạch sẽ' và 'Độ ồn' là hai nguyên nhân phàn nàn hàng đầu của khách thuê tại Sydney", pad=14)
     ax.text(0.98, 0.02, f"Tổng số đánh giá phân tích: N={len(llm_results_df):,}", 
             transform=ax.transAxes, ha="right", fontsize=9, color="#666666", style="italic")
 

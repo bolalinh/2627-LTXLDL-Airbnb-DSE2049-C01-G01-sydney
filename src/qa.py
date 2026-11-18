@@ -176,20 +176,21 @@ def rule_duplicates_within(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, d
 
 def rule_category_validation(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
     """QA-03: Kiểm tra hợp lệ danh mục loại phòng (room_type) (Bài 10, slide 18)."""
-    valid = {"Entire home/apt", "Private room", "Shared room", "Hotel room"}
+    valid = ("Entire home/apt", "Private room", "Shared room", "Hotel room")
     mask = ~df["room_type"].isin(valid) if "room_type" in df.columns else pd.Series(False, index=df.index)
     affected = int(mask.sum())
     if affected > 0:
         df.loc[mask, "_qa_flag"] = df.loc[mask, "_qa_flag"].astype(str) + "|invalid_room_type"
+    counts_dict = {k: int(v) for k, v in df["room_type"].value_counts().items()} if "room_type" in df.columns else {}
     return df, _make_report(
         rule="QA-03: Kiểm tra hợp lệ danh mục loại phòng (room_type)",
-        condition=f"room_type ∉ {valid}",
+        condition=f"room_type ∉ {list(valid)}",
         reason="Bài 10 slide 18: Danh mục phải thuộc tập phân loại chính thức của Airbnb để đảm bảo tính đúng đắn khi nhóm thống kê",
         action="GẮN CỜ (_qa_flag)",
         before=len(df),
         after=len(df),
         affected=affected,
-        kpi_before=f"Tập danh mục thực tế: {dict(df['room_type'].value_counts()) if 'room_type' in df.columns else 'N/A'}",
+        kpi_before=f"Tập danh mục thực tế: {counts_dict}",
         kpi_after=f"Tỷ lệ hợp lệ: {((len(df) - affected) / len(df) * 100):.2f}% ({affected} dòng gắn cờ)"
     )
 

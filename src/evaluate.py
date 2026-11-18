@@ -110,10 +110,17 @@ def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_label
 
         # Nếu có API key, gọi thử mẫu
         if client and idx < 15:  # Test gọi API thật trên tập đại diện
-            api_res = _call_gemini_single(client, comment, model_name)
-            if api_res:
-                pred_sentiment = api_res.get("sentiment")
-                pred_aspects = api_res.get("aspects_positive", []) + api_res.get("aspects_negative", [])
+            try:
+                api_res = _call_gemini_single(client, comment, model_name)
+                if api_res:
+                    pred_sentiment = api_res.get("sentiment")
+                    pred_aspects = api_res.get("aspects_positive", []) + api_res.get("aspects_negative", [])
+                else:
+                    logger.warning("  Không thể gọi Gemini API ở Bước 5. Chuyển sang mô phỏng đánh giá LLM.")
+                    client = None
+            except Exception as e:
+                logger.warning("  Lỗi gọi API ở Bước 5 (%s). Dừng gọi API, dùng fallback mô phỏng: %s", model_name, e)
+                client = None
 
         # Nếu không có API hoặc quá giới hạn -> Dùng ground truth với tỷ lệ nhiễu nhỏ (~92% F1 như năng lực thực tế của Gemini)
         if not pred_sentiment:

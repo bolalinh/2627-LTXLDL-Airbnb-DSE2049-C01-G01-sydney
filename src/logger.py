@@ -48,7 +48,7 @@ class PipelineLogger:
         root.setLevel(level)
 
         # Giữ mức WARNING cho các thư viện bên thứ 3 để tránh làm loãng file log
-        for noisy in ["matplotlib", "PIL", "urllib3"]:
+        for noisy in ["matplotlib", "PIL", "urllib3", "httpx", "httpcore", "httpx2", "httpcore2", "google", "google_genai"]:
             logging.getLogger(noisy).setLevel(logging.WARNING)
 
         # Định dạng chuẩn mực: Thời gian | Cấp độ | Module | Nội dung

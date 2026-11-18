@@ -216,8 +216,13 @@ def _parse_response_payload(response: Any) -> dict:
     return data
 
 
+class NonRetryableAPIError(Exception):
+    """Lỗi API vĩnh viễn không thể retry (auth, permission, billing, quota cạn)."""
+    pass
+
+
 def _is_non_retryable_error(exc: Exception) -> bool:
-    """Phân biệt lỗi vĩnh viễn (auth/permission/model không tồn tại) để dừng retry sớm."""
+    """Phân biệt lỗi vĩnh viễn (auth/permission/model không tồn tại/billing) để dừng retry sớm."""
     msg = str(exc)
     non_retryable_tokens = (
         "400 INVALID_ARGUMENT",
@@ -225,6 +230,10 @@ def _is_non_retryable_error(exc: Exception) -> bool:
         "403 PERMISSION_DENIED",
         "404 NOT_FOUND",
         "API_KEY_INVALID",
+        "PERMISSION_DENIED",
+        "BILLING_DISABLED",
+        "RESOURCE_EXHAUSTED",
+        "billing",
     )
     return any(token in msg for token in non_retryable_tokens)
 
@@ -280,7 +289,10 @@ def _call_gemini_single(
             payload = _parse_response_payload(response)
             return _normalize_analysis(payload, allowed_aspects=aspect_list)
         except Exception as e:
-            if _is_non_retryable_error(e) or attempt >= attempts - 1:
+            if _is_non_retryable_error(e):
+                logger.warning("  Lỗi gọi API Gemini (%s): %s", model_name, e)
+                raise NonRetryableAPIError(str(e)) from e
+            if attempt >= attempts - 1:
                 logger.warning("  Lỗi gọi API Gemini (%s): %s", model_name, e)
                 return None
             wait_sec = min(8.0, 1.0 * (2 ** attempt))
@@ -425,6 +437,7 @@ def process_reviews_with_llm(
     results = []
     new_api_calls = 0
     cache_hits = 0
+    api_attempts = 0
 
     logger.info("─── BẮT ĐẦU XỬ LÝ LLM (%s) CHO %d ĐÁNH GIÁ ───", model_name, len(reviews_sample))
     if skip_llm:
@@ -447,19 +460,29 @@ def process_reviews_with_llm(
         # 2. Nếu có client và chưa quá giới hạn -> gọi API
         parsed_record = None
         used_api = False
-        if client and new_api_calls < max_api_calls and len(comment) > 10:
-            parsed_record = _call_gemini_single(
-                client,
-                comment[:500],
-                model_name=model_name,
-                temperature=temperature,
-                aspects=aspects,
-                max_retries=max_retries,
-            )
-            if parsed_record is not None:
-                used_api = True
-                new_api_calls += 1
-                time.sleep(0.4)  # Tránh chạm rate limit
+        if client and api_attempts < max_api_calls and len(comment) > 10:
+            api_attempts += 1
+            try:
+                parsed_record = _call_gemini_single(
+                    client,
+                    comment[:500],
+                    model_name=model_name,
+                    temperature=temperature,
+                    aspects=aspects,
+                    max_retries=max_retries,
+                )
+                if parsed_record is not None:
+                    used_api = True
+                    new_api_calls += 1
+                    time.sleep(0.4)  # Tránh chạm rate limit
+            except NonRetryableAPIError as err:
+                logger.warning(
+                    "  [API GEMINI NGẮT KẾT NỐI]: Gặp lỗi vĩnh viễn (%s). "
+                    "Dừng gọi API, tự động chuyển tất cả các đánh giá còn lại sang baseline fallback.",
+                    err,
+                )
+                client = None
+                parsed_record = None
 
         # 3. Nếu không gọi được API hoặc skip-llm -> Fallback mô hình quy tắc
         if parsed_record is None:

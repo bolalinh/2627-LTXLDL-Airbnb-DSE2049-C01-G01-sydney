@@ -192,56 +192,6 @@ Sau khi lệnh chạy kết thúc thành công, hệ thống sinh ra đầy đ�
    * `figures/04_llm_guest_complaints_aspects.png`: Phân bổ các khía cạnh dịch vụ khiến khách hàng phàn nàn nhiều nhất (Độ ồn, Sạch sẽ, Tiện nghi...).
 4. **Nhật ký thực thi:** Toàn bộ lịch sử chạy, thời gian thực thi từng module và thông tin debug được ghi vào file `log.txt`.
 
----
-
-## ❓ 7. Xử lý Lỗi Thường gặp (Troubleshooting / FAQ)
-
-<details>
-<summary><b>1. Lỗi: <code>Python was not found</code> hoặc <code>python3: command not found</code></b></summary>
-
-* **Nguyên nhân:** Trên Windows, câu lệnh gọi Python là `python` chứ không phải `python3`. Nếu gõ `python3`, Windows sẽ tìm app trên Microsoft Store và báo lỗi.
-* **Cách sửa:** Gõ `python --version` để kiểm tra. Đảm bảo khi cài đặt Python bạn đã tích vào ô **"Add Python to PATH"**.
-</details>
-
-<details>
-<summary><b>2. Lỗi: <code>Activate.ps1 cannot be loaded because running scripts is disabled on this system</code> (Windows PowerShell)</b></summary>
-
-* **Nguyên nhân:** Windows PowerShell mặc định chặn thực thi file script `.ps1` để bảo mật.
-* **Cách sửa:** Mở PowerShell và chạy lệnh sau để cấp quyền cho phiên làm việc hiện tại:
-  ```powershell
-  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-  .\.venv\Scripts\Activate.ps1
-  ```
-  *Hoặc chạy trực tiếp mà không cần kích hoạt:*
-  ```powershell
-  .\.venv\Scripts\python.exe run_pipeline.py --config configs/sydney.yaml
-  ```
-</details>
-
-<details>
-<summary><b>3. Lỗi: <code>source : The term 'source' is not recognized</code> (Windows)</b></summary>
-
-* **Nguyên nhân:** `source` là câu lệnh của Linux/macOS. Trên Windows, lệnh kích hoạt là `.\.venv\Scripts\Activate.ps1`.
-</details>
-
-<details>
-<summary><b>4. Lỗi: <code>FileNotFoundError: [Errno 2] No such file or directory: 'data/raw/...'</code></b></summary>
-
-* **Nguyên nhân:** Bạn dùng cờ `--skip-download` trong khi máy bạn là máy mới, chưa tải dữ liệu thô từ Inside Airbnb về.
-* **Cách sửa:** Bỏ cờ `--skip-download` ở lần chạy đầu tiên:
-  ```bash
-  python run_pipeline.py --config configs/sydney.yaml
-  ```
-</details>
-
-<details>
-<summary><b>5. Lỗi: <code>Default value is not supported in the response schema for the Gemmini API</code></b></summary>
-
-* **Nguyên nhân:** Đã được sửa triệt để trong mã nguồn (loại bỏ thuộc tính `default` trong class `ReviewAnalysis` Pydantic để tuân thủ quy chuẩn OpenAPI của Google Gemini SDK).
-</details>
-
----
-
 ## 📜 Giấy phép & Tuyên bố Miễn trừ (License & AI Transparency)
 * Dữ liệu thuộc bản quyền công khai của cộng đồng **Inside Airbnb** ([insideairbnb.com](https://insideairbnb.com/)).
 * Báo cáo tuân thủ nghiêm ngặt chính sách minh bạch sử dụng trí tuệ nhân tạo (AI) của môn học UET.DSE2049. Chi tiết phân định trách nhiệm xem tại file [AI_USAGE.md](AI_USAGE.md).

@@ -131,9 +131,9 @@ def plot_llm_complaints_distribution(llm_results_df: pd.DataFrame, output_dir: P
     complaints = []
     for item in llm_results_df.get("aspects_negative", []):
         if isinstance(item, list):
-            complaints.extend(item)
-        elif isinstance(item, str) and item:
-            complaints.extend([x.strip() for x in item.split(";") if x.strip()])
+            complaints.extend([x for x in item if x and str(x).lower() not in ("nan", "none", "null", "")])
+        elif isinstance(item, str) and item and item.lower() not in ("nan", "none", "null"):
+            complaints.extend([x.strip() for x in item.split(";") if x.strip() and x.strip().lower() not in ("nan", "none", "null")])
 
     if not complaints:
         fallback_counts = {"sạch sẽ": 45, "độ ồn": 38, "tiện nghi": 30, "chủ nhà": 22, "giá trị": 18, "an toàn": 8}

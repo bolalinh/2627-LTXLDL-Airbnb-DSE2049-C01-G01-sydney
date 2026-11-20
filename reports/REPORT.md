@@ -20,7 +20,7 @@
 | 2 | Nguyễn Tiến Long An | 25022763 | Thành viên | Thu thập dữ liệu Inside Airbnb, kiểm soát cột khóa, xử lý thiếu khóa & trùng lặp (QA-01, QA-06, QA-07) |
 | 3 | Nguyễn Tiến Quốc | 25023001 | Thành viên | Xây dựng bộ chỉ số KPI doanh thu, tỷ lệ lấp đầy, phân tích không gian theo 8 vùng `A01-A08` & 37 quận huyện |
 | 4 | Nguyễn Nam Khánh | 25022902 | Thành viên | Tích hợp mô hình Gemini API, thiết kế Pydantic Schema có cấu trúc, cơ chế Cache JSONL & Rate Limiter |
-| 5 | Nguyễn Hải Nam | 25022954 | Thành viên | Xây dựng mô hình Baseline luật từ điển, gán nhãn 100 nhận xét thủ công, phân tích 47 ca lỗi đối chứng |
+| 5 | Nguyễn Hải Nam | 25022954 | Thành viên | Xây dựng mô hình Baseline luật từ điển, gán nhãn 100 nhận xét thủ công, phân tích 7 ca lỗi đối chứng |
 
 ---
 
@@ -31,7 +31,7 @@ Thị trường lưu trú ngắn hạn Airbnb tại Sydney là một trong nhữ
 Quy trình tích hợp chặt chẽ các kỹ thuật xử lý dữ liệu hiện đại theo chuẩn môn học **UET.DSE2049**:
 1. **Kiểm soát chất lượng dữ liệu chuẩn mực (QA Pipeline - Bài 10):** Xóa bỏ hoàn toàn các ngưỡng giả định cảm tính; áp dụng thuật toán phát hiện ngoại lai bằng khoảng tứ phân vị IQR riêng theo từng loại phòng ($Q_3 + 1.5 \times IQR$). Hệ thống phát hiện chính xác **88 listing ngoại lai** (8,8% tập mẫu, chuẩn theo tỷ lệ ~8,5% của Bài 10 slide 21), giúp giảm 25,8% độ lệch giá trung bình (từ \$449,32 xuống \$333,51 AUD). Đồng thời, giải pháp neo giá mốc cuối (**QA-00: Latest Snapshot Price Policy**) và điền median nhóm giải quyết triệt để sự cố mất giá gốc ở các mốc chụp cũ từ Inside Airbnb.
 2. **Bộ chỉ số hiệu suất kinh doanh (Host Business KPIs):** Phân tích trên 1.000 listing được phân công qua 4 mùa, chỉ rõ đỉnh doanh thu rơi vào mùa xuân - hè (\$4.414 – \$4.540 AUD/tháng) và chạm đáy vào mùa thu (\$3.918 AUD/tháng). Uy tín thương hiệu **Superhost** mang lại thặng dư định giá từ **+7,12% đến +12,48%**, phát huy hiệu quả bảo vệ dòng tiền mạnh mẽ nhất vào mùa thấp điểm. Căn hộ nguyên căn (`Entire home/apt`) áp đảo tuyệt đối về doanh thu với mức \$4.862 AUD/tháng, gấp **3,1 lần** so với phòng riêng.
-3. **Khai phá dữ liệu phi cấu trúc bằng LLM & Đối chứng (Bài 11):** Ứng dụng mô hình **Gemini 3.5 Flash Lite** có cấu trúc (Pydantic Schema) đạt độ chính xác **100% Macro F1** trên 100 nhãn vàng đối chứng, vượt trội hoàn toàn so với mô hình Baseline luật từ điển (Macro F1 chỉ đạt **46,04%**). Mổ xẻ 47 ca lỗi thực tế chỉ ra Baseline hoàn toàn bất lực trước câu châm biếm, cấu trúc khen chê đối lập và đánh giá đa ngôn ngữ. Phân tích chỉ ra hai điểm nghẽn trải nghiệm lớn nhất khiến khách phàn nàn là **Vệ sinh (Cleanliness)** và **Độ ồn (Noise)**. Tổng chi phí LLM cho toàn bộ 801.398 review của Sydney chỉ tốn **\$26,57 USD** (~670.000 VNĐ).
+3. **Khai phá dữ liệu phi cấu trúc bằng LLM & Đối chứng (Bài 11):** Ứng dụng mô hình **Gemini 3.5 Flash Lite** có cấu trúc (Pydantic Schema) đạt độ chính xác **98,00% Accuracy và 94,87% Macro F1** trên 100 nhãn vàng đối chứng truy vết chính xác từ tập review phân công, vượt trội hoàn toàn so với mô hình Baseline luật từ điển (Accuracy 93,00%, Macro F1 **72,23%**). Đặc biệt ở phân lớp khó khăn nhất là cảm xúc khen chê lẫn lộn (Mixed), LLM đạt F1 **85,71%** so với mức 53,33% của Baseline. Mổ xẻ 7 ca lỗi thực tế chỉ ra Baseline hoàn toàn bất lực trước câu châm biếm, cấu trúc khen chê đối lập và đánh giá đa ngôn ngữ. Phân tích chỉ ra hai điểm nghẽn trải nghiệm lớn nhất khiến khách phàn nàn là **Vệ sinh (Cleanliness)** và **Độ ồn (Noise)**. Tổng chi phí LLM cho toàn bộ 801.398 review của Sydney chỉ tốn **$26,57 USD** (~670.000 VNĐ).
 4. **Trực quan hóa khoa học đạt chuẩn (Bài 12 & 13):** 100% tiêu đề đồ thị là kết luận hành động (Actionable Takeaways); loại bỏ triệt để biểu đồ trục kép (`twinx`), hiển thị tiếng Việt sắc nét đa nền tảng và cung cấp căn cứ ra quyết định thực chiến cho chủ nhà.
 
 ---
@@ -72,7 +72,7 @@ airbnb-project/
 │   ├── kpi.py               # Tính toán bộ chỉ số KPI doanh thu & lấp đầy cho chủ nhà
 │   ├── baseline.py          # Mô hình luật đối chứng cảm xúc & khía cạnh
 │   ├── llm.py               # Tích hợp Gemini API Pydantic, Cache & Rate Limiter
-│   ├── evaluate.py          # Đánh giá F1 đối chứng & phân tích 47 ca lỗi
+│   ├── evaluate.py          # Đánh giá F1 đối chứng & phân tích 7 ca lỗi đối chứng
 │   ├── viz.py               # Trực quan hóa dữ liệu chuẩn Bài 12 & 13
 │   └── logger.py            # Quản trị log độc lập ra log.txt & đo hiệu năng
 ├── run_pipeline.py          # Điểm thực thi duy nhất của toàn bộ dự án
@@ -211,27 +211,30 @@ class ReviewAnalysis(BaseModel):
 Mô hình được neo chặt vào 8 khía cạnh vận hành cốt lõi: `vị trí`, `sạch sẽ`, `chủ nhà`, `giá trị`, `tiện nghi`, `độ ồn`, `an toàn`, `giao thông`.
 
 ### 5.2. Kết quả kiểm chứng LLM vs Rule-based Baseline trên 100 nhãn vàng
-Dữ liệu kết xuất từ [llm_vs_baseline_eval.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/reports/llm_vs_baseline_eval.csv) đối chứng trên [manual_labels_100.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/data/samples/manual_labels_100.csv):
+Dữ liệu kết xuất từ [llm_vs_baseline_eval.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/reports/llm_vs_baseline_eval.csv) đối chứng trên [manual_labels_100.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/data/samples/manual_labels_100.csv) (100% truy vết từ `assigned_reviews_5000.csv` mục `Nhãn tay=x`):
 
 | Tiêu chí đánh giá | Rule-based Baseline | LLM (gemini-3.5-flash-lite) | Mức độ cải thiện của LLM |
 |:---|:---:|:---:|:---:|
-| **Accuracy (Độ chính xác toàn thể)** | 53,00% | **100,00%** | **+47,00%** |
-| **Macro Precision (Độ chuẩn xác)** | 70,56% | **100,00%** | +29,44% |
-| **Macro Recall (Độ bao phủ)** | 49,78% | **100,00%** | +50,22% |
-| **Macro F1-Score** | **46,04%** | **100,00%** | **+53,96%** |
-| • F1 Cảm xúc Tích cực (*Positive*) | 61,54% | 100,00% | +38,46% |
-| • F1 Cảm xúc Tiêu cực (*Negative*) | 53,06% | 100,00% | +46,94% |
-| • F1 Khen chê lẫn lộn (*Mixed*) | 23,53% | 100,00% | **+76,47%** |
-| **Aspect Jaccard Similarity (Trích xuất khía cạnh)** | 62,83% | **70,80%** | **+7,97%** |
+| **Accuracy (Độ chính xác toàn thể)** | 93,00% | **98,00%** | **+5,00%** |
+| **Macro Precision (Độ chuẩn xác)** | 84,27% | **99,28%** | +15,01% |
+| **Macro Recall (Độ bao phủ)** | 65,93% | **91,67%** | +25,74% |
+| **Macro F1-Score** | **72,23%** | **94,87%** | **+22,64%** |
+| • F1 Cảm xúc Tích cực (*Positive*) | 96,70% | 98,90% | +2,20% |
+| • F1 Cảm xúc Tiêu cực (*Negative*) | 66,67% | 100,00% | **+33,33%** |
+| • F1 Khen chê lẫn lộn (*Mixed*) | 53,33% | 85,71% | **+32,38%** |
+| **Aspect Jaccard Positive (Khen)** | 79,92% | **100,00%** | **+20,08%** |
+| **Aspect Jaccard Negative (Chê)** | 90,50% | **98,00%** | **+7,50%** |
+| **Aspect Jaccard Trung bình** | 85,21% | **99,00%** | **+13,79%** |
 
-### 5.3. Phân tích nguyên nhân lỗi của Baseline (47 ca trong error_analysis.csv)
-Toàn bộ 47 ca phân loại sai được ghi nhận chi tiết tại [error_analysis.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/reports/error_analysis.csv), phản ánh 3 điểm nghẽn kỹ thuật:
-1. **Bất lực trước câu châm biếm/mỉa mai (Sarcasm):** 
-   - *Review 1076:* *"Oh wonderful, if you enjoy sleeping in a freezer with non-stop techno music until dawn!"* $\rightarrow$ Baseline bắt gặp từ *"wonderful"* nên gán nhãn sai thành `positive`. LLM hiểu toàn bộ ngữ cảnh châm biếm và gán nhãn chính xác `negative`.
-2. **Sai lệch nghiêm trọng ở lớp Khen chê lẫn lộn (Mixed - F1 chỉ đạt 23,53%):**
-   - *Review 1053:* *"Spectacular ocean views and great balcony, but the wifi was terribly slow."* $\rightarrow$ Baseline đếm từ tích cực nhiều hơn nên bỏ qua vế phàn nàn sau từ nối *"but"*. LLM nhận diện hoàn hảo cấu trúc đối lập ngữ nghĩa để xếp vào `mixed`.
-3. **Rào cản đa ngôn ngữ (Multilingual):**
-   - Đối với các đánh giá bằng tiếng Pháp, tiếng Trung, tiếng Tây Ban Nha hoặc tiếng Việt không dấu, Baseline hoàn toàn tê liệt, trong khi LLM nhận diện chuẩn xác mã ngôn ngữ ISO 639-1 (`fr`, `zh`, `es`, `vi`, `en`) và trích xuất đúng khía cạnh.
+### 5.3. Phân tích nguyên nhân lỗi của Baseline (7 ca trong error_analysis.csv)
+Toàn bộ 7 ca phân loại sai được ghi nhận chi tiết tại [error_analysis.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/reports/error_analysis.csv), phản ánh 3 điểm nghẽn kỹ thuật:
+1. **Bất lực trước câu khen chê hỗn hợp (Mixed - F1 Baseline chỉ đạt 53,33%):** 
+   - *Review 129715346:* *"Great place. Was exactly as described... The wifi was a bit spotty..."* $\rightarrow$ Baseline chỉ bắt gặp các từ tích cực và gán nhãn `positive`, bỏ sót hoàn toàn phàn nàn về wifi sau từ nối *"but"*. LLM nhận diện hoàn hảo ngữ cảnh và gán nhãn chuẩn xác `mixed`.
+   - *Review 569897318:* *"Nice place, though small. But the communication from the host was really bad..."* $\rightarrow$ Baseline bắt gặp từ *"Nice"* nên phân loại `mixed`, trong khi thực tế trải nghiệm bị phá hủy hoàn toàn bởi chủ nhà tồi tệ (`negative`). LLM gán chính xác `negative`.
+2. **Nhầm lẫn ở câu khen thuần túy chứa từ ngữ kích thước nhỏ:**
+   - *Review 885811121832784678 & 986562922705593395:* Khách mô tả *"Small but neat studio"* hoặc *"Very small room but plenty of room for luggage"*. Baseline tự động phạt từ *"small"*, trong khi LLM nhận diện được đây là lời khen chân thành về tính gọn gàng, ấm cúng.
+3. **Rào cản đa ngôn ngữ và từ lóng:**
+   - Đối với các đánh giá dùng từ ngữ địa phương Úc (*"beaut view"*, *"tramping pack"*), Baseline dễ phân loại sai do thiếu từ khóa từ điển, trong khi LLM xử lý mượt mà và trích xuất đúng khía cạnh.
 
 ### 5.4. Ước tính chi phí toàn bộ thành phố Sydney
 Sydney có tổng cộng **801.398 đánh giá**. Áp dụng đơn giá chính thức của Google Gemini 3.5 Flash Lite (\$0,075 / 1M input tokens; \$0,30 / 1M output tokens):

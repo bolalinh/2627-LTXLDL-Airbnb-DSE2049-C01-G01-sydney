@@ -72,6 +72,11 @@ ASPECT_KEYWORDS = {
         "safe", "safety", "secure", "lock", "security", "dark", "sketchy",
         "dangerous", "police"
     ],
+    "giao thông": [
+        "transport", "transportation", "train", "metro", "subway", "bus",
+        "ferry", "tram", "uber", "taxi", "parking", "commute", "traffic",
+        "drive", "airport", "shuttle"
+    ],
 }
 
 

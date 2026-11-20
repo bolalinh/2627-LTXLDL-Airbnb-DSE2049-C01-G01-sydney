@@ -60,37 +60,35 @@ def _build_url(data_root: str, snapshot: str, file_path: str) -> str:
 
 
 def _download_one(url: str, dest: Path) -> Path:
-    """Tải một file bằng requests stream kết hợp certifi; bỏ qua nếu đã có sẵn."""
+    """Tải một file nguyên tử (atomic download qua file .tmp) với xác thực SSL chuẩn certifi."""
     dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.exists() and dest.stat().st_size > 1024:
         logger.info("  ✓ Đã có sẵn: %s (%.1f MB)", dest.name, dest.stat().st_size / (1024 * 1024))
         return dest
 
-    logger.info("  ↓ Đang tải: %s", url)
+    tmp_dest = dest.with_name(dest.name + ".tmp")
+    logger.info("  ↓ Đang tải an toàn: %s", url)
     try:
         resp = requests.get(url, stream=True, timeout=60, verify=certifi.where())
         resp.raise_for_status()
-        with open(dest, "wb") as f:
+        with open(tmp_dest, "wb") as f:
             for chunk in resp.iter_content(chunk_size=1024 * 1024):
                 if chunk:
                     f.write(chunk)
+
+        # Kiểm tra tính toàn vẹn cơ bản trước khi đổi tên chính thức
+        if tmp_dest.stat().st_size < 100:
+            raise ValueError(f"File tải về quá nhỏ ({tmp_dest.stat().st_size} bytes), có thể bị lỗi.")
+
+        # Đổi tên nguyên tử
+        tmp_dest.replace(dest)
         size_mb = dest.stat().st_size / (1024 * 1024)
-        logger.info("  ✓ Đã tải xong: %s (%.1f MB)", dest.name, size_mb)
+        logger.info("  ✓ Đã tải xong và xác thực an toàn: %s (%.1f MB)", dest.name, size_mb)
     except Exception as e:
-        logger.warning("  ⚠ Requests gặp lỗi (%s), chuyển sang fallback urllib...", e)
-        try:
-            ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
-            with urlopen(url, context=ctx, timeout=60) as u_in, open(dest, "wb") as f_out:
-                f_out.write(u_in.read())
-            size_mb = dest.stat().st_size / (1024 * 1024)
-            logger.info("  ✓ Đã tải xong (fallback): %s (%.1f MB)", dest.name, size_mb)
-        except Exception as e2:
-            logger.error("  ✗ Lỗi không thể tải %s: %s", url, e2)
-            if dest.exists():
-                dest.unlink()
-            raise e2
+        logger.error("  ✗ Lỗi không thể tải %s: %s", url, e)
+        if tmp_dest.exists():
+            tmp_dest.unlink()
+        raise e
     return dest
 
 

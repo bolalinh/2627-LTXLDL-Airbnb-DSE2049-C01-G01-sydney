@@ -65,13 +65,28 @@ def compute_host_kpis_overall(df: pd.DataFrame, snapshot_label: str = "all") -> 
         "avg_cleanliness_score": _v("review_scores_cleanliness", np.mean),
     }
 
-    # Superhost Price Premium (%)
+    # Superhost Price Premium (%): Tương quan định giá (Descriptive Correlation)
+    # V07: Tính cả thặng dư chung và thặng dư kiểm soát theo từng loại phòng (Entire home vs Private room)
     if "is_superhost" in df.columns and "price" in df.columns:
         p_sup = df[df["is_superhost"]]["price"].median()
         p_norm = df[~df["is_superhost"]]["price"].median()
         kpis["superhost_median_price"] = round(float(p_sup), 2)
         kpis["non_superhost_median_price"] = round(float(p_norm), 2)
         kpis["superhost_price_premium_pct"] = round(float(((p_sup - p_norm) / p_norm) * 100), 2) if p_norm > 0 else 0.0
+
+        # Kiểm soát theo phân khúc Entire home/apt
+        df_entire = df[df["room_type"] == "Entire home/apt"]
+        if not df_entire.empty:
+            p_sup_ent = df_entire[df_entire["is_superhost"]]["price"].median()
+            p_norm_ent = df_entire[~df_entire["is_superhost"]]["price"].median()
+            kpis["superhost_premium_entire_pct"] = round(float(((p_sup_ent - p_norm_ent) / p_norm_ent) * 100), 2) if p_norm_ent > 0 else 0.0
+
+        # Kiểm soát theo phân khúc Private room
+        df_priv = df[df["room_type"] == "Private room"]
+        if not df_priv.empty:
+            p_sup_priv = df_priv[df_priv["is_superhost"]]["price"].median()
+            p_norm_priv = df_priv[~df_priv["is_superhost"]]["price"].median()
+            kpis["superhost_premium_private_pct"] = round(float(((p_sup_priv - p_norm_priv) / p_norm_priv) * 100), 2) if p_norm_priv > 0 else 0.0
 
     return kpis
 

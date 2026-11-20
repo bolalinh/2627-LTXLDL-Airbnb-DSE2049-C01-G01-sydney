@@ -121,22 +121,29 @@ def main():
         df_reviews_raw = pd.read_csv(
             reviews_file,
             compression="gzip" if str(reviews_file).endswith(".gz") else None,
-            usecols=["id", "listing_id", "comments"]
+            usecols=["id", "listing_id", "date", "comments"]
         )
+        df_reviews_raw["id"] = pd.to_numeric(df_reviews_raw["id"], errors="coerce").fillna(-1).astype("int64")
 
         reviews_sample = pd.DataFrame()
         if assigned_rev_path.exists():
             df_ass_rev = pd.read_csv(assigned_rev_path)
             id_col = "review_id" if "review_id" in df_ass_rev.columns else "id"
             if "Mẫu LLM" in df_ass_rev.columns:
-                llm_ids = set(df_ass_rev[df_ass_rev["Mẫu LLM"] == "x"][id_col])
+                target_df = df_ass_rev[df_ass_rev["Mẫu LLM"] == "x"]
             else:
-                llm_ids = set(df_ass_rev[id_col])
-            reviews_sample = df_reviews_raw[df_reviews_raw["id"].isin(llm_ids)].copy()
-            if len(reviews_sample) > 0:
-                logger.info("  ✓ Đã khớp chuẩn %d review mẫu LLM theo phân bổ đề bài", len(reviews_sample))
+                target_df = df_ass_rev.head(1000)
 
-        # Tự động lấy mẫu phân tầng nếu file phân công không khớp ID hoặc không tồn tại
+            llm_ids = list(target_df[id_col].astype("int64"))
+            llm_ids_set = set(llm_ids)
+            matched_reviews = df_reviews_raw[df_reviews_raw["id"].isin(llm_ids_set)].copy()
+            if len(matched_reviews) > 0:
+                # Giữ nguyên thứ tự ID như trong file phân công
+                reviews_sample = matched_reviews.drop_duplicates(subset=["id"]).set_index("id").reindex(llm_ids).dropna(subset=["comments"]).reset_index()
+                logger.info("  ✓ Đã khớp chính xác %d/1.000 review thuộc tập phân công 'Mẫu LLM=x' (thuộc %d listing khác nhau)",
+                            len(reviews_sample), reviews_sample["listing_id"].nunique())
+
+        # Dự phòng tự động nếu không tìm thấy file phân công
         if reviews_sample.empty:
             sample_size = args.sample_size or cfg.get("llm", {}).get("sample_size", 1000)
             reviews_sample = sample_reviews_stratified(
@@ -148,8 +155,9 @@ def main():
         llm_results_df = process_reviews_with_llm(reviews_sample, cfg, skip_llm=args.skip_llm)
 
         cost_report = estimate_total_sydney_cost(total_reviews_count=len(df_reviews_raw))
-        logger.info("  [ƯỚC TÍNH CHI PHÍ LLM]:")
+        logger.info("  [ƯỚC TÍNH CHI PHÍ LLM TOÀN THỊ TRƯỜNG SYDNEY]:")
         logger.info("    Tổng số đánh giá thực tế: %d", cost_report["total_reviews"])
+        logger.info("    Tổng token ước tính: %d M tokens", cost_report.get("est_total_tokens", 0) // 1000000)
         logger.info("    Tổng chi phí ước tính: $%.2f USD", cost_report["est_total_cost_usd"])
     else:
         gold_file = cfg.get("baseline", {}).get("gold_labels_file", "data/samples/manual_labels_100.csv")

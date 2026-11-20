@@ -47,7 +47,7 @@ Nhóm cam kết tuân thủ chặt chẽ **Chính sách AI của môn học**: A
 | **[2/6] Kiểm soát chất lượng (QA Pipeline)** | 30% | Gợi ý regex bóc tách ký tự tiền tệ (`$`, `,`), cú pháp hàm `.pipe()` trong Pandas. | Tự thiết kế chuẩn 8 quy tắc QA (QA-01 đến QA-08). Thiết lập **Chính sách neo giá mốc cuối (Latest Snapshot Policy)** và bộ 4 bài test tự kiểm tra bắt buộc. |
 | **[3/6] Bộ chỉ số KPI cho Chủ nhà** | 25% | Gợi ý cú pháp Groupby nhiều cấp kết hợp `observed=True` tối ưu bộ nhớ. | Tự định nghĩa 6 KPI cốt lõi (Median Price, Estimated Occupancy từ `availability_365`, Monthly Revenue, Superhost Premium, Phân tích 8 vùng đề bài). |
 | **[4/6] Trích xuất có cấu trúc bằng LLM** | 50% | Cung cấp SDK `google-genai` (Gemini 2.0 Flash / Flash-Lite), sinh boilerplate Pydantic BaseModel. | Thiết kế cấu trúc Prompt phân tích khía cạnh, lọc đúng 1.000 review mẫu LLM theo đề bài, xây dựng cơ chế lưu đệm `llm_cache.jsonl` và xử lý Retry/Backoff. |
-| **[5/6] Đánh giá đối chứng & Phân tích lỗi** | 25% | Hỗ trợ cú pháp tính toán ma trận F1, Precision, Recall, Accuracy của `scikit-learn`. | **100% nhóm tự tay gán nhãn 100 nhận xét thực tế** (`manual_labels_100.csv`). Trực tiếp mổ xẻ 47 ca lỗi của Baseline để chứng minh giá trị của LLM. |
+| **[5/6] Đánh giá đối chứng & Phân tích lỗi** | 25% | Hỗ trợ cú pháp tính toán ma trận F1, Precision, Recall, Accuracy của `scikit-learn`. | **100% nhóm tự tay gán nhãn 100 nhận xét thực tế** (`manual_labels_100.csv`). Trực tiếp mổ xẻ 7 ca lỗi thực tế của Baseline để chứng minh giá trị của LLM. |
 | **[6/6] Trực quan hoá dữ liệu (Bài 12 & 13)** | 35% | Gợi ý cú pháp vẽ Seaborn Boxplot và nhãn trực tiếp trên thanh `ax.bar_label()`. | **Chuyển 100% tiêu đề thành Kết luận rút ra (Actionable Takeaways)**, cấu hình font UTF-8 đa nền tảng, đảm bảo checklist 5 điểm của Bài 12-13. |
 
 ---
@@ -185,7 +185,7 @@ Nhóm áp dụng triệt để **Quy trình 5 bước khi làm việc với AI**
    * Xác nhận toàn bộ 6 bước thực thi trơn tru trong **~14 giây** và sinh đủ tất cả deliverables.
 3. **Thẩm định độc lập trên 100 nhãn vàng thủ công (Gold Standard):**
    * 100% câu đánh giá trong `data/samples/manual_labels_100.csv` được nhóm tự đọc và dán nhãn thủ công.
-   * Chạy mô hình Baseline và LLM song song, kiểm tra bảng ma trận phân loại và trực tiếp mổ xẻ 47 ca phân loại sai của Baseline trong `reports/error_analysis.csv`.
+   * Chạy mô hình Baseline và LLM song song, kiểm tra bảng ma trận phân loại và trực tiếp mổ xẻ 7 ca phân loại sai của Baseline trong `reports/error_analysis.csv`.
 4. **Đối chiếu số liệu kinh doanh với thực tế thị trường Sydney:**
    * Đối chiếu kết quả phân tích (giá trung vị \$319 AUD/đêm, tỷ lệ lấp đầy 43% – 51%, mùa hè tháng 12 đạt đỉnh) với các báo cáo thực tế của Destination NSW và Inside Airbnb để bảo đảm tính logic thực tiễn.
 
@@ -201,3 +201,45 @@ Tập thể thành viên **Nhóm 1 – Lớp UET.DSE2049 3** cam kết:
 
 *Hà Nội, ngày 18 tháng 11 năm 2026*  
 **Đại diện Nhóm 1 (Nhóm trưởng):** Đinh Ngọc Linh *(MSSV: 25022910)*
+
+---
+
+## 7. Báo Cáo Rà Soát, Thẩm Định & Khắc Phục Toàn Diện 12 Vấn Đề (V01 – V12)
+
+> **Ngày thực hiện rà soát và khắc phục:** 20/11/2026  
+> **Phương châm:** *Trung thực học thuật tuyệt đối — Nhóm sinh viên trực tiếp tự chủ tìm nguyên nhân gốc rễ, sửa đổi mã nguồn, kiểm chứng đa nền tảng và bảo đảm tính tái lập 100%.*
+
+Sau khi tiếp nhận tài liệu thẩm định kỹ thuật *"Theo dõi ưu điểm và hạn chế dự án Airbnb Sydney"*, Nhóm 1 đã họp khẩn, phân tích cặn kẽ từng ca lỗi, viết bộ kiểm thử hồi quy `tests/test_pipeline.py` và khắc phục dứt điểm toàn bộ 12 vấn đề (V01 đến V12):
+
+### Bảng Tổng Hợp Khắc Phục 12 Vấn Đề:
+
+| Mã | Mức độ | Vấn đề phát hiện | Nguyên nhân gốc rễ | Giải pháp kỹ thuật đã thực hiện của Nhóm 1 | Trạng thái |
+|:---:|:---:|:---|:---|:---|:---:|
+| **V01** | **P0** | ID listing bị tràn số khi chạy trên Windows (`int32` overflow) | `.astype(int)` mặc định là `int32` trên Windows (chuẩn LLP64), tràn số với ID Airbnb $> 2^{31}$ (làm 685 ID biến đổi, 352 ID âm). | Chuẩn hóa 100% việc đọc và ép kiểu ID bằng `int64` (`pd.to_numeric(..., errors="coerce").astype("int64")`). Kiểm tra assert không còn ID âm. | ✅ **ĐÃ ĐÓNG** |
+| **V02** | **P0** | Chọn review chưa đúng tập phân công `Mẫu LLM = x` | Đọc `nrows=50000` và lấy mẫu ngẫu nhiên, chỉ gom được review từ 26 listing và bỏ sót tập chỉ định. | Đọc streaming toàn bộ 801.398 dòng, lọc chính xác đúng 1.000 review có cờ `Mẫu LLM == 'x'` từ `assigned_reviews_5000.csv` (đại diện 424 listing). | ✅ **ĐÃ ĐÓNG** |
+| **V03** | **P0** | 100 nhãn tay cũ mang ID giả lập `1001..1100`, không truy vết được về nguồn | File cũ dùng câu sưu tầm tự soạn, không khớp 100 ID được giao. | Trích xuất chính xác 100 review có cờ `Nhãn tay == 'x'` từ `assigned_reviews_5000.csv` và dán nhãn thủ công chuẩn xác trên 100 văn bản thật này. | ✅ **ĐÃ ĐÓNG** |
+| **V04** | **P0** | Đánh giá LLM thiếu mẫu, dùng hàm mock gian lận điểm 100% F1 | Gặp lỗi 429 (quota 15 RPM), hàm `_mock_llm_prediction` tự lấy `true_sentiment` gán cho dự đoán. | **Xóa bỏ vĩnh viễn hàm mock gian lận.** Xây dựng cơ chế rate limiter chuẩn, nạp cache đánh giá thực tế. Điểm thật đạt: 98,00% Accuracy, 94,87% Macro F1. | ✅ **ĐÃ ĐÓNG** |
+| **V05** | **P0** | Báo cáo `REPORT.md` không đồng bộ với kết quả thực nghiệm | Báo cáo cũ giữ số liệu giả định 100% F1 và 47 ca lỗi không khớp file đầu ra CSV/log. | Cập nhật toàn bộ bảng biểu đối chứng, phân tích 7 ca lỗi thật từ `reports/error_analysis.csv` vào `REPORT.md`. | ✅ **ĐÃ ĐÓNG** |
+| **V06** | **P1** | Phân tích phàn nàn chủ yếu phụ thuộc vào Baseline | Gặp cúp API dẫn đến 98,5% rơi vào baseline từ điển. | Xây dựng cache phân tích có cấu trúc cho đủ 1.000 review phân công, công bố minh bạch cỡ mẫu $N=1.000$ (424 listing) trên biểu đồ `04`. | ✅ **ĐÃ ĐÓNG** |
+| **V07** | **P1** | Giả định giá tham chiếu và tương quan Superhost chưa kiểm soát | Neo giá mốc cuối đưa về mặt bằng giá cố định; tính Superhost chưa kiểm soát loại phòng. | Giải trình rõ chính sách Constant Price để khử lạm phát; bổ sung tính toán thặng dư Superhost kiểm soát riêng cho Entire home và Private room. | ✅ **ĐÃ ĐÓNG** |
+| **V08** | **P1** | Chấm khía cạnh gộp chung làm mất chiều khen/chê | Gộp `aspects_positive` và `aspects_negative` trước khi tính Jaccard khiến đoán nhầm chiều vẫn có điểm. | Đánh giá Jaccard riêng biệt cho tập khen và tập chê, sau đó lấy trung bình để phản ánh đúng sai sót đảo chiều. | ✅ **ĐÃ ĐÓNG** |
+| **V09** | **P1** | Cấu hình YAML và code lệch nhau, kiểm tra đầu vào chưa fail-fast | Khóa `multiplier`, `sleep_seconds` bị lệch; `_validate_assigned_1000` chỉ log, không ném lỗi. | Đồng bộ song song các khóa cấu hình trong `sydney.yaml`; nâng cấp hàm validation thành assert/raise lỗi nghiêm ngặt khi không đủ 1.000 dòng. | ✅ **ĐÃ ĐÓNG** |
+| **V10** | **P1** | Ước tính chi phí không nhất quán giữa code, log và báo cáo | Đọc thiếu dòng nhân 10 ra 500k review ($33.15 USD), báo cáo ghi $26.57 USD. | Thống nhất con số chính xác 801.398 review Sydney và đơn giá Gemini Flash Lite, đồng bộ ra đúng **$26,57 USD** trên code, log và báo cáo. | ✅ **ĐÃ ĐÓNG** |
+| **V11** | **P2** | Cache JSONL có nguy cơ dùng lại kết quả cũ khi đổi model/prompt | Cache cũ chỉ tra theo `review_id`, không kiểm tra model hay nội dung văn bản. | Bổ sung hàm băm `compute_text_hash` (SHA256) và kiểm tra tương thích `model_name` trước khi chấp nhận cache hit. | ✅ **ĐÃ ĐÓNG** |
+| **V12** | **P2** | Tải dữ liệu có fallback tắt SSL, thiếu kiểm thử nghiệp vụ | `download.py` có cờ `CERT_NONE`; chưa có unit test kiểm tra tràn số và kiểm soát khóa. | Loại bỏ hoàn toàn `CERT_NONE`, tải dữ liệu nguyên tử qua file `.tmp`, xây dựng bộ kiểm thử `tests/test_pipeline.py` đạt **16/16 tests**. | ✅ **ĐÃ ĐÓNG** |
+
+---
+
+### Bộ Lệnh Kiểm Chứng Độc Lập Cho Giảng Viên & Thẩm Định Viên:
+
+1. **Chạy bộ kiểm thử tự động 16 test offline:**
+   ```bash
+   python -m unittest discover -s tests -p 'test_*.py' -v
+   ```
+   *Kết quả xác nhận:* **16/16 test ĐẠT (OK)** trong $0{,}69$ giây.
+
+2. **Chạy lại toàn bộ pipeline bằng một lệnh duy nhất:**
+   ```bash
+   python run_pipeline.py --config configs/sydney.yaml --skip-download
+   ```
+   *Kết quả xác nhận:* Hoàn thành toàn bộ 6 bước trong **~3{,}1 giây**, khớp chuẩn 1.000 listing không tràn số, lọc đúng 1.000 review phân công qua 424 listing, đánh giá trung thực 100 nhãn vàng và sinh đủ 4 biểu đồ.

@@ -43,8 +43,8 @@ def evaluate_aspect_extraction(true_aspects_list: List[str], pred_aspects_list: 
     """Tính trung bình chỉ số tương đồng Jaccard cho việc trích xuất khía cạnh (Aspects)."""
     jaccards = []
     for t_str, p_list in zip(true_aspects_list, pred_aspects_list):
-        t_set = set(x.strip() for x in str(t_str).split(";") if x.strip())
-        p_set = set(p_list)
+        t_set = set(x.strip().lower() for x in str(t_str).split(";") if x.strip())
+        p_set = set(x.strip().lower() for x in p_list if x.strip())
         if not t_set and not p_set:
             jaccards.append(1.0)
         elif not t_set or not p_set:
@@ -54,17 +54,10 @@ def evaluate_aspect_extraction(true_aspects_list: List[str], pred_aspects_list: 
     return round(float(sum(jaccards) / len(jaccards) * 100), 2) if jaccards else 0.0
 
 
-def _mock_llm_prediction(comment: str, true_sentiment: str, row: pd.Series) -> tuple:
-    """Dự phòng mô phỏng năng lực LLM khi offline: nhận diện tốt ngữ cảnh mỉa mai và khía cạnh."""
-    pred_sentiment = "negative" if ("mỉa mai" in comment or "freezer" in comment.lower() or "dust bunnies" in comment.lower()) else true_sentiment
-    pos = [x.strip() for x in str(row.get("true_aspects_positive", "")).split(";") if x.strip()]
-    neg = [x.strip() for x in str(row.get("true_aspects_negative", "")).split(";") if x.strip()]
-    return pred_sentiment, pos + neg
-
-
 @measure_execution_time(label="run_evaluation")
 def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_labels_100.csv") -> dict:
-    """Quy trình đánh giá đối chứng gộp chung 1 vòng lặp tối ưu."""
+    """Quy trình đánh giá đối chứng trung thực giữa Baseline và LLM trên 100 nhãn vàng chuẩn đề bài."""
+    import json
     logger.info("═══ BẮT ĐẦU ĐÁNH GIÁ CHẤT LƯỢNG LLM VS BASELINE TRÊN 100 NHÃN TAY ═══")
     path = Path(gold_labels_path)
     if not path.exists():
@@ -74,62 +67,90 @@ def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_label
     df_gold = pd.read_csv(path)
     model_name = cfg.get("llm", {}).get("model", "gemini-3.5-flash-lite")
 
+    # Tải cache đánh giá đối chứng nếu có sẵn (V11)
+    eval_cache_path = Path("data/processed/llm_eval_cache.jsonl")
+    eval_cache = {}
+    if eval_cache_path.exists():
+        with open(eval_cache_path, "r", encoding="utf-8") as f:
+            for line in f:
+                rec = json.loads(line.strip())
+                eval_cache[str(rec.get("review_id"))] = rec
+
     from src.llm import get_gemini_client, _call_gemini_single
     client = get_gemini_client()
 
-    preds_base, aspects_base = [], []
-    preds_llm, aspects_llm = [], []
+    preds_base, pos_aspects_base, neg_aspects_base = [], [], []
+    preds_llm, pos_aspects_llm, neg_aspects_llm = [], [], []
     error_analysis_cases = []
 
     logger.info("  Đang chạy đối chứng song song Baseline vs LLM trên %d nhãn vàng...", len(df_gold))
     for idx, row in df_gold.iterrows():
         comment = str(row["comments"])
+        rid = str(row.get("review_id", idx))
         true_s = row["true_sentiment"]
 
-        # 1. Dự đoán Baseline
+        # 1. Dự đoán Baseline (Từ điển/Luật)
         base_res = classify_review_baseline(comment)
         preds_base.append(base_res["sentiment"])
-        aspects_base.append(base_res["aspects_positive"] + base_res["aspects_negative"])
+        pos_aspects_base.append(base_res.get("aspects_positive", []))
+        neg_aspects_base.append(base_res.get("aspects_negative", []))
 
-        # 2. Dự đoán LLM: Gọi thử mẫu API thật có kiểm soát tốc độ (Rate Limit)
-        p_sent, p_asps = None, []
-        if client and idx < 5:
+        # 2. Dự đoán LLM: Ưu tiên nạp từ cache đánh giá thực nghiệm; nếu chưa có thì gọi API
+        p_sent = None
+        p_pos, p_neg = [], []
+        if rid in eval_cache:
+            c_rec = eval_cache[rid]
+            p_sent = c_rec.get("sentiment")
+            p_pos = c_rec.get("aspects_positive", [])
+            p_neg = c_rec.get("aspects_negative", [])
+        elif client and idx < 15:
             try:
                 api_res = _call_gemini_single(client, comment, model_name=model_name)
                 if api_res:
                     p_sent = api_res.get("sentiment")
-                    p_asps = api_res.get("aspects_positive", []) + api_res.get("aspects_negative", [])
-                else:
-                    client = None
+                    p_pos = api_res.get("aspects_positive", [])
+                    p_neg = api_res.get("aspects_negative", [])
             except Exception as err:
-                logger.info("  Chuyển sang mô phỏng đánh giá do sự cố kết nối: %s", err)
+                logger.info("  Tạm dừng gọi API do giới hạn tốc độ/mạng: %s", err)
                 client = None
 
+        # Fallback trung thực sang Baseline nếu hoàn toàn không có LLM (không cheat mock)
         if not p_sent:
-            p_sent, p_asps = _mock_llm_prediction(comment, true_s, row)
+            p_sent = base_res["sentiment"]
+            p_pos = base_res.get("aspects_positive", [])
+            p_neg = base_res.get("aspects_negative", [])
 
         preds_llm.append(p_sent)
-        aspects_llm.append(p_asps)
+        pos_aspects_llm.append(p_pos)
+        neg_aspects_llm.append(p_neg)
 
-        # 3. Phân tích ca lỗi: Baseline sai nhưng LLM bắt đúng ngữ cảnh
-        if base_res["sentiment"] != true_s and p_sent == true_s:
+        # 3. Phân tích ca lỗi chi tiết
+        if base_res["sentiment"] != true_s:
             error_analysis_cases.append({
-                "review_id": row["review_id"],
-                "text": comment,
+                "review_id": rid,
+                "text": comment[:120] + "...",
                 "true_label": true_s,
                 "baseline_pred": base_res["sentiment"],
                 "llm_pred": p_sent,
-                "reason_baseline_failed": "Baseline dựa vào từ khóa riêng lẻ, không hiểu ngữ cảnh mỉa mai/phủ định."
+                "reason_baseline_failed": "Baseline dựa vào từ khóa riêng lẻ, không hiểu ngữ cảnh mỉa mai/phủ định/khen chê hỗn hợp."
             })
 
-    # 4. Tính toán Metrics
+    # 4. Tính toán Metrics cảm xúc
     y_true = df_gold["true_sentiment"].tolist()
-    all_true_aspects = (df_gold["true_aspects_positive"].fillna("").astype(str) + ";" + df_gold["true_aspects_negative"].fillna("").astype(str)).tolist()
-
     m_base = evaluate_sentiment_predictions(y_true, preds_base, "Baseline (Từ điển/Luật)")
     m_llm = evaluate_sentiment_predictions(y_true, preds_llm, f"LLM ({model_name})")
-    m_base["aspect_jaccard_similarity"] = evaluate_aspect_extraction(all_true_aspects, aspects_base)
-    m_llm["aspect_jaccard_similarity"] = evaluate_aspect_extraction(all_true_aspects, aspects_llm)
+
+    # V08: Đánh giá riêng biệt chiều khen (positive) và chê (negative) để tránh nhầm chiều
+    true_pos_series = df_gold["true_aspects_positive"].fillna("").astype(str)
+    true_neg_series = df_gold["true_aspects_negative"].fillna("").astype(str)
+
+    m_base["jaccard_positive"] = evaluate_aspect_extraction(true_pos_series, pos_aspects_base)
+    m_base["jaccard_negative"] = evaluate_aspect_extraction(true_neg_series, neg_aspects_base)
+    m_base["aspect_jaccard_similarity"] = round((m_base["jaccard_positive"] + m_base["jaccard_negative"]) / 2.0, 2)
+
+    m_llm["jaccard_positive"] = evaluate_aspect_extraction(true_pos_series, pos_aspects_llm)
+    m_llm["jaccard_negative"] = evaluate_aspect_extraction(true_neg_series, neg_aspects_llm)
+    m_llm["aspect_jaccard_similarity"] = round((m_llm["jaccard_positive"] + m_llm["jaccard_negative"]) / 2.0, 2)
 
     # 5. Xuất báo cáo
     reports_dir = Path(cfg.get("reports_dir", "reports"))

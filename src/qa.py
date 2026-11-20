@@ -29,6 +29,15 @@ from src.logger import measure_execution_time
 logger = logging.getLogger(__name__)
 
 
+def _append_qa_flag(series: pd.Series, mask: pd.Series, flag: str) -> pd.Series:
+    """Gắn cờ kiểm soát chất lượng chuẩn hóa không dư thừa dấu pipe ở đầu."""
+    res = series.copy().astype(str).replace(["nan", "None"], "")
+    has_flag = res.str.len() > 0
+    res.loc[mask & ~has_flag] = flag
+    res.loc[mask & has_flag] = res.loc[mask & has_flag] + "|" + flag
+    return res
+
+
 # ══════════════════════════════════════════════════════════════
 # 1. BÁO CÁO CHUẨN HÓA (QA REPORT RECORD)
 # ══════════════════════════════════════════════════════════════
@@ -67,16 +76,16 @@ def _make_report(
 # ══════════════════════════════════════════════════════════════
 
 def parse_price(series: pd.Series) -> pd.Series:
-    """Chuyển chuỗi tiền tệ '$1,234.56' thành số thực float bằng Vectorized Regex (Bài 7)."""
+    """Chuyển chuỗi tiền tệ '$1,234.56' thành số thực float an toàn bằng Vectorized Regex & to_numeric (Bài 7)."""
     if pd.api.types.is_numeric_dtype(series):
-        return series.astype(float)
-    return (
+        return pd.to_numeric(series, errors="coerce")
+    clean = (
         series.astype(str)
         .str.replace(r"[$,]", "", regex=True)
         .str.strip()
-        .replace(["", "nan", "N/A", "None"], np.nan)
-        .astype(float)
+        .replace(["", "nan", "N/A", "None", "null", "NaN"], np.nan)
     )
+    return pd.to_numeric(clean, errors="coerce")
 
 
 def coerce_dtypes(df: pd.DataFrame) -> pd.DataFrame:
@@ -85,15 +94,16 @@ def coerce_dtypes(df: pd.DataFrame) -> pd.DataFrame:
     if "price" in df:
         df["price"] = parse_price(df["price"])
 
-    # Tỷ lệ phần trăm: '95%' -> 0.95
+    # Tỷ lệ phần trăm: '95%' -> 0.95 (dùng to_numeric an toàn)
     for col in ["host_response_rate", "host_acceptance_rate"]:
         if col in df and not pd.api.types.is_numeric_dtype(df[col]):
-            df[col] = (
+            clean_pct = (
                 df[col].astype(str)
                 .str.replace("%", "", regex=False)
-                .replace(["N/A", "nan", ""], np.nan)
-                .astype(float) / 100.0
+                .str.strip()
+                .replace(["N/A", "nan", "", "None", "null"], np.nan)
             )
+            df[col] = pd.to_numeric(clean_pct, errors="coerce") / 100.0
 
     # Boolean: 't'/'f' -> True/False
     bool_cols = ["host_is_superhost", "instant_bookable", "has_availability"]
@@ -180,7 +190,7 @@ def rule_category_validation(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame,
     mask = ~df["room_type"].isin(valid) if "room_type" in df.columns else pd.Series(False, index=df.index)
     affected = int(mask.sum())
     if affected > 0:
-        df.loc[mask, "_qa_flag"] = df.loc[mask, "_qa_flag"].astype(str) + "|invalid_room_type"
+        df["_qa_flag"] = _append_qa_flag(df["_qa_flag"], mask, "invalid_room_type")
     counts_dict = {k: int(v) for k, v in df["room_type"].value_counts().items()} if "room_type" in df.columns else {}
     return df, _make_report(
         rule="QA-03: Kiểm tra hợp lệ danh mục loại phòng (room_type)",
@@ -200,7 +210,8 @@ def rule_price_outliers_iqr(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, 
     QA-04: Phát hiện giá ngoại lai theo khoảng tứ phân vị (IQR) phân theo từng loại phòng (Bài 10, slide 21-22).
     Hoàn toàn loại bỏ các con số giả định cảm tính (như 10.000). Ngưỡng được tính toán khoa học từ phân phối thực tế.
     """
-    factor = float(cfg.get("qa", {}).get("iqr_factor", 1.5))
+    qa_cfg = cfg.get("qa", {})
+    factor = float(qa_cfg.get("iqr_factor", qa_cfg.get("price_outlier_multiplier", 1.5)))
     currency = cfg.get("currency", "AUD")
 
     # Tính IQR riêng theo từng loại phòng trên các giá dương hợp lệ (Bài 10, slide 21)
@@ -215,7 +226,7 @@ def rule_price_outliers_iqr(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, 
     affected = int(mask.sum())
 
     if affected > 0:
-        df.loc[mask, "_qa_flag"] = df.loc[mask, "_qa_flag"].astype(str) + "|price_outlier_iqr"
+        df["_qa_flag"] = _append_qa_flag(df["_qa_flag"], mask, "price_outlier_iqr")
 
     # Đo lường tác động lên KPI trước và sau (Bài 10 slide 23 & 42)
     mean_before = df["price"].mean()
@@ -263,7 +274,7 @@ def rule_minimum_nights_cap(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, 
     mask = mask_high | mask_neg | mask_logic
     affected = int(mask.sum())
     if affected > 0:
-        df.loc[mask, "_qa_flag"] = df.loc[mask, "_qa_flag"].astype(str) + "|invalid_min_nights"
+        df["_qa_flag"] = _append_qa_flag(df["_qa_flag"], mask, "invalid_min_nights")
 
     mean_nights = df["minimum_nights"].mean() if "minimum_nights" in df.columns else np.nan
     max_nights = df["minimum_nights"].max() if "minimum_nights" in df.columns else np.nan
@@ -304,7 +315,7 @@ def rule_duplicates_across(listings_all: Dict[str, pd.DataFrame], cfg: dict) -> 
 
 
 def rule_impute_missing(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
-    """QA-08: Thống kê tỷ lệ thiếu & Điền giá trị thiếu bằng trung vị theo loại phòng (Bài 10, slide 6, 10-12)."""
+    """QA-08: Thống kê tỷ lệ thiếu & Điền giá trị thiếu bằng trung vị theo loại phòng (Bài 10, slide 6, 8, 10-12)."""
     cols = cfg.get("qa", {}).get("impute_cols", ["bedrooms", "beds", "review_scores_rating", "reviews_per_month"])
     cols = [c for c in cols if c in df.columns]
 
@@ -315,13 +326,25 @@ def rule_impute_missing(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict
     for col in cols:
         na_before = df[col].isna().sum()
         if na_before > 0:
-            if "room_type" in df.columns:
-                df[col] = df.groupby("room_type", observed=True)[col].transform(lambda s: s.fillna(s.median()))
-            df[col] = df[col].fillna(df[col].median())
-            if df[col].isna().any() and "accommodates" in df.columns:
-                df[col] = df.groupby("accommodates", observed=True)[col].transform(lambda s: s.fillna(s.median()))
-            df[col] = df[col].fillna(1.0)
-            total_filled += (na_before - df[col].isna().sum())
+            if col == "review_scores_rating":
+                # Bài 10 slide 8: Chỉ điền rating cho chỗ ở ĐÃ CÓ đánh giá (number_of_reviews > 0)
+                # Chỗ ở chưa có đánh giá nào (number_of_reviews == 0) việc thiếu điểm là hợp lý tự nhiên
+                has_rev = (df["number_of_reviews"] > 0) if "number_of_reviews" in df.columns else df[col].notna()
+                target_mask = has_rev & df[col].isna()
+                if target_mask.any():
+                    median_by_room = df.loc[has_rev].groupby("room_type", observed=True)[col].transform(lambda s: s.fillna(s.median()))
+                    df.loc[target_mask, col] = median_by_room.loc[target_mask]
+                    global_rev_median = df.loc[has_rev, col].median()
+                    df.loc[target_mask & df[col].isna(), col] = global_rev_median
+                total_filled += int(na_before - df[col].isna().sum())
+            else:
+                if "room_type" in df.columns:
+                    df[col] = df.groupby("room_type", observed=True)[col].transform(lambda s: s.fillna(s.median()))
+                df[col] = df[col].fillna(df[col].median())
+                if df[col].isna().any() and "accommodates" in df.columns:
+                    df[col] = df.groupby("accommodates", observed=True)[col].transform(lambda s: s.fillna(s.median()))
+                df[col] = df[col].fillna(1.0)
+                total_filled += int(na_before - df[col].isna().sum())
 
     missing_after = df[cols].isna().sum().sum()
 
@@ -419,12 +442,21 @@ def clean_listings(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, List[dict
     return df, reports
 
 
-def _validate_assigned_1000(df: pd.DataFrame, snapshot: str) -> None:
-    """Kiểm tra hợp lệ 1.000 listing theo đúng 4 tiêu chuẩn đề bài."""
+def _validate_assigned_1000(df: pd.DataFrame, snapshot: str, assigned_ids: set = None) -> None:
+    """Kiểm tra hợp lệ 1.000 listing theo đúng 4 tiêu chuẩn đề bài (Fail-fast & Bảo toàn khóa)."""
+    if len(df) != 1000:
+        raise ValueError(f"[QA ERROR - MỐC {snapshot}]: Không khớp đúng 1.000 ID phân công (thực tế: {len(df)})")
+    if (df["id"] < 0).any():
+        raise ValueError(f"[QA ERROR - MỐC {snapshot}]: Phát hiện ID âm do lỗi tràn số int32 trên Windows!")
+    if assigned_ids is not None:
+        diff = set(df["id"]) - assigned_ids
+        if diff:
+            raise ValueError(f"[QA ERROR - MỐC {snapshot}]: Có {len(diff)} ID không nằm trong danh sách phân công!")
+
     n_entire = (df["room_type"] == "Entire home/apt").sum() if "room_type" in df.columns else 0
     n_private = (df["room_type"] == "Private room").sum() if "room_type" in df.columns else 0
     n_no_rev = (df["number_of_reviews"] == 0).sum() if "number_of_reviews" in df.columns else 0
-    logger.info("  [KIỂM SOÁT 1.000 ID - MỐC %s]: %d Entire home/apt, %d Private room, %d review=0",
+    logger.info("  [KIỂM SOÁT 1.000 ID - MỐC %s]: %d Entire home/apt, %d Private room, %d review=0 (Đạt chuẩn 100%%)",
                 snapshot, n_entire, n_private, n_no_rev)
 
 
@@ -475,8 +507,9 @@ def run_qa(raw_paths: dict, cfg: dict) -> Tuple[Dict[str, pd.DataFrame], List[di
 
     assigned_file = Path("data/samples/assigned_listings_1000.csv")
     assigned_df = pd.read_csv(assigned_file) if assigned_file.exists() else None
-    assigned_ids = set(assigned_df["listing_id"].astype(int)) if assigned_df is not None else None
-    area_map = dict(zip(assigned_df["listing_id"].astype(int), assigned_df["analysis_area"])) if assigned_df is not None else {}
+    # V01: Ép kiểu int64 rõ ràng tránh lỗi tràn số int32 trên Windows
+    assigned_ids = set(assigned_df["listing_id"].astype("int64")) if assigned_df is not None else None
+    area_map = dict(zip(assigned_df["listing_id"].astype("int64"), assigned_df["analysis_area"])) if assigned_df is not None else {}
 
     needed_cols = {
         "id", "name", "host_id", "host_is_superhost", "host_response_rate", "host_acceptance_rate",
@@ -497,14 +530,18 @@ def run_qa(raw_paths: dict, cfg: dict) -> Tuple[Dict[str, pd.DataFrame], List[di
 
         # Lọc đúng 1.000 ID phân công & gán mã vùng analysis_area (A01 - A08) nếu khớp
         if assigned_ids:
-            df["id"] = pd.to_numeric(df["id"], errors="coerce").fillna(-1).astype(int)
+            # V01: Đảm bảo ép sang int64 tránh tràn số int32
+            df["id"] = pd.to_numeric(df["id"], errors="coerce").fillna(-1).astype("int64")
             matched = df[df["id"].isin(assigned_ids)].copy()
-            if len(matched) > 0:
+            if len(matched) == 1000:
                 df = matched
                 df["analysis_area"] = df["id"].map(area_map)
-                _validate_assigned_1000(df, snapshot)
+                _validate_assigned_1000(df, snapshot, assigned_ids)
             else:
-                logger.info("  [QA - MỐC %s]: Không có ID phân công nào khớp, giữ nguyên toàn bộ dữ liệu (%d listings)", snapshot, len(df))
+                raise ValueError(
+                    f"[QA - MỐC {snapshot}]: Không tìm đủ 1.000 ID phân công (tìm thấy {len(matched)}/1.000). "
+                    "Vui lòng kiểm tra tính toàn vẹn của file dữ liệu thô."
+                )
 
         all_raw[snapshot] = coerce_dtypes(df)
 

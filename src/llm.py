@@ -9,6 +9,7 @@ Nguyên lý thiết kế (Bài giảng 11):
 5. Ước tính chi phí: Dự phóng lượng token và chi phí USD toàn thành phố Sydney.
 """
 
+import hashlib
 import json
 import logging
 import os
@@ -30,6 +31,11 @@ logger = logging.getLogger(__name__)
 DEFAULT_MODEL = "gemini-3.5-flash-lite"
 DEFAULT_ASPECTS = ["vị trí", "sạch sẽ", "chủ nhà", "giá trị", "tiện nghi", "độ ồn", "an toàn", "giao thông"]
 VALID_SENTIMENTS = {"positive", "negative", "mixed"}
+
+
+def compute_text_hash(text: str) -> str:
+    """Băm SHA256 16 ký tự để xác thực tính toàn vẹn của nội dung bình luận trong cache (V11)."""
+    return hashlib.sha256(text.strip().encode("utf-8")).hexdigest()[:16]
 
 
 # ══════════════════════════════════════════════════════════════
@@ -130,7 +136,7 @@ def _normalize_analysis(payload: dict, aspects: List[str]) -> dict:
         res = []
         for x in items:
             s = str(x).strip().lower()
-            if s in allowed and s not in res:
+            if s in allowed and s not in res and s not in ("nan", "none", "null", ""):
                 res.append(s)
         return res
 
@@ -248,20 +254,23 @@ def sample_reviews_stratified(
     return reviews_df.sample(n=min(sample_size, len(reviews_df)), random_state=seed).copy()
 
 
-def estimate_total_sydney_cost(total_reviews_count: int, avg_words_per_review: float = 40.0) -> dict:
-    """Ước tính lượng Token và chi phí USD nếu chạy toàn bộ đánh giá của Sydney theo giá Gemini 3.5 Flash Lite."""
+def estimate_total_sydney_cost(total_reviews_count: int = 801398, avg_words_per_review: float = 40.0) -> dict:
+    """Ước tính lượng Token và chi phí USD nếu chạy toàn bộ đánh giá của Sydney theo giá Gemini 3.5 Flash Lite (Đồng bộ V10)."""
     tokens_in = total_reviews_count * (avg_words_per_review * 1.3 + 150)
     tokens_out = total_reviews_count * 60
     # Đơn giá Gemini 3.5 Flash Lite: $0.075 / 1M input, $0.30 / 1M output
     cost_in = (tokens_in / 1_000_000) * 0.075
     cost_out = (tokens_out / 1_000_000) * 0.30
+    total_tokens = int(tokens_in + tokens_out)
+    total_cost = round(cost_in + cost_out, 2)
     return {
         "total_reviews": total_reviews_count,
         "est_total_input_tokens": int(tokens_in),
         "est_total_output_tokens": int(tokens_out),
+        "est_total_tokens": total_tokens,
         "est_cost_input_usd": round(cost_in, 2),
         "est_cost_output_usd": round(cost_out, 2),
-        "est_total_cost_usd": round(cost_in + cost_out, 2),
+        "est_total_cost_usd": total_cost,
     }
 
 
@@ -280,8 +289,9 @@ def process_reviews_with_llm(
     cache_path = PROJECT_ROOT / Path(llm_cfg.get("cache", "data/processed/llm_cache.jsonl"))
     model_name = llm_cfg.get("model", DEFAULT_MODEL)
     temperature = float(llm_cfg.get("temperature", 0.0))
-    aspects = llm_cfg.get("aspects") or DEFAULT_ASPECTS
+    aspects = llm_cfg.get("aspects") or llm_cfg.get("schema", {}).get("aspects") or DEFAULT_ASPECTS
     max_api_calls = int(llm_cfg.get("max_api_calls", 15))
+    sleep_interval = float(llm_cfg.get("rate_limit_sleep", llm_cfg.get("sleep_seconds", 4.1)))
 
     cache = load_cache(cache_path)
     client = None if skip_llm else get_gemini_client(model_name=model_name)
@@ -294,25 +304,39 @@ def process_reviews_with_llm(
         rid = str(row.get("id", row.get("review_id", idx)))
         raw_comment = row.get("comments", "")
         comment = "" if pd.isna(raw_comment) else str(raw_comment).strip()
+        current_hash = compute_text_hash(comment)
 
-        # 1. Kiểm tra cache trước (Cache-First)
-        if rid in cache:
-            results.append(cache[rid])
-            cache_hits += 1
-            continue
+        # 1. Kiểm tra cache trước (V11: Cache-First có kiểm tra tính hợp lệ của model và nội dung)
+        cached_rec = cache.get(rid)
+        if cached_rec:
+            c_model = cached_rec.get("model", "")
+            c_hash = cached_rec.get("text_hash", "")
+            if (not c_model or c_model == model_name) and (not c_hash or c_hash == current_hash):
+                # Re-normalize cached record to filter out stale "nan" strings
+                cached_rec["aspects_positive"] = [
+                    a for a in cached_rec.get("aspects_positive", [])
+                    if isinstance(a, str) and a.strip().lower() not in ("nan", "none", "null", "")
+                ]
+                cached_rec["aspects_negative"] = [
+                    a for a in cached_rec.get("aspects_negative", [])
+                    if isinstance(a, str) and a.strip().lower() not in ("nan", "none", "null", "")
+                ]
+                results.append(cached_rec)
+                cache_hits += 1
+                continue
 
         # 2. Gọi API nếu có client và chưa chạm hạn mức
         parsed_record, used_api = None, False
         if client and new_api_calls < max_api_calls and len(comment) > 10:
             try:
                 parsed_record = _call_gemini_single(
-                    client, comment[:500], model_name=model_name,
+                    client, comment[:2000], model_name=model_name,
                     temperature=temperature, aspects=aspects
                 )
                 if parsed_record:
                     used_api = True
                     new_api_calls += 1
-                    time.sleep(0.3)
+                    time.sleep(sleep_interval)
                 else:
                     logger.warning("  Không thể gọi Gemini API (%s). Chuyển sang baseline fallback.", model_name)
                     client = None
@@ -335,6 +359,8 @@ def process_reviews_with_llm(
             "aspects_negative": parsed_record.get("aspects_negative", []),
             "language": parsed_record.get("language", "en"),
             "source": "api" if used_api else "baseline_fallback",
+            "model": model_name,
+            "text_hash": current_hash,
         }
 
         if used_api:

@@ -1,6 +1,5 @@
 """
-src/kpi.py – Tính toán bộ chỉ số hiệu suất chính (KPIs) cho Chủ nhà Airbnb
-==========================================================================
+src/kpi.py : Tính toán bộ chỉ số hiệu suất chính (KPIs) cho Chủ nhà Airbnb
 Nguyên lý thiết kế (Bài 3, 5, 10):
 1. Thống kê vững: Dùng Median thay vì Mean do phân phối giá bị lệch phải rất mạnh.
 2. Occupancy Rate: Ước tính từ availability_365: (365 - availability_365) / 365.

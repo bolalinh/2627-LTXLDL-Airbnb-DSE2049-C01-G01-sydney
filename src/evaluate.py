@@ -103,16 +103,31 @@ def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_label
             p_sent = c_rec.get("sentiment")
             p_pos = c_rec.get("aspects_positive", [])
             p_neg = c_rec.get("aspects_negative", [])
-        elif client and idx < 15:
+        elif client:
             try:
                 api_res = _call_gemini_single(client, comment, model_name=model_name)
                 if api_res:
                     p_sent = api_res.get("sentiment")
                     p_pos = api_res.get("aspects_positive", [])
                     p_neg = api_res.get("aspects_negative", [])
+                    rec_to_cache = {
+                        "review_id": rid,
+                        "model": model_name,
+                        "sentiment": p_sent,
+                        "aspects_positive": p_pos,
+                        "aspects_negative": p_neg,
+                        "language": api_res.get("language", "en"),
+                        "source": "api"
+                    }
+                    eval_cache_path.parent.mkdir(parents=True, exist_ok=True)
+                    with open(eval_cache_path, "a", encoding="utf-8") as f:
+                        f.write(json.dumps(rec_to_cache, ensure_ascii=False) + "\n")
+                    eval_cache[rid] = rec_to_cache
             except Exception as err:
-                logger.info("  Tạm dừng gọi API do giới hạn tốc độ/mạng: %s", err)
-                client = None
+                msg = str(err)
+                logger.info("  Lỗi khi gọi API cho đánh giá %s: %s", rid, err)
+                if any(tok in msg for tok in ("400", "401", "403", "API_KEY_INVALID")):
+                    client = None
 
         # Fallback trung thực sang Baseline nếu hoàn toàn không có LLM (không cheat mock)
         if not p_sent:

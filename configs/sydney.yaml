@@ -48,9 +48,9 @@ llm:
   model: "gemini-3.5-flash-lite"
   temperature: 0.0
   sample_size: 1000
-  max_api_calls: 15     # Giới hạn an toàn tránh vượt quota
-  rate_limit_sleep: 4.1 # Giãn cách nhịp gọi tránh lỗi 429 RESOURCE_EXHAUSTED (V04, V09)
-  sleep_seconds: 4.1    # Tương thích khóa cấu hình V09
+  max_api_calls: 1000   # Cho phép xử lý toàn bộ 1.000 review bằng LLM
+  rate_limit_sleep: 0.1 # Tài khoản trả phí (Pay-as-you-go), gọi siêu tốc không cần chờ 4.1s
+  sleep_seconds: 0.1    # Tương thích khóa cấu hình V09
   cache: "data/processed/llm_cache.jsonl"
   aspects:
     - "vị trí"

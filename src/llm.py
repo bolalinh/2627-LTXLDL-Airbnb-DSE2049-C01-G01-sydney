@@ -153,8 +153,8 @@ def _normalize_analysis(payload: dict, aspects: List[str]) -> dict:
 
 _LAST_CALL_TIME = 0.0
 
-def _rate_limit_delay(min_interval: float = 4.1) -> None:
-    """Đảm bảo tốc độ gọi API không bao giờ vượt quá 15 RPM của Google Free Tier."""
+def _rate_limit_delay(min_interval: float = 0.1) -> None:
+    """Đảm bảo tốc độ gọi API tối ưu (mặc định 0.1s cho tài khoản trả phí)."""
     global _LAST_CALL_TIME
     elapsed = time.time() - _LAST_CALL_TIME
     if elapsed < min_interval:
@@ -169,6 +169,7 @@ def _call_gemini_single(
     temperature: float = 0.0,
     aspects: Optional[List[str]] = None,
     max_retries: int = 3,
+    delay: float = 0.1,
     **kwargs
 ) -> Optional[dict]:
     """Gọi Gemini API trích xuất có cấu trúc, có Rate Limiting & Auto-Backoff chống lỗi 429."""
@@ -185,7 +186,7 @@ def _call_gemini_single(
     )
 
     for attempt in range(max_retries):
-        _rate_limit_delay(4.1)  # Giữ nhịp an toàn <= 14.6 RPM
+        _rate_limit_delay(delay)  # Nhịp gọi tối ưu theo tài khoản
         try:
             if hasattr(client, "models"):
                 from google.genai import types
@@ -290,7 +291,7 @@ def process_reviews_with_llm(
     model_name = llm_cfg.get("model", DEFAULT_MODEL)
     temperature = float(llm_cfg.get("temperature", 0.0))
     aspects = llm_cfg.get("aspects") or llm_cfg.get("schema", {}).get("aspects") or DEFAULT_ASPECTS
-    max_api_calls = int(llm_cfg.get("max_api_calls", 15))
+    max_api_calls = int(llm_cfg.get("max_api_calls", 1000))
     sleep_interval = float(llm_cfg.get("rate_limit_sleep", llm_cfg.get("sleep_seconds", 4.1)))
 
     cache = load_cache(cache_path)
@@ -331,12 +332,11 @@ def process_reviews_with_llm(
             try:
                 parsed_record = _call_gemini_single(
                     client, comment[:2000], model_name=model_name,
-                    temperature=temperature, aspects=aspects
+                    temperature=temperature, aspects=aspects, delay=sleep_interval
                 )
                 if parsed_record:
                     used_api = True
                     new_api_calls += 1
-                    time.sleep(sleep_interval)
                 else:
                     logger.warning("  Không thể gọi Gemini API (%s). Chuyển sang baseline fallback.", model_name)
                     client = None

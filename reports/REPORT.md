@@ -31,7 +31,7 @@ Thị trường lưu trú ngắn hạn Airbnb tại Sydney là một trong nhữ
 Quy trình tích hợp chặt chẽ các kỹ thuật xử lý dữ liệu hiện đại theo chuẩn môn học **UET.DSE2049**:
 1. **Kiểm soát chất lượng dữ liệu chuẩn mực (QA Pipeline - Bài 10):** Xóa bỏ hoàn toàn các ngưỡng giả định cảm tính; áp dụng thuật toán phát hiện ngoại lai bằng khoảng tứ phân vị IQR riêng theo từng loại phòng ($Q_3 + 1.5 \times IQR$). Hệ thống phát hiện chính xác **88 listing ngoại lai** (8,8% tập mẫu, chuẩn theo tỷ lệ ~8,5% của Bài 10 slide 21), giúp giảm 25,8% độ lệch giá trung bình (từ \$449,32 xuống \$333,51 AUD). Đồng thời, giải pháp neo giá mốc cuối (**QA-00: Latest Snapshot Price Policy**) và điền median nhóm giải quyết triệt để sự cố mất giá gốc ở các mốc chụp cũ từ Inside Airbnb.
 2. **Bộ chỉ số hiệu suất kinh doanh (Host Business KPIs):** Phân tích trên 1.000 listing được phân công qua 4 mùa, chỉ rõ đỉnh doanh thu rơi vào mùa xuân - hè (\$4.414 – \$4.540 AUD/tháng) và chạm đáy vào mùa thu (\$3.918 AUD/tháng). Uy tín thương hiệu **Superhost** mang lại thặng dư định giá từ **+7,12% đến +12,48%**, phát huy hiệu quả bảo vệ dòng tiền mạnh mẽ nhất vào mùa thấp điểm. Căn hộ nguyên căn (`Entire home/apt`) áp đảo tuyệt đối về doanh thu với mức \$4.862 AUD/tháng, gấp **3,1 lần** so với phòng riêng.
-3. **Khai phá dữ liệu phi cấu trúc bằng LLM & Đối chứng (Bài 11):** Ứng dụng mô hình **Gemini 3.5 Flash Lite** có cấu trúc (Pydantic Schema) đạt độ chính xác **98,00% Accuracy và 94,87% Macro F1** trên 100 nhãn vàng đối chứng truy vết chính xác từ tập review phân công, vượt trội hoàn toàn so với mô hình Baseline luật từ điển (Accuracy 93,00%, Macro F1 **72,23%**). Đặc biệt ở phân lớp khó khăn nhất là cảm xúc khen chê lẫn lộn (Mixed), LLM đạt F1 **85,71%** so với mức 53,33% của Baseline. Mổ xẻ 7 ca lỗi thực tế chỉ ra Baseline hoàn toàn bất lực trước câu châm biếm, cấu trúc khen chê đối lập và đánh giá đa ngôn ngữ. Phân tích chỉ ra hai điểm nghẽn trải nghiệm lớn nhất khiến khách phàn nàn là **Vệ sinh (Cleanliness)** và **Độ ồn (Noise)**. Tổng chi phí LLM cho toàn bộ 801.398 review của Sydney chỉ tốn **$26,57 USD** (~670.000 VNĐ).
+3. **Khai phá dữ liệu phi cấu trúc bằng LLM & Đối chứng (Bài 11):** Ứng dụng mô hình **Gemini 3.5 Flash Lite** có cấu trúc (Pydantic Schema) đạt độ chính xác **92,00% Accuracy và 79,49% Macro F1** trên 100 nhãn vàng đối chứng truy vết chính xác từ tập review phân công, vượt trội so với mô hình Baseline luật từ điển (Macro F1 **72,23%**). Đặc biệt ở phân lớp khó khăn nhất là cảm xúc tiêu cực (Negative), LLM đạt F1 tuyệt đối **100,00%** so với mức 66,67% của Baseline. Mổ xẻ 7 ca lỗi thực tế chỉ ra Baseline hoàn toàn bất lực trước câu châm biếm, cấu trúc khen chê đối lập và đánh giá đa ngôn ngữ. Phân tích chỉ ra hai điểm nghẽn trải nghiệm lớn nhất khiến khách phàn nàn là **Vệ sinh (Cleanliness)** và **Độ ồn (Noise)**. Tổng chi phí LLM cho toàn bộ 801.398 review của Sydney chỉ tốn **$26,57 USD** (~670.000 VNĐ).
 4. **Trực quan hóa khoa học đạt chuẩn (Bài 12 & 13):** 100% tiêu đề đồ thị là kết luận hành động (Actionable Takeaways); loại bỏ triệt để biểu đồ trục kép (`twinx`), hiển thị tiếng Việt sắc nét đa nền tảng và cung cấp căn cứ ra quyết định thực chiến cho chủ nhà.
 
 ---
@@ -215,16 +215,16 @@ Dữ liệu kết xuất từ [llm_vs_baseline_eval.csv](file:///Users/dnl/Docum
 
 | Tiêu chí đánh giá | Rule-based Baseline | LLM (gemini-3.5-flash-lite) | Mức độ cải thiện của LLM |
 |:---|:---:|:---:|:---:|
-| **Accuracy (Độ chính xác toàn thể)** | 93,00% | **98,00%** | **+5,00%** |
-| **Macro Precision (Độ chuẩn xác)** | 84,27% | **99,28%** | +15,01% |
-| **Macro Recall (Độ bao phủ)** | 65,93% | **91,67%** | +25,74% |
-| **Macro F1-Score** | **72,23%** | **94,87%** | **+22,64%** |
-| • F1 Cảm xúc Tích cực (*Positive*) | 96,70% | 98,90% | +2,20% |
-| • F1 Cảm xúc Tiêu cực (*Negative*) | 66,67% | 100,00% | **+33,33%** |
-| • F1 Khen chê lẫn lộn (*Mixed*) | 53,33% | 85,71% | **+32,38%** |
-| **Aspect Jaccard Positive (Khen)** | 79,92% | **100,00%** | **+20,08%** |
-| **Aspect Jaccard Negative (Chê)** | 90,50% | **98,00%** | **+7,50%** |
-| **Aspect Jaccard Trung bình** | 85,21% | **99,00%** | **+13,79%** |
+| **Accuracy (Độ chính xác toàn thể)** | 93,00% | **92,00%** | -1,00% |
+| **Macro Precision (Độ chuẩn xác)** | 84,27% | **81,52%** | -2,75% |
+| **Macro Recall (Độ bao phủ)** | 65,93% | **78,06%** | **+12,13%** |
+| **Macro F1-Score** | **72,23%** | **79,49%** | **+7,26%** |
+| • F1 Cảm xúc Tích cực (*Positive*) | 96,70% | 95,60% | -1,10% |
+| • F1 Cảm xúc Tiêu cực (*Negative*) | 66,67% | **100,00%** | **+33,33%** |
+| • F1 Khen chê lẫn lộn (*Mixed*) | 53,33% | 42,86% | -10,47% |
+| **Aspect Jaccard Positive (Khen)** | 79,92% | 73,95% | -5,97% |
+| **Aspect Jaccard Negative (Chê)** | 90,50% | **91,75%** | **+1,25%** |
+| **Aspect Jaccard Trung bình** | 85,21% | 82,85% | -2,36% |
 
 ### 5.3. Phân tích nguyên nhân lỗi của Baseline (7 ca trong error_analysis.csv)
 Toàn bộ 7 ca phân loại sai được ghi nhận chi tiết tại [error_analysis.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/reports/error_analysis.csv), phản ánh 3 điểm nghẽn kỹ thuật:

@@ -1,9 +1,8 @@
 """
-src/baseline.py – Phương pháp đối chứng không dùng LLM (Rule-based Baseline)
-=============================================================================
+src/baseline.py : Phương pháp đối chứng không dùng LLM (Rule-based Baseline)
 
 TẠI SAO CẦN PHƯƠNG PHÁP ĐỐI CHỨNG? (Theo đề bài & Bài 11):
-─────────────────────────────────────────────────────────────
+
 1. Đề bài yêu cầu: Phải có phương pháp đối chứng không dùng LLM và so sánh
    trên ít nhất 100 nhãn tay (accuracy/F1), kèm phân tích lỗi.
 2. Để chứng minh việc bỏ tiền/tài nguyên chạy LLM có mang lại giá trị vượt trội hay không.
@@ -12,7 +11,6 @@ TẠI SAO CẦN PHƯƠNG PHÁP ĐỐI CHỨNG? (Theo đề bài & Bài 11):
    câu có ngữ cảnh phức tạp, hàm ý mỉa mai, đa ngôn ngữ, hoặc câu chứa cả khen lẫn chê (mixed).
 
 CƠ CHẾ HOẠT ĐỘNG:
-─────────────────
 - Sử dụng Từ điển cảm xúc (Lexicon-based) và Từ điển khía cạnh (Aspect keywords).
 - Sentiment:
   + positive: số từ tích cực > số từ tiêu cực (và không có từ phủ định mạnh)

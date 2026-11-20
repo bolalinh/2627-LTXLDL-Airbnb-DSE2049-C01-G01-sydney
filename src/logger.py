@@ -1,9 +1,7 @@
 """
-src/logger.py – Module quản lý Logger chuẩn mực UET
-===================================================
+src/logger.py : Module quản lý Logger chuẩn mực UET
 
 THIẾT KẾ DỰA TRÊN QUY CHUẨN BÀI TẬP LỚN VIỆN TRÍ TUỆ NHÂN TẠO (UET):
-──────────────────────────────────────────────────────────────────────
 1. Hạn chế tối đa dùng print/std::cout bừa bãi làm bẩn màn hình.
 2. Phân cấp mức độ ghi log rõ ràng:
    - INFO: Các cột mốc quan trọng trong luồng xử lý dữ liệu.

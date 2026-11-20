@@ -1,6 +1,5 @@
 """
-src/viz.py – Trực quan hoá dữ liệu phục vụ góc nhìn Chủ nhà Airbnb
-==================================================================
+src/viz.py : Trực quan hoá dữ liệu phục vụ góc nhìn Chủ nhà Airbnb
 Áp dụng nguyên tắc Bài 12 & 13:
 1. Checklist 5 điểm: Tiêu đề hành động, nhãn trục kèm đơn vị, ghi rõ cỡ mẫu N, nguồn Inside Airbnb.
 2. Không dùng biểu đồ trục kép (Dual Y-Axis): Thay bằng 2 subplots xếp chồng theo chiều dọc.

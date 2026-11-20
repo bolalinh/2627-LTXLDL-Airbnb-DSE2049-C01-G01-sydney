@@ -1,6 +1,5 @@
 """
-src/qa.py – Pipeline Kiểm soát chất lượng & Làm sạch dữ liệu Inside Airbnb Sydney
-================================================================================
+src/qa.py : Pipeline Kiểm soát chất lượng & Làm sạch dữ liệu Inside Airbnb Sydney
 Nguyên lý thiết kế chuẩn hóa theo Bài giảng Lập trình Xử lý Dữ liệu (Bài 3, 7, 10):
 1. Vector hóa toàn diện (NumPy/Pandas str accessor): Xử lý tốc độ cao, không lặp dòng.
 2. Thiết kế đường ống kiểm tra độc lập (Transformation Pipeline): Từng quy tắc có căn cứ, điều kiện, lý do và hành động rõ ràng.
@@ -38,9 +37,7 @@ def _append_qa_flag(series: pd.Series, mask: pd.Series, flag: str) -> pd.Series:
     return res
 
 
-# ══════════════════════════════════════════════════════════════
 # 1. BÁO CÁO CHUẨN HÓA (QA REPORT RECORD)
-# ══════════════════════════════════════════════════════════════
 
 def _make_report(
     rule: str,
@@ -71,10 +68,7 @@ def _make_report(
     return rep
 
 
-# ══════════════════════════════════════════════════════════════
-# 2. PARSE & ÉP KIỂU DỮ LIỆU (QA-02 - BÀI 7 & BÀI 10 SLIDE 33)
-# ══════════════════════════════════════════════════════════════
-
+# 2. PARSE & ÉP KIỂU DỮ LIỆU
 def parse_price(series: pd.Series) -> pd.Series:
     """Chuyển chuỗi tiền tệ '$1,234.56' thành số thực float an toàn bằng Vectorized Regex & to_numeric (Bài 7)."""
     if pd.api.types.is_numeric_dtype(series):
@@ -140,9 +134,7 @@ def rule_coerce_dtypes(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]
     )
 
 
-# ══════════════════════════════════════════════════════════════
-# 3. HỆ THỐNG QUY TẮC QA CHUẨN BÀI GIẢNG 10 (QA-01 ĐẾN QA-08)
-# ══════════════════════════════════════════════════════════════
+# 3. HỆ THỐNG QUY TẮC QA (QA-01 ĐẾN QA-08)
 
 def rule_missing_key_columns(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict]:
     """QA-01: Xóa dòng thiếu khóa định danh bắt buộc (id, host_id) (Bài 10, slide 8, 33)."""
@@ -361,9 +353,7 @@ def rule_impute_missing(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict
     )
 
 
-# ══════════════════════════════════════════════════════════════
-# 4. CHÍNH SÁCH NEO GIÁ MỐC CUỐI (QA-00 - BÀI 10 BÀI TẬP 1)
-# ══════════════════════════════════════════════════════════════
+# 4. CHÍNH SÁCH NEO GIÁ MỐC CUỐI (QA-00 )
 
 def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: dict) -> List[dict]:
     """QA-00: Ánh xạ giá và đặc trưng vật lý ổn định từ mốc chụp cuối cùng (Bài 10, bài tập 1 & slide 14-16)."""
@@ -415,9 +405,7 @@ def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: di
     return reports
 
 
-# ══════════════════════════════════════════════════════════════
 # 5. THỰC THI PIPELINE VÀ KIỂM CHỨNG
-# ══════════════════════════════════════════════════════════════
 
 def clean_listings(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, List[dict]]:
     """Chạy toàn bộ đường ống QA trên DataFrame của 1 mốc chụp tuân thủ Bài 10."""

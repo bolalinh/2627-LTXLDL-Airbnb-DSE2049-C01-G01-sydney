@@ -7,7 +7,7 @@
 
 ---
 
-## 📌 1. Giới thiệu Tổng quan Đề tài
+## 1. Giới thiệu Tổng quan Đề tài
 
 Dự án thực hiện phân tích chuyên sâu dữ liệu thị trường dịch vụ lưu trú **Inside Airbnb tại Sydney (Úc)** qua 4 mốc chụp thời gian (`2025-09-12`, `2025-12-12`, `2026-03-21`, `2026-06-16`).
 
@@ -21,7 +21,7 @@ Mục tiêu chính là xây dựng một **Pipeline xử lý dữ liệu tự đ
 
 ---
 
-## 👥 Danh sách Thành viên Thực hiện (Nhóm 1)
+## Danh sách Thành viên Thực hiện (Nhóm 1)
 
 | STT | Họ và tên | Mã sinh viên | Vai trò & Trách nhiệm chính |
 |:---:|:---|:---:|:---|
@@ -33,7 +33,7 @@ Mục tiêu chính là xây dựng một **Pipeline xử lý dữ liệu tự đ
 
 ---
 
-## 📂 2. Cấu trúc Thư mục Dự án
+## 2. Cấu trúc Thư mục Dự án
 
 ```text
 Nh-m-1-LTXLDL---AI3/
@@ -63,7 +63,7 @@ Nh-m-1-LTXLDL---AI3/
 
 ---
 
-## ⚙️ 3. Yêu cầu Hệ thống & Môi trường
+## 3. Yêu cầu Hệ thống & Môi trường
 
 * **Hệ điều hành:** Hỗ trợ mọi hệ điều hành (Windows 10/11, macOS, Linux/Ubuntu).
 * **Python:** Phiên bản **Python 3.10, 3.11 hoặc 3.12** (Khuyến nghị: Python 3.11 hoặc 3.12).
@@ -71,7 +71,7 @@ Nh-m-1-LTXLDL---AI3/
 
 ---
 
-## 🚀 4. Hướng dẫn Cài đặt Từng bước (Step-by-step Setup)
+## 4. Hướng dẫn Cài đặt Từng bước (Step-by-step Setup)
 
 ### Bước 1: Clone kho mã nguồn và di chuyển vào thư mục dự án
 Mở Terminal (trên macOS/Linux) hoặc PowerShell (trên Windows):
@@ -88,7 +88,7 @@ cd Nh-m-1-LTXLDL---AI3
 
 Chọn hướng dẫn tương ứng với hệ điều hành của máy bạn:
 
-#### 👉 Cách A: Dành cho Windows (PowerShell)
+#### Cách A: Dành cho Windows (PowerShell)
 ```powershell
 # 1. Tạo môi trường ảo .venv
 python -m venv .venv
@@ -104,7 +104,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-#### 👉 Cách B: Dành cho macOS / Linux (Terminal / Bash / Zsh)
+#### Cách B: Dành cho macOS / Linux (Terminal / Bash / Zsh)
 ```bash
 # 1. Tạo môi trường ảo .venv
 python3 -m venv .venv
@@ -132,7 +132,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🏃 5. Hướng dẫn Chạy Dự án (Execution)
+## 5. Hướng dẫn Chạy Dự án (Execution)
 
 ### Kịch bản 1: Chạy đầy đủ từ A-Z bằng 1 lệnh duy nhất (Chuẩn Đề bài)
 Lệnh này sẽ tự động tải dữ liệu từ Inside Airbnb, làm sạch QA, tính KPI, gọi LLM, tính F1 đối chứng và xuất toàn bộ biểu đồ:
@@ -161,7 +161,7 @@ python run_pipeline.py --config configs/sydney.yaml --skip-download --sample-siz
 
 ---
 
-### 📋 Bảng tra cứu các cờ tham số dòng lệnh (CLI Arguments):
+### Bảng tra cứu các cờ tham số dòng lệnh (CLI Arguments):
 
 | Tham số | Ý nghĩa & Mô tả | Mặc định |
 |---|---|:---:|
@@ -173,7 +173,7 @@ python run_pipeline.py --config configs/sydney.yaml --skip-download --sample-siz
 
 ---
 
-## 📊 6. Kết quả Đầu ra Sau khi Chạy Hoàn tất
+## 6. Kết quả Đầu ra Sau khi Chạy Hoàn tất
 
 Sau khi lệnh chạy kết thúc thành công, hệ thống sinh ra đầy đủ các tiêu chuẩn đầu ra theo yêu cầu của đề tài:
 
@@ -192,6 +192,6 @@ Sau khi lệnh chạy kết thúc thành công, hệ thống sinh ra đầy đ�
    * `figures/04_llm_guest_complaints_aspects.png`: Phân bổ các khía cạnh dịch vụ khiến khách hàng phàn nàn nhiều nhất (Độ ồn, Sạch sẽ, Tiện nghi...).
 4. **Nhật ký thực thi:** Toàn bộ lịch sử chạy, thời gian thực thi từng module và thông tin debug được ghi vào file `log.txt`.
 
-## 📜 Giấy phép & Tuyên bố Miễn trừ (License & AI Transparency)
+## Giấy phép & Tuyên bố Miễn trừ (License & AI Transparency)
 * Dữ liệu thuộc bản quyền công khai của cộng đồng **Inside Airbnb** ([insideairbnb.com](https://insideairbnb.com/)).
 * Báo cáo tuân thủ nghiêm ngặt chính sách minh bạch sử dụng trí tuệ nhân tạo (AI) của môn học UET.DSE2049. Chi tiết phân định trách nhiệm xem tại file [AI_USAGE.md](AI_USAGE.md).

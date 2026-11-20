@@ -58,8 +58,8 @@ def main():
     city_name = str(cfg.get("city", "Sydney")).upper()
 
     print("=" * 65)
-    print(f"🚀 KHỞI CHẠY PIPELINE AIRBNB CHO: {city_name}")
-    print(f"📝 Toàn bộ log chi tiết đang được ghi vào file: {args.log_file}")
+    print(f"KHỞI CHẠY PIPELINE AIRBNB CHO: {city_name}")
+    print(f"Toàn bộ log chi tiết đang được ghi vào file: {args.log_file}")
     print("=" * 65)
 
     logger.info("=" * 70)
@@ -191,8 +191,8 @@ def main():
     logger.info("=" * 70)
 
     print("=" * 65)
-    print(f"🎉 HOÀN THÀNH TOÀN BỘ PIPELINE TRONG {total_time:.2f} GIÂY!")
-    print(f"📄 Mở file '{args.log_file}' để xem toàn bộ thông tin chi tiết.")
+    print(f"HOÀN THÀNH TOÀN BỘ PIPELINE TRONG {total_time:.2f} GIÂY!")
+    print(f"Mở file '{args.log_file}' để xem toàn bộ thông tin chi tiết.")
     print("=" * 65)
 
 

@@ -294,7 +294,7 @@ Dựa trên kết quả phân tích số liệu thực chứng, nhóm đề xu�
 Nhóm 1 khẳng định tuân thủ nghiêm túc **Chính sách AI của môn học UET.DSE2049**:
 - **Tỷ lệ đóng góp:** Ước tính **~35% AI hỗ trợ kỹ thuật cú pháp / 65% Nhóm sinh viên tự chủ**. AI chỉ được sử dụng ở giai đoạn chuẩn bị mã nguồn tại nhà để gợi ý boilerplate code, cú pháp regex vector hóa và tham số đồ thị.
 - **Tự chủ nghiệp vụ:** Toàn bộ tư duy định vị bài toán, thiết kế 8 quy tắc QA theo Bài 10, chính sách neo giá mốc cuối, lựa chọn KPI kinh doanh, dán nhãn 100 đánh giá thủ công và phân tích lỗi đều do 5 thành viên nhóm trực tiếp thực hiện và kiểm chứng.
-- **Cam kết vấn đáp:** Mọi thành viên trong nhóm đã nắm vững 100% mã nguồn, hiểu sâu các quyết định xử lý dữ liệu và sẵn sàng bảo vệ độc lập trong vòng vấn đáp cá nhân (chế độ đóng 🚫, không dùng internet/AI).
+- **Cam kết vấn đáp:** Mọi thành viên trong nhóm đã nắm vững 100% mã nguồn, hiểu sâu các quyết định xử lý dữ liệu và sẵn sàng bảo vệ độc lập trong vòng vấn đáp cá nhân (chế độ đóng, không dùng internet/AI).
 
 ---
 *Báo cáo được hoàn thiện và xuất bản từ kho mã nguồn dự án `airbnb-project`, sẵn sàng phục vụ công tác chấm thi và đánh giá học phần.*

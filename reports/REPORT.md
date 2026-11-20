@@ -215,16 +215,16 @@ Dữ liệu kết xuất từ [llm_vs_baseline_eval.csv](file:///Users/dnl/Docum
 
 | Tiêu chí đánh giá | Rule-based Baseline | LLM (gemini-3.5-flash-lite) | Mức độ cải thiện của LLM |
 |:---|:---:|:---:|:---:|
-| **Accuracy (Độ chính xác toàn thể)** | 93,00% | **94,00%** | **+1,00%** |
-| **Macro Precision (Độ chuẩn xác)** | 84,27% | **87,44%** | **+3,17%** |
-| **Macro Recall (Độ bao phủ)** | 65,93% | **82,59%** | **+16,66%** |
-| **Macro F1-Score** | **72,23%** | **84,62%** | **+12,39%** |
-| • F1 Cảm xúc Tích cực (*Positive*) | 96,70% | 96,70% | 0,00% |
+| **Accuracy (Độ chính xác toàn thể)** | 93,00% | **93,00%** | 0,00% |
+| **Macro Precision (Độ chuẩn xác)** | 84,27% | **84,25%** | -0,02% |
+| **Macro Recall (Độ bao phủ)** | 65,93% | **82,22%** | **+16,29%** |
+| **Macro F1-Score** | **72,23%** | **83,16%** | **+10,93%** |
+| • F1 Cảm xúc Tích cực (*Positive*) | 96,70% | 96,13% | -0,57% |
 | • F1 Cảm xúc Tiêu cực (*Negative*) | 66,67% | **100,00%** | **+33,33%** |
-| • F1 Khen chê lẫn lộn (*Mixed*) | 53,33% | **57,14%** | **+3,81%** |
-| **Aspect Jaccard Positive (Khen)** | 79,92% | 74,67% | -5,25% |
+| • F1 Khen chê lẫn lộn (*Mixed*) | 53,33% | **53,33%** | 0,00% |
+| **Aspect Jaccard Positive (Khen)** | 79,92% | 73,22% | -6,70% |
 | **Aspect Jaccard Negative (Chê)** | 90,50% | **91,25%** | **+0,75%** |
-| **Aspect Jaccard Trung bình** | 85,21% | 82,96% | -2,25% |
+| **Aspect Jaccard Trung bình** | 85,21% | 82,23% | -2,98% |
 
 ### 5.3. Phân tích nguyên nhân lỗi của Baseline (7 ca trong error_analysis.csv)
 Toàn bộ 7 ca phân loại sai được ghi nhận chi tiết tại [error_analysis.csv](file:///Users/dnl/Documents/ltxldl/airbnb-project/reports/error_analysis.csv), phản ánh 3 điểm nghẽn kỹ thuật:
@@ -250,26 +250,27 @@ Sydney có tổng cộng **801.398 đánh giá**. Áp dụng đơn giá chính t
 Toàn bộ 4 biểu đồ trong thư mục [figures/](file:///Users/dnl/Documents/ltxldl/airbnb-project/figures/) được thiết kế chặt chẽ theo **Checklist 5 điểm của Bài 12 & 13**:
 
 ### 6.1. Hình 1: Xu hướng Doanh thu & Lấp đầy theo Thời gian (01_market_trends_temporal.png)
-- **Tiêu đề hành động:** *"Doanh thu và tỷ lệ lấp đầy đạt đỉnh vào mùa hè (T12), giảm sâu vào mùa thu (T3)"*
+- **Tiêu đề hành động:** *"Doanh thu và tỷ lệ lấp đầy đạt đỉnh tại 2025-09-12, thấp nhất tại 2026-03-21"* (được hệ thống xác định hoàn toàn tự động theo dữ liệu thực tế)
 - **Quy chuẩn thiết kế:** Không dùng trục kép (`twinx`), tách thành 2 subplots xếp tầng dọc dùng chung trục hoành mốc thời gian; hiển thị số liệu trực tiếp trên từng đỉnh mốc; ghi rõ cỡ mẫu $N=1.000$ và nguồn Inside Airbnb.
 - **Ý nghĩa cho Chủ nhà:** Căn cứ trực quan để chủ nhà áp dụng chiến lược định giá linh hoạt: tăng giá niêm yết 20–30% vào Quý 4 và Quý 1, đồng thời tung gói kích cầu vào Quý 2.
 
 ### 6.2. Hình 2: Phân bố Doanh thu theo Khu vực Địa lý (02_top_revenue_spatial.png)
-- **Tiêu đề hành động:** *"Top khu vực dẫn đầu doanh thu tại Sydney, vượt mốc $5.000 AUD/tháng"*
-- **Quy chuẩn thiết kế:** Biểu đồ thanh ngang (Horizontal Bar Chart) sắp xếp thứ tự giảm dần; tô màu nổi bật các khu vực vượt ngưỡng \$5.000 AUD; chú thích trực tiếp giá trị doanh thu và tỷ lệ lấp đầy.
+- **Tiêu đề hành động:** *"Top khu vực dẫn đầu doanh thu tại Sydney"*
+- **Quy chuẩn thiết kế:** Biểu đồ thanh ngang (Horizontal Bar Chart) sắp xếp thứ tự giảm dần; tô màu nổi bật các khu vực dẫn đầu; chú thích trực tiếp giá trị doanh thu và tỷ lệ lấp đầy.
 - **Ý nghĩa cho Chủ nhà:** Chỉ rõ các "tọa độ vàng" Canada Bay, Strathfield, North Sydney, Manly và Waverley mang lại dòng tiền ròng cao nhất cho nhà đầu tư.
 
 ### 6.3. Hình 3: Thặng dư Định giá Phân khúc Superhost (03_superhost_premium_segmentation.png)
 - **Tiêu đề hành động:** *"Superhost định giá phòng cao hơn Host thông thường, rõ rệt nhất ở loại Entire home/apt"*
-- **Quy chuẩn thiết kế:** Biểu đồ hộp (Boxplot) thể hiện phân phối giá theo khoảng tứ phân vị IQR; cắt giới hạn trục tung tại ngưỡng P95 để loại bỏ nhiễu hiển thị; thể hiện rõ giá trung vị của Superhost vượt trội so với Host thường.
+- **Quy chuẩn thiết kế:** Biểu đồ hộp (Boxplot) thể hiện phân phối giá theo khoảng tứ phân vị IQR; lọc giá động theo ngưỡng phân vị P99 và loại bỏ giá ngoại lai để thích ứng chuẩn mực với mọi đơn vị tiền tệ (AUD, USD, JPY, VND); thể hiện rõ giá trung vị của Superhost vượt trội so với Host thường.
 - **Ý nghĩa cho Chủ nhà:** Minh chứng giá trị tài chính của danh hiệu Superhost, giúp chủ nhà tự tin định giá cao hơn từ 7% đến 12% mà vẫn duy trì lượng khách ổn định.
 
 ### 6.4. Hình 4: Phân phối Khía cạnh Phàn nàn từ Khách hàng (04_llm_guest_complaints_aspects.png)
-- **Tiêu đề hành động:** *"'Sạch sẽ' và 'Độ ồn' là hai nguyên nhân phàn nàn hàng đầu của khách thuê tại Sydney"*
-- **Quy chuẩn thiết kế:** Biểu đồ cột thể hiện tần suất phàn nàn trên 8 khía cạnh dịch vụ; làm nổi bật 2 cột cao nhất; ghi rõ số lượng và tỷ lệ phần trăm trực tiếp trên đầu cột.
-- **Ý nghĩa cho Chủ nhà:** Khảo sát trên 1.000 review chỉ ra hai điểm nghẽn trải nghiệm lớn nhất:
-  1. **Vấn đề Vệ sinh (Cleanliness):** Chiếm số lượt phàn nàn cao nhất (vết bẩn drap giường, nhà tắm ẩm mốc, côn trùng).
-  2. **Vấn đề Độ ồn (Noise):** Tiếng ồn từ quán bar tầng dưới, công trình xây dựng bên cạnh và cách âm cửa sổ kém.
+- **Tiêu đề hành động:** *"'Tiện nghi' và 'Độ ồn' là hai nguyên nhân phàn nàn hàng đầu của khách thuê tại Sydney"* (được hệ thống trích xuất tự động từ kết quả phân tích LLM)
+- **Quy chuẩn thiết kế:** Biểu đồ thanh ngang thể hiện tần suất phàn nàn trên các khía cạnh dịch vụ; sắp xếp thứ tự tăng dần; ghi rõ số lượt trực tiếp trên từng thanh; hiển thị rõ cỡ mẫu $N=1.000$ đánh giá.
+- **Ý nghĩa cho Chủ nhà:** Khảo sát trên 1.000 review chỉ ra các điểm nghẽn trải nghiệm lớn nhất:
+  1. **Vấn đề Tiện nghi (Amenities - 94 lượt phàn nàn):** Chiếm số lượt phàn nàn cao nhất (thiếu dụng cụ bếp, điều hòa/máy sưởi hoạt động kém, wifi chập chờn, đồ gia dụng hỏng).
+  2. **Vấn đề Độ ồn (Noise - 39 lượt phàn nàn):** Tiếng ồn từ đường phố, quán bar lân cận, công trình xây dựng và cách âm kém giữa các phòng.
+  3. **Vấn đề Vệ sinh (Cleanliness - 29 lượt phàn nàn):** Đứng thứ ba, liên quan đến bụi bẩn, vết ố drap giường và phòng tắm ẩm mốc.
 
 ---
 
@@ -284,8 +285,9 @@ Dựa trên kết quả phân tích số liệu thực chứng, nhóm đề xu�
    - Ưu tiên 100% nguồn vốn vào phân khúc căn hộ nguyên căn (`Entire home/apt`), tuyệt đối hạn chế mô hình phòng riêng chia sẻ (`Private room`) do biên lợi nhuận thấp và khó cạnh tranh.
    - Tập trung vào các khu vực ven biển phía Bắc (Manly, Pittwater) hoặc các quận giáp ranh trung tâm có hạ tầng metro thuận tiện (North Sydney, Canada Bay).
 3. **Chiến lược Vận hành Dịch vụ Đạt chuẩn Superhost:**
-   - Đầu tư mạnh vào quy trình vệ sinh chuyên nghiệp: Thuê đội ngũ vệ sinh tiêu chuẩn khách sạn thay vì tự dọn dẹp, kiểm tra kỹ khăn tắm và drap trải giường trước giờ check-in.
-   - Khắc phục triệt để vấn đề độ ồn: Trang bị kính cách âm 2 lớp tại các căn hộ mặt đường, cung cấp nút bịt tai chống ồn miễn phí và ghi chú rõ ràng về mức độ tiếng ồn trong mô tả phòng để tránh gây thất vọng cho khách.
+   - Nâng cấp và bảo trì hệ thống tiện nghi: Thường xuyên kiểm tra điều hòa, kết nối wifi tốc độ cao và trang bị đầy đủ đồ dùng nhà bếp cơ bản để giải quyết triệt để 94 lượt phàn nàn hàng đầu.
+   - Khắc phục vấn đề độ ồn: Trang bị kính cách âm hoặc rèm dày tại các căn hộ mặt đường, cung cấp nút bịt tai chống ồn miễn phí và ghi chú rõ ràng về mức độ tiếng ồn trong mô tả phòng để tránh gây thất vọng cho khách.
+   - Duy trì quy trình vệ sinh chuyên nghiệp đạt chuẩn Superhost.
 
 ---
 

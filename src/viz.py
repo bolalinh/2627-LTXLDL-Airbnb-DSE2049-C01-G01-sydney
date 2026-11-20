@@ -53,7 +53,17 @@ def plot_price_trends_over_time(kpi_snapshots_df: pd.DataFrame, output_dir: Path
     for s, r in zip(snapshots, revenues):
         ax1.annotate(f"${r:,.0f} {currency}", (s, r), textcoords="offset points", xytext=(0, 8), ha="center", fontweight="bold")
     ax1.set_ylabel(f"Doanh thu tháng trung vị ({currency})")
-    ax1.set_title("Doanh thu và tỷ lệ lấp đầy đạt đỉnh vào mùa hè (T12), giảm sâu vào mùa thu (T3)", pad=12)
+
+    # Xác định mốc đỉnh và mốc đáy tự động theo dữ liệu thực tế (thay cho gán cứng mùa vụ)
+    if revenues and snapshots and len(revenues) == len(snapshots):
+        max_idx = revenues.index(max(revenues))
+        min_idx = revenues.index(min(revenues))
+        peak_snap = str(snapshots[max_idx])
+        trough_snap = str(snapshots[min_idx])
+        title_temporal = f"Doanh thu và tỷ lệ lấp đầy đạt đỉnh tại {peak_snap}, thấp nhất tại {trough_snap}"
+    else:
+        title_temporal = "Xu hướng Doanh thu và Tỷ lệ lấp đầy qua các mốc thời gian"
+    ax1.set_title(title_temporal, pad=12)
 
     # Đồ thị 2: Tỷ lệ lấp đầy
     ax2.plot(snapshots, occupancies, marker="s", color="#ff7f0e", linewidth=2.5, markersize=8)
@@ -96,7 +106,9 @@ def plot_top_revenue_neighbourhoods(kpi_neighbourhood_df: pd.DataFrame, output_d
 
 def plot_superhost_price_comparison(latest_df: pd.DataFrame, output_dir: Path, currency: str = "AUD") -> Path:
     """HÌNH 3 (PHÂN KHÚC & SUPERHOST): Boxplot so sánh giá giữa Superhost vs Non-superhost."""
-    df_plot = latest_df[latest_df["price"].between(10, 1500)].copy()
+    valid_prices = latest_df[latest_df["price"] > 0]
+    p_cap = valid_prices["price"].quantile(0.99) if not valid_prices.empty else 1500
+    df_plot = valid_prices[valid_prices["price"] <= p_cap].copy()
     is_sup = df_plot["is_superhost"] if "is_superhost" in df_plot else df_plot.get("host_is_superhost", False)
     df_plot["host_type"] = is_sup.map({True: "Superhost", False: "Host thông thường"}).fillna("Host thông thường")
 
@@ -136,10 +148,11 @@ def plot_llm_complaints_distribution(llm_results_df: pd.DataFrame, output_dir: P
             complaints.extend([x.strip() for x in item.split(";") if x.strip() and x.strip().lower() not in ("nan", "none", "null")])
 
     if not complaints:
-        fallback_counts = {"sạch sẽ": 45, "độ ồn": 38, "tiện nghi": 30, "chủ nhà": 22, "giá trị": 18, "an toàn": 8}
+        fallback_counts = {"Sạch sẽ": 45, "Độ ồn": 38, "Tiện nghi": 30, "Chủ nhà": 22, "Giá trị": 18, "An toàn": 8}
         series_counts = pd.Series(fallback_counts).sort_values(ascending=True)
     else:
-        series_counts = pd.Series(complaints).value_counts().sort_values(ascending=True)
+        cleaned_complaints = [str(x).strip().capitalize() for x in complaints if str(x).strip()]
+        series_counts = pd.Series(cleaned_complaints).value_counts().sort_values(ascending=True)
 
     fig, ax = plt.subplots(figsize=(9, 5.5))
     bars = ax.barh(series_counts.index, series_counts.values, color="#d95f02", alpha=0.85)
@@ -147,7 +160,16 @@ def plot_llm_complaints_distribution(llm_results_df: pd.DataFrame, output_dir: P
 
     ax.set_xlabel("Số lượt bị phàn nàn trong mẫu khảo sát LLM")
     ax.set_ylabel("Khía cạnh chất lượng (Aspects)")
-    ax.set_title(f"'Sạch sẽ' và 'Độ ồn' là hai nguyên nhân phàn nàn hàng đầu của khách thuê tại {city}", pad=14)
+
+    # Lập trình phòng vệ (Defensive): Lấy 2 khía cạnh nhiều nhất, tránh IndexError nếu dữ liệu ít phần tử
+    top_aspects = series_counts.tail(2).index.tolist()[::-1]
+    if len(top_aspects) >= 2:
+        title_text = f"'{top_aspects[0]}' và '{top_aspects[1]}' là hai nguyên nhân phàn nàn hàng đầu của khách thuê tại {city}"
+    elif len(top_aspects) == 1:
+        title_text = f"'{top_aspects[0]}' là nguyên nhân phàn nàn hàng đầu của khách thuê tại {city}"
+    else:
+        title_text = f"Phân phối các khía cạnh phàn nàn của khách thuê tại {city}"
+    ax.set_title(title_text, pad=14)
     ax.text(0.98, 0.02, f"Tổng số đánh giá phân tích: N={len(llm_results_df):,}", 
             transform=ax.transAxes, ha="right", fontsize=9, color="#666666", style="italic")
 

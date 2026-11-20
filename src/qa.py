@@ -385,10 +385,10 @@ def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: di
         # Ghi đè 100% bằng giá mốc cuối theo ID, fallback bằng median nhóm
         df["price"] = df["id"].map(id_to_price).fillna(fallback_prices)
 
-        # Điền beds và bedrooms nếu mốc cũ bị khuyết nhiều (Bài 10, slide 14-16)
-        if "beds" in df.columns and df["beds"].isna().sum() > 500:
+        # Điền beds và bedrooms nếu mốc cũ bị khuyết nhiều > 30% (Bài 10, slide 14-16)
+        if "beds" in df.columns and df["beds"].isna().mean() > 0.3:
             df["beds"] = df["beds"].fillna(df["id"].map(id_to_beds))
-        if "bedrooms" in df.columns and df["bedrooms"].isna().sum() > 500:
+        if "bedrooms" in df.columns and df["bedrooms"].isna().mean() > 0.3:
             df["bedrooms"] = df["bedrooms"].fillna(df["id"].map(id_to_bedrooms))
 
         reports.append(_make_report(

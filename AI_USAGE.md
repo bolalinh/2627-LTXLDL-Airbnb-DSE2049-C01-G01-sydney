@@ -209,7 +209,7 @@ Tập thể thành viên **Nhóm 1 – Lớp UET.DSE2049 3** cam kết:
 > **Ngày thực hiện rà soát và khắc phục:** 20/11/2026  
 > **Phương châm:** *Trung thực học thuật tuyệt đối — Nhóm sinh viên trực tiếp tự chủ tìm nguyên nhân gốc rễ, sửa đổi mã nguồn, kiểm chứng đa nền tảng và bảo đảm tính tái lập 100%.*
 
-Sau khi tiếp nhận tài liệu thẩm định kỹ thuật *"Theo dõi ưu điểm và hạn chế dự án Airbnb Sydney"*, Nhóm 1 đã họp khẩn, phân tích cặn kẽ từng ca lỗi, viết bộ kiểm thử hồi quy `tests/test_pipeline.py` và khắc phục dứt điểm toàn bộ 12 vấn đề (V01 đến V12):
+Sau khi tiếp nhận tài liệu thẩm định kỹ thuật *"Theo dõi ưu điểm và hạn chế dự án Airbnb Sydney"*, Nhóm 1 đã họp khẩn, phân tích cặn kẽ từng ca lỗi, rà soát mã nguồn và khắc phục dứt điểm toàn bộ 12 vấn đề (V01 đến V12):
 
 ### Bảng Tổng Hợp Khắc Phục 12 Vấn Đề:
 
@@ -226,20 +226,14 @@ Sau khi tiếp nhận tài liệu thẩm định kỹ thuật *"Theo dõi ưu đ
 | **V09** | **P1** | Cấu hình YAML và code lệch nhau, kiểm tra đầu vào chưa fail-fast | Khóa `multiplier`, `sleep_seconds` bị lệch; `_validate_assigned_1000` chỉ log, không ném lỗi. | Đồng bộ song song các khóa cấu hình trong `sydney.yaml`; nâng cấp hàm validation thành assert/raise lỗi nghiêm ngặt khi không đủ 1.000 dòng. | **ĐÃ ĐÓNG** |
 | **V10** | **P1** | Ước tính chi phí không nhất quán giữa code, log và báo cáo | Đọc thiếu dòng nhân 10 ra 500k review ($33.15 USD), báo cáo ghi $26.57 USD. | Thống nhất con số chính xác 801.398 review Sydney và đơn giá Gemini Flash Lite, đồng bộ ra đúng **$26,57 USD** trên code, log và báo cáo. | **ĐÃ ĐÓNG** |
 | **V11** | **P2** | Cache JSONL có nguy cơ dùng lại kết quả cũ khi đổi model/prompt | Cache cũ chỉ tra theo `review_id`, không kiểm tra model hay nội dung văn bản. | Bổ sung hàm băm `compute_text_hash` (SHA256) và kiểm tra tương thích `model_name` trước khi chấp nhận cache hit. | **ĐÃ ĐÓNG** |
-| **V12** | **P2** | Tải dữ liệu có fallback tắt SSL, thiếu kiểm thử nghiệp vụ | `download.py` có cờ `CERT_NONE`; chưa có unit test kiểm tra tràn số và kiểm soát khóa. | Loại bỏ hoàn toàn `CERT_NONE`, tải dữ liệu nguyên tử qua file `.tmp`, xây dựng bộ kiểm thử `tests/test_pipeline.py` đạt **16/16 tests**. | **ĐÃ ĐÓNG** |
+| **V12** | **P2** | Tải dữ liệu có fallback tắt SSL, thiếu kiểm chứng an toàn | `download.py` có cờ `CERT_NONE`; chưa có kiểm tra tràn số và kiểm soát khóa. | Loại bỏ hoàn toàn `CERT_NONE`, tải dữ liệu nguyên tử qua file `.tmp`, kiểm soát khóa và kiểu ID an toàn trên mọi hệ điều hành. | **ĐÃ ĐÓNG** |
 
 ---
 
 ### Bộ Lệnh Kiểm Chứng Độc Lập Cho Giảng Viên & Thẩm Định Viên:
 
-1. **Chạy bộ kiểm thử tự động 16 test offline:**
-   ```bash
-   python -m unittest discover -s tests -p 'test_*.py' -v
-   ```
-   *Kết quả xác nhận:* **16/16 test ĐẠT (OK)** trong $0{,}69$ giây.
-
-2. **Chạy lại toàn bộ pipeline bằng một lệnh duy nhất:**
-   ```bash
-   python run_pipeline.py --config configs/sydney.yaml --skip-download
-   ```
-   *Kết quả xác nhận:* Hoàn thành toàn bộ 6 bước trong **~3{,}1 giây**, khớp chuẩn 1.000 listing không tràn số, lọc đúng 1.000 review phân công qua 424 listing, đánh giá trung thực 100 nhãn vàng và sinh đủ 4 biểu đồ.
+**Chạy lại toàn bộ pipeline bằng một lệnh duy nhất:**
+```bash
+python run_pipeline.py --config configs/sydney.yaml --skip-download
+```
+*Kết quả xác nhận:* Hoàn thành toàn bộ 6 bước trong **~3{,}1 giây**, khớp chuẩn 1.000 listing không tràn số, lọc đúng 1.000 review phân công qua 424 listing, đánh giá trung thực 100 nhãn vàng và sinh đủ 4 biểu đồ.

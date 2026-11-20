@@ -357,6 +357,7 @@ def rule_impute_missing(df: pd.DataFrame, cfg: dict) -> Tuple[pd.DataFrame, dict
 
 def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: dict) -> List[dict]:
     """QA-00: Ánh xạ giá và đặc trưng vật lý ổn định từ mốc chụp cuối cùng (Bài 10, bài tập 1 & slide 14-16)."""
+    currency = cfg.get("currency", "AUD")
     latest_snapshot = max(all_dfs.keys())
     ref_df = all_dfs[latest_snapshot]
 
@@ -399,7 +400,7 @@ def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: di
             after=len(df),
             affected=len(df),
             kpi_before=f"{orig_count}/{len(df)} phòng có giá (Mean/Median giá gốc = NaN/Thiếu)",
-            kpi_after=f"100% ({len(df)}/{len(df)}) phòng có giá (Mean: {df['price'].mean():.2f}, Median: {df['price'].median():.2f} AUD)",
+            kpi_after=f"100% ({len(df)}/{len(df)}) phòng có giá (Mean: {df['price'].mean():.2f}, Median: {df['price'].median():.2f} {currency})",
             snapshot=snap
         ))
     return reports

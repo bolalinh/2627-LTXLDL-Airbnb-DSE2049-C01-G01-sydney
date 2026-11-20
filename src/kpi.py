@@ -44,8 +44,9 @@ def calculate_listing_metrics(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def compute_host_kpis_overall(df: pd.DataFrame, snapshot_label: str = "all") -> dict:
+def compute_host_kpis_overall(df: pd.DataFrame, snapshot_label: str = "all", currency: str = "AUD") -> dict:
     """Tính các KPI toàn thị trường phục vụ định giá và theo dõi mùa vụ."""
+    curr = currency.lower()
     def _v(series_name, func, scale=1.0):
         if series_name in df.columns and not df[series_name].dropna().empty:
             return round(float(func(df[series_name]) * scale), 2)
@@ -54,11 +55,12 @@ def compute_host_kpis_overall(df: pd.DataFrame, snapshot_label: str = "all") -> 
     kpis = {
         "snapshot": snapshot_label,
         "total_active_listings": int(len(df)),
-        "median_price_aud": _v("price", np.median),
-        "mean_price_aud": _v("price", np.mean),
+        f"median_price_{curr}": _v("price", np.median),
+        f"mean_price_{curr}": _v("price", np.mean),
         "median_occupancy_rate": _v("occupancy_rate", np.median, scale=100.0),
         "mean_occupancy_rate": _v("occupancy_rate", np.mean, scale=100.0),
-        "median_monthly_revenue_aud": _v("estimated_monthly_revenue", np.median),
+        f"median_monthly_revenue_{curr}": _v("estimated_monthly_revenue", np.median),
+        "currency": currency.upper(),
         "superhost_percentage": _v("is_superhost", np.mean, scale=100.0),
         "avg_rating_score": _v("review_scores_rating", np.mean),
         "avg_cleanliness_score": _v("review_scores_cleanliness", np.mean),
@@ -137,10 +139,11 @@ def compute_all_kpis(cleaned_snapshots: dict, cfg: dict) -> dict:
     snapshot_kpis = []
     enriched_dfs = {}
 
+    currency = cfg.get("currency", "AUD")
     for snapshot, df in cleaned_snapshots.items():
         enriched = calculate_listing_metrics(df)
         enriched_dfs[snapshot] = enriched
-        snapshot_kpis.append(compute_host_kpis_overall(enriched, snapshot_label=snapshot))
+        snapshot_kpis.append(compute_host_kpis_overall(enriched, snapshot_label=snapshot, currency=currency))
 
     df_snapshot_kpis = pd.DataFrame(snapshot_kpis)
     df_snapshot_kpis.to_csv(processed_dir / "kpi_by_snapshot.csv", index=False)

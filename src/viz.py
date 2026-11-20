@@ -43,7 +43,8 @@ def plot_price_trends_over_time(kpi_snapshots_df: pd.DataFrame, output_dir: Path
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 7.5), sharex=True)
 
     snapshots = kpi_snapshots_df["snapshot"].tolist()
-    rev_col = "median_monthly_revenue_aud" if "median_monthly_revenue_aud" in kpi_snapshots_df.columns else "median_monthly_revenue"
+    curr_col = f"median_monthly_revenue_{currency.lower()}"
+    rev_col = curr_col if curr_col in kpi_snapshots_df.columns else ("median_monthly_revenue_aud" if "median_monthly_revenue_aud" in kpi_snapshots_df.columns else "median_monthly_revenue")
     revenues = kpi_snapshots_df[rev_col].tolist()
     occupancies = kpi_snapshots_df["median_occupancy_rate"].tolist()
 

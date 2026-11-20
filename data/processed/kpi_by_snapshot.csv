@@ -1,5 +1,5 @@
-snapshot,total_active_listings,median_price_aud,mean_price_aud,median_occupancy_rate,mean_occupancy_rate,median_monthly_revenue_aud,superhost_percentage,avg_rating_score,avg_cleanliness_score,superhost_median_price,non_superhost_median_price,superhost_price_premium_pct,superhost_premium_entire_pct,superhost_premium_private_pct
-2025-09-12,1000,319.26,449.32,50.96,49.12,4540.07,44.0,4.76,4.74,337.97,311.75,8.41,3.51,12.33
-2025-12-12,1000,319.26,449.32,46.16,48.59,4414.66,48.6,4.76,4.73,331.0,309.0,7.12,1.81,21.63
-2026-03-21,1000,319.26,449.32,43.15,45.34,3918.08,48.7,4.75,4.71,338.93,301.33,12.48,5.2,17.26
-2026-06-16,1000,319.26,449.32,47.26,46.52,4228.77,45.7,4.75,4.72,331.0,304.0,8.88,-1.38,21.63
+snapshot,total_active_listings,median_price_aud,mean_price_aud,median_occupancy_rate,mean_occupancy_rate,median_monthly_revenue_aud,currency,superhost_percentage,avg_rating_score,avg_cleanliness_score,superhost_median_price,non_superhost_median_price,superhost_price_premium_pct,superhost_premium_entire_pct,superhost_premium_private_pct
+2025-09-12,1000,319.26,449.32,50.96,49.12,4540.07,AUD,44.0,4.76,4.74,337.97,311.75,8.41,3.51,12.33
+2025-12-12,1000,319.26,449.32,46.16,48.59,4414.66,AUD,48.6,4.76,4.73,331.0,309.0,7.12,1.81,21.63
+2026-03-21,1000,319.26,449.32,43.15,45.34,3918.08,AUD,48.7,4.75,4.71,338.93,301.33,12.48,5.2,17.26
+2026-06-16,1000,319.26,449.32,47.26,46.52,4228.77,AUD,45.7,4.75,4.72,331.0,304.0,8.88,-1.38,21.63

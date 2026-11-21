@@ -70,16 +70,18 @@ def _make_report(
 
 # 2. PARSE & ÉP KIỂU DỮ LIỆU
 def parse_price(series: pd.Series) -> pd.Series:
-    """Chuyển chuỗi tiền tệ '$1,234.56' thành số thực float an toàn bằng Vectorized Regex & to_numeric (Bài 7)."""
+    """Chuyển chuỗi tiền tệ quốc tế ($1,234.56, €120.00, £85.00, 120,50 €) thành số thực float an toàn (Bài 7)."""
     if pd.api.types.is_numeric_dtype(series):
         return pd.to_numeric(series, errors="coerce")
-    clean = (
-        series.astype(str)
-        .str.replace(r"[$,]", "", regex=True)
-        .str.strip()
-        .replace(["", "nan", "N/A", "None", "null", "NaN"], np.nan)
-    )
-    return pd.to_numeric(clean, errors="coerce")
+    str_s = series.astype(str).str.strip().replace(["", "nan", "N/A", "None", "null", "NaN"], np.nan)
+    # Loại bỏ ký hiệu tiền tệ và khoảng trắng (chỉ giữ lại số, dấu chấm, dấu phẩy)
+    raw = str_s.str.replace(r"[^\d.,]", "", regex=True)
+    # Loại bỏ dấu phân tách hàng nghìn (dạng chấm 1.200 hay dạng phẩy 1,200)
+    c1 = raw.str.replace(r"\.(?=\d{3}(?:[.,]|$))", "", regex=True)
+    c2 = c1.str.replace(r",(?=\d{3}(?:[.,]|$))", "", regex=True)
+    # Chuyển dấu phẩy thập phân còn lại thành dấu chấm
+    c3 = c2.str.replace(",", ".", regex=False)
+    return pd.to_numeric(c3, errors="coerce")
 
 
 def coerce_dtypes(df: pd.DataFrame) -> pd.DataFrame:

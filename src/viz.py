@@ -38,7 +38,7 @@ plt.rcParams.update({
 })
 
 
-def plot_price_trends_over_time(kpi_snapshots_df: pd.DataFrame, output_dir: Path, currency: str = "AUD") -> Path:
+def plot_price_trends_over_time(kpi_snapshots_df: pd.DataFrame, output_dir: Path, currency: str = "AUD", city: str = "Sydney") -> Path:
     """HÌNH 1 (THỜI GIAN): Xu hướng Doanh thu và Tỷ lệ lấp đầy qua các mốc chụp (Loại bỏ trục kép)."""
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 7.5), sharex=True)
 
@@ -51,18 +51,25 @@ def plot_price_trends_over_time(kpi_snapshots_df: pd.DataFrame, output_dir: Path
     # Đồ thị 1: Doanh thu tháng ước tính
     ax1.plot(snapshots, revenues, marker="o", color="#1f77b4", linewidth=2.5, markersize=8)
     for s, r in zip(snapshots, revenues):
-        ax1.annotate(f"${r:,.0f} {currency}", (s, r), textcoords="offset points", xytext=(0, 8), ha="center", fontweight="bold")
+        if pd.notna(r):
+            ax1.annotate(f"{r:,.0f} {currency}", (s, r), textcoords="offset points", xytext=(0, 8), ha="center", fontweight="bold")
     ax1.set_ylabel(f"Doanh thu tháng trung vị ({currency})")
 
-    # Xác định mốc đỉnh và mốc đáy tự động theo dữ liệu thực tế (thay cho gán cứng mùa vụ)
-    if revenues and snapshots and len(revenues) == len(snapshots):
+    # Xác định mốc đỉnh và mốc đáy tự động theo dữ liệu thực tế (Phòng vệ dữ liệu rỗng/trùng)
+    valid_revs = [r for r in revenues if pd.notna(r) and r > 0]
+    if len(valid_revs) > 1 and len(revenues) == len(snapshots):
         max_idx = revenues.index(max(revenues))
         min_idx = revenues.index(min(revenues))
         peak_snap = str(snapshots[max_idx])
         trough_snap = str(snapshots[min_idx])
-        title_temporal = f"Doanh thu và tỷ lệ lấp đầy đạt đỉnh tại {peak_snap}, thấp nhất tại {trough_snap}"
+        if peak_snap != trough_snap:
+            title_temporal = f"Doanh thu và tỷ lệ lấp đầy đạt đỉnh tại {peak_snap}, thấp nhất tại {trough_snap}"
+        else:
+            title_temporal = f"Xu hướng Doanh thu và Tỷ lệ lấp đầy qua các mốc thời gian tại {city}"
+    elif len(valid_revs) == 1:
+        title_temporal = f"Doanh thu và Tỷ lệ lấp đầy tại mốc chụp {snapshots[0]} ({city})"
     else:
-        title_temporal = "Xu hướng Doanh thu và Tỷ lệ lấp đầy qua các mốc thời gian"
+        title_temporal = f"Xu hướng Doanh thu và Tỷ lệ lấp đầy qua các mốc thời gian tại {city}"
     ax1.set_title(title_temporal, pad=12)
 
     # Đồ thị 2: Tỷ lệ lấp đầy
@@ -90,7 +97,8 @@ def plot_top_revenue_neighbourhoods(kpi_neighbourhood_df: pd.DataFrame, output_d
     fig, ax = plt.subplots(figsize=(10, 6.5))
     bars = ax.barh(area_labels, df_top["median_monthly_revenue"], color="#2ca02c", alpha=0.85)
 
-    ax.bar_label(bars, fmt=f"$%d {currency}", padding=5, fontsize=10, fontweight="bold")
+    labels = [f"{int(v):,} {currency}" for v in df_top["median_monthly_revenue"]]
+    ax.bar_label(bars, labels=labels, padding=5, fontsize=10, fontweight="bold")
     ax.set_xlabel(f"Doanh thu ước tính trung vị mỗi tháng ({currency})")
     ax.set_ylabel("Khu vực (Neighbourhood)")
     ax.set_title(f"Top khu vực dẫn đầu doanh thu tại {city}", pad=15)
@@ -197,7 +205,7 @@ def generate_all_visualizations(
 
     generated = {}
     if "by_snapshot" in kpi_dict and not kpi_dict["by_snapshot"].empty:
-        generated["temporal"] = plot_price_trends_over_time(kpi_dict["by_snapshot"], figures_dir, currency=currency)
+        generated["temporal"] = plot_price_trends_over_time(kpi_dict["by_snapshot"], figures_dir, currency=currency, city=city)
 
     if "by_neighbourhood" in kpi_dict and not kpi_dict["by_neighbourhood"].empty:
         generated["spatial"] = plot_top_revenue_neighbourhoods(kpi_dict["by_neighbourhood"], figures_dir, currency=currency, city=city)

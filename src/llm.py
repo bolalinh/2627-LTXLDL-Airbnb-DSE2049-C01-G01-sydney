@@ -47,15 +47,12 @@ class ReviewAnalysis(BaseModel):
         description="Cảm xúc tổng thể của đánh giá: 'positive', 'negative' hoặc 'mixed'."
     )
     aspects_positive: List[str] = Field(
-        default_factory=list,
         description="Danh sách các khía cạnh dịch vụ được khen ngợi."
     )
     aspects_negative: List[str] = Field(
-        default_factory=list,
         description="Danh sách các khía cạnh dịch vụ bị phàn nàn/chê."
     )
     language: str = Field(
-        default="en",
         description="Mã ngôn ngữ 2 ký tự ISO 639-1 (ví dụ: en, vi, zh, fr, es) hoặc 'und'."
     )
 

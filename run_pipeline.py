@@ -140,7 +140,7 @@ def main():
             if len(matched_reviews) > 0:
                 # Giữ nguyên thứ tự ID như trong file phân công
                 reviews_sample = matched_reviews.drop_duplicates(subset=["id"]).set_index("id").reindex(llm_ids).dropna(subset=["comments"]).reset_index()
-                logger.info("  ✓ Đã khớp chính xác %d/1.000 review thuộc tập phân công 'Mẫu LLM=x' (thuộc %d listing khác nhau)",
+                logger.info("  ✓ Đã khớp chính xác %d review thuộc tập phân công (thuộc %d listing khác nhau)",
                             len(reviews_sample), reviews_sample["listing_id"].nunique())
 
         # Dự phòng tự động nếu không tìm thấy file phân công

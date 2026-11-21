@@ -442,6 +442,16 @@ def _validate_assigned_sample(df: pd.DataFrame, snapshot: str, assigned_ids: set
         if diff:
             raise ValueError(f"[QA ERROR - MỐC {snapshot}]: Có {len(diff)} ID không nằm trong danh sách phân công!")
 
+    # Ghi log thông báo nếu cỡ mẫu khác 1.000 nhưng vẫn đảm bảo >= 100 phòng để chạy an toàn
+    if len(df) != 1000:
+        logger.warning(
+            "  ⚠ [THÔNG BÁO CỠ MẪU MỐC %s]: Tập dữ liệu có %d phòng (khác chuẩn 1.000 phòng ban đầu). "
+            "Hệ thống xác nhận đạt chuẩn an toàn (>= %d phòng) và tiếp tục thực thi bình thường.",
+            snapshot, len(df), min_sample_size
+        )
+    else:
+        logger.info("  ✓ [ĐẠT CHUẨN ĐỀ BÀI]: Mốc %s khớp chính xác 1.000 phòng được phân công.", snapshot)
+
     n_entire = (df["room_type"] == "Entire home/apt").sum() if "room_type" in df.columns else 0
     n_private = (df["room_type"] == "Private room").sum() if "room_type" in df.columns else 0
     n_no_rev = (df["number_of_reviews"] == 0).sum() if "number_of_reviews" in df.columns else 0

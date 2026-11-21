@@ -366,10 +366,19 @@ def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: di
     # Tính median dự phòng theo nhóm [khu vực, loại phòng] từ mốc cuối
     group_medians = ref_df.groupby(["neighbourhood_cleansed", "room_type"], observed=True)["price"].median().to_dict()
     global_median = ref_df["price"].median()
+    if pd.isna(global_median):
+        global_median = 0.0
 
-    # Điền giá thiếu cho chính mốc cuối nếu có
+    def _safe_group_median(k):
+        val = group_medians.get(k)
+        if val is None or pd.isna(val):
+            return global_median
+        return val
+
+    # Điền giá thiếu cho chính mốc cuối nếu có (phòng thủ trường hợp nhóm chỉ có 1 phòng bị NaN)
     ref_keys = list(zip(ref_df["neighbourhood_cleansed"], ref_df["room_type"]))
-    ref_df["price"] = ref_df["price"].fillna(pd.Series([group_medians.get(k, global_median) for k in ref_keys], index=ref_df.index))
+    ref_fill = pd.Series([_safe_group_median(k) for k in ref_keys], index=ref_df.index)
+    ref_df["price"] = ref_df["price"].fillna(ref_fill).fillna(global_median)
 
     id_to_price = ref_df.set_index("id")["price"].dropna().to_dict()
     id_to_beds = ref_df.set_index("id")["beds"].dropna().to_dict() if "beds" in ref_df.columns else {}
@@ -382,10 +391,10 @@ def apply_latest_snapshot_price_policy(all_dfs: Dict[str, pd.DataFrame], cfg: di
             continue
         orig_count = int(df["price"].notna().sum())
         snap_keys = list(zip(df["neighbourhood_cleansed"], df["room_type"]))
-        fallback_prices = pd.Series([group_medians.get(k, global_median) for k in snap_keys], index=df.index)
+        fallback_prices = pd.Series([_safe_group_median(k) for k in snap_keys], index=df.index)
 
-        # Ghi đè 100% bằng giá mốc cuối theo ID, fallback bằng median nhóm
-        df["price"] = df["id"].map(id_to_price).fillna(fallback_prices)
+        # Ghi đè 100% bằng giá mốc cuối theo ID, fallback bằng median nhóm, cuối cùng là global_median
+        df["price"] = df["id"].map(id_to_price).fillna(fallback_prices).fillna(global_median)
 
         # Điền beds và bedrooms nếu mốc cũ bị khuyết nhiều > 30% (Bài 10, slide 14-16)
         if "beds" in df.columns and df["beds"].isna().mean() > 0.3:

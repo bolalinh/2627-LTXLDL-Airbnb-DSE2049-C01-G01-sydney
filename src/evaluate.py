@@ -55,7 +55,7 @@ def evaluate_aspect_extraction(true_aspects_list: List[str], pred_aspects_list: 
 
 
 @measure_execution_time(label="run_evaluation")
-def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_labels_100.csv") -> dict:
+def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_labels_100.csv", skip_llm: bool = False) -> dict:
     """Quy trình đánh giá đối chứng trung thực giữa Baseline và LLM trên 100 nhãn vàng chuẩn đề bài."""
     import json
     logger.info("═══ BẮT ĐẦU ĐÁNH GIÁ CHẤT LƯỢNG LLM VS BASELINE TRÊN 100 NHÃN TAY ═══")
@@ -77,7 +77,7 @@ def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_label
                 eval_cache[str(rec.get("review_id"))] = rec
 
     from src.llm import get_gemini_client, _call_gemini_single
-    client = get_gemini_client()
+    client = None if skip_llm else get_gemini_client()
 
     preds_base, pos_aspects_base, neg_aspects_base = [], [], []
     preds_llm, pos_aspects_llm, neg_aspects_llm = [], [], []
@@ -123,11 +123,13 @@ def run_evaluation(cfg: dict, gold_labels_path: str = "data/samples/manual_label
                     with open(eval_cache_path, "a", encoding="utf-8") as f:
                         f.write(json.dumps(rec_to_cache, ensure_ascii=False) + "\n")
                     eval_cache[rid] = rec_to_cache
+                else:
+                    logger.warning("  Không thể kết nối Gemini API. Tự động chuyển toàn bộ sang Baseline fallback.")
+                    client = None
             except Exception as err:
                 msg = str(err)
                 logger.info("  Lỗi khi gọi API cho đánh giá %s: %s", rid, err)
-                if any(tok in msg for tok in ("400", "401", "403", "API_KEY_INVALID")):
-                    client = None
+                client = None
 
         # Fallback trung thực sang Baseline nếu hoàn toàn không có LLM (không cheat mock)
         if not p_sent:

@@ -48,29 +48,33 @@ def compute_host_kpis_overall(df: pd.DataFrame, snapshot_label: str = "all", cur
     """Tính các KPI toàn thị trường phục vụ định giá và theo dõi mùa vụ."""
     curr = currency.lower()
     def _v(series_name, func, scale=1.0):
-        if series_name in df.columns and not df[series_name].dropna().empty:
-            return round(float(func(df[series_name]) * scale), 2)
+        if series_name in df.columns:
+            s_clean = df[series_name].dropna()
+            if not s_clean.empty:
+                return round(float(func(s_clean) * scale), 2)
         return np.nan
 
     kpis = {
         "snapshot": snapshot_label,
         "total_active_listings": int(len(df)),
-        f"median_price_{curr}": _v("price", np.median),
-        f"mean_price_{curr}": _v("price", np.mean),
-        "median_occupancy_rate": _v("occupancy_rate", np.median, scale=100.0),
-        "mean_occupancy_rate": _v("occupancy_rate", np.mean, scale=100.0),
-        f"median_monthly_revenue_{curr}": _v("estimated_monthly_revenue", np.median),
+        f"median_price_{curr}": _v("price", np.nanmedian),
+        f"mean_price_{curr}": _v("price", np.nanmean),
+        "median_occupancy_rate": _v("occupancy_rate", np.nanmedian, scale=100.0),
+        "mean_occupancy_rate": _v("occupancy_rate", np.nanmean, scale=100.0),
+        f"median_monthly_revenue_{curr}": _v("estimated_monthly_revenue", np.nanmedian),
         "currency": currency.upper(),
-        "superhost_percentage": _v("is_superhost", np.mean, scale=100.0),
-        "avg_rating_score": _v("review_scores_rating", np.mean),
-        "avg_cleanliness_score": _v("review_scores_cleanliness", np.mean),
+        "superhost_percentage": _v("is_superhost", np.nanmean, scale=100.0),
+        "avg_rating_score": _v("review_scores_rating", np.nanmean),
+        "avg_cleanliness_score": _v("review_scores_cleanliness", np.nanmean),
     }
 
     # Superhost Price Premium (%): Tương quan định giá (Descriptive Correlation)
     # V07: Tính cả thặng dư chung và thặng dư kiểm soát theo từng loại phòng (Entire home vs Private room)
     if "is_superhost" in df.columns and "price" in df.columns:
-        p_sup = df[df["is_superhost"]]["price"].median()
-        p_norm = df[~df["is_superhost"]]["price"].median()
+        sup_prices = df[df["is_superhost"]]["price"].dropna()
+        norm_prices = df[~df["is_superhost"]]["price"].dropna()
+        p_sup = sup_prices.median() if not sup_prices.empty else 0.0
+        p_norm = norm_prices.median() if not norm_prices.empty else 0.0
         kpis["superhost_median_price"] = round(float(p_sup), 2)
         kpis["non_superhost_median_price"] = round(float(p_norm), 2)
         kpis["superhost_price_premium_pct"] = round(float(((p_sup - p_norm) / p_norm) * 100), 2) if p_norm > 0 else 0.0
@@ -78,15 +82,19 @@ def compute_host_kpis_overall(df: pd.DataFrame, snapshot_label: str = "all", cur
         # Kiểm soát theo phân khúc Entire home/apt
         df_entire = df[df["room_type"] == "Entire home/apt"]
         if not df_entire.empty:
-            p_sup_ent = df_entire[df_entire["is_superhost"]]["price"].median()
-            p_norm_ent = df_entire[~df_entire["is_superhost"]]["price"].median()
+            sup_ent = df_entire[df_entire["is_superhost"]]["price"].dropna()
+            norm_ent = df_entire[~df_entire["is_superhost"]]["price"].dropna()
+            p_sup_ent = sup_ent.median() if not sup_ent.empty else 0.0
+            p_norm_ent = norm_ent.median() if not norm_ent.empty else 0.0
             kpis["superhost_premium_entire_pct"] = round(float(((p_sup_ent - p_norm_ent) / p_norm_ent) * 100), 2) if p_norm_ent > 0 else 0.0
 
         # Kiểm soát theo phân khúc Private room
         df_priv = df[df["room_type"] == "Private room"]
         if not df_priv.empty:
-            p_sup_priv = df_priv[df_priv["is_superhost"]]["price"].median()
-            p_norm_priv = df_priv[~df_priv["is_superhost"]]["price"].median()
+            sup_priv = df_priv[df_priv["is_superhost"]]["price"].dropna()
+            norm_priv = df_priv[~df_priv["is_superhost"]]["price"].dropna()
+            p_sup_priv = sup_priv.median() if not sup_priv.empty else 0.0
+            p_norm_priv = norm_priv.median() if not norm_priv.empty else 0.0
             kpis["superhost_premium_private_pct"] = round(float(((p_sup_priv - p_norm_priv) / p_norm_priv) * 100), 2) if p_norm_priv > 0 else 0.0
 
     return kpis

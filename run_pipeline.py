@@ -173,7 +173,7 @@ def main():
     logger.info("\n>>> BƯỚC 5: ĐÁNH GIÁ CHẤT LƯỢNG LLM VS BASELINE TRÊN 100 NHÃN TAY...")
     from src.evaluate import run_evaluation
     gold_labels_file = cfg.get("baseline", {}).get("gold_labels_file", "data/samples/manual_labels_100.csv")
-    eval_results = run_evaluation(cfg, gold_labels_file)
+    eval_results = run_evaluation(cfg, gold_labels_file, skip_llm=args.skip_llm)
     print("   ✓ Đánh giá F1 đối chứng: Xong. Đã lưu reports/llm_vs_baseline_eval.csv")
 
     # ─────────────────────────────────────────────────────────────

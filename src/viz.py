@@ -84,9 +84,11 @@ def plot_top_revenue_neighbourhoods(kpi_neighbourhood_df: pd.DataFrame, output_d
     """HÌNH 2 (KHÔNG GIAN): Top khu vực có doanh thu tháng ước tính cao nhất."""
     df_top = kpi_neighbourhood_df.head(top_n).sort_values("median_monthly_revenue", ascending=True)
     area_col = "neighbourhood_cleansed" if "neighbourhood_cleansed" in df_top.columns else df_top.columns[0]
+    # Ép kiểu chuỗi & loại bỏ đuôi .0 nếu pandas đọc mã bưu chính dạng số (như Austin, New York) thành float
+    area_labels = df_top[area_col].astype(str).str.replace(r"\.0$", "", regex=True)
 
     fig, ax = plt.subplots(figsize=(10, 6.5))
-    bars = ax.barh(df_top[area_col], df_top["median_monthly_revenue"], color="#2ca02c", alpha=0.85)
+    bars = ax.barh(area_labels, df_top["median_monthly_revenue"], color="#2ca02c", alpha=0.85)
 
     ax.bar_label(bars, fmt=f"$%d {currency}", padding=5, fontsize=10, fontweight="bold")
     ax.set_xlabel(f"Doanh thu ước tính trung vị mỗi tháng ({currency})")
